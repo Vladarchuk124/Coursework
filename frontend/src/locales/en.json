@@ -1,0 +1,12 @@
+{
+	"header": {
+		"mainPage": "Main page",
+		"userProfile": "User profile",
+		"toggleTheme": "Toggle theme",
+		"toggleLocale": "Change language"
+	},
+	"theme": {
+		"enableLight": "Enable light theme",
+		"enableDark": "Enable dark theme"
+	}
+}

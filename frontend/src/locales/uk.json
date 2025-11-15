@@ -1,0 +1,12 @@
+{
+	"header": {
+		"mainPage": "Головна сторінка",
+		"userProfile": "Профіль користувача",
+		"toggleTheme": "Перемкнути тему",
+		"toggleLocale": "Змінити мову"
+	},
+	"theme": {
+		"enableLight": "Увімкнути світлу тему",
+		"enableDark": "Увімкнути темну тему"
+	}
+}
