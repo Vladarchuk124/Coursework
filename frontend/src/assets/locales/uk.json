@@ -8,5 +8,10 @@
 	"theme": {
 		"enableLight": "Увімкнути світлу тему",
 		"enableDark": "Увімкнути темну тему"
+	},
+	"popular-movies": {
+		"title": "Скоро в прокаті",
+		"detailsBtn": "Деталі",
+		"release": "Дата виходу: "
 	}
 }

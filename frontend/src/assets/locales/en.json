@@ -8,5 +8,10 @@
 	"theme": {
 		"enableLight": "Enable light theme",
 		"enableDark": "Enable dark theme"
+	},
+	"popular-movies": {
+		"title": "Upcoming movies",
+		"detailsBtn": "Details",
+		"release": "Release date: "
 	}
 }
