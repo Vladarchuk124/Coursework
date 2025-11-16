@@ -1,21 +1,32 @@
 @import './fonts.scss';
 
-:root[data-theme="light"] {
+:root[data-theme='light'] {
 	--bg-color: #f8f9fa;
-	--header-bg: #adb5bd;
+	--header-color: #1e88e5;
 	--text-color: #212529;
 }
 
-:root[data-theme="dark"] {
-	--bg-color: #212529;
-	--header-bg: #6c757d;
+:root[data-theme='dark'] {
+	--bg-color: #1c2028;
+	--header-color: #09151c;
 	--text-color: #ffffff;
 }
 
-html, body, main {
+header {
+	background-color: var(--header-color);
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html,
+body,
+main {
+	margin: 0;
 	background-color: var(--bg-color);
 	color: var(--text-color);
-	padding: 0 2rem;
 	font-family: Roboto;
 	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1 {
+	margin: 0;
 }
