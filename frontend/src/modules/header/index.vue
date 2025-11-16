@@ -21,62 +21,133 @@ onMounted(() => {
 	const savedTheme = localStorage.getItem('theme') || 'dark';
 	isDark.value = savedTheme === 'dark';
 	document.documentElement.setAttribute('data-theme', savedTheme);
+
+	const savedLocale = localStorage.getItem('locale');
+	if (savedLocale) {
+		locale.value = savedLocale;
+	}
 });
 </script>
 
 <template>
 	<header>
-		<nav>
-			<router-link to="/welcome" class="nav-link">{{ t('header.mainPage') }}</router-link>
+		<router-link to="/popular-movies" class="header-logo"><h1>MOVIERACK</h1></router-link>
+		<!-- <nav>
 			<router-link to="/user-profile" class="nav-link">{{ t('header.userProfile') }}</router-link>
-		</nav>
-		<button @click="toggleLocale" class="locale-switch" :aria-label="t('header.toggleLocale')">
-			<span class="locale-icon">{{ locale === 'uk' ? '🇺🇦' : 'en' }}</span>
-		</button>
-		<button
-			@click="toggleTheme"
-			class="theme-switch"
-			:aria-label="isDark ? t('theme.enableLight') : t('theme.enableDark')"
-		>
-			<span class="theme-icon">{{ isDark ? '🌙' : '☀️' }}</span>
-		</button>
+			<router-link to="/upcoming-movies" class="nav-link">movies</router-link>
+		</nav> -->
+		<div class="controllers">
+			<div
+				class="locale-switch"
+				:class="{ 'is-en': locale === 'en' }"
+				@click="toggleLocale"
+				:aria-label="t('header.toggleLocale')"
+				role="button"
+			>
+				<span class="locale-label" :class="{ active: locale === 'uk' }">UKR</span>
+				<span class="locale-label" :class="{ active: locale === 'en' }">ENG</span>
+				<div class="locale-thumb"></div>
+			</div>
+
+			<button
+				@click="toggleTheme"
+				class="theme-switch"
+				:aria-label="isDark ? t('theme.enableLight') : t('theme.enableDark')"
+			>
+				<span class="theme-icon">{{ isDark ? '🌙' : '☀️' }}</span>
+			</button>
+		</div>
 	</header>
 </template>
 
 <style lang="scss" scoped>
 header {
-	padding: 1rem 2rem;
-	border-radius: 15px;
-	background-color: #6c757d;
 	display: flex;
-	align-items: center;
+	padding: 0.5rem 2rem;
 	justify-content: space-between;
+	align-items: center;
 
-	.theme-switch {
-		background: rgba(255, 255, 255, 0.1);
-		border: 2px solid rgba(255, 255, 255, 0.2);
-		border-radius: 50%;
-		width: 45px;
-		height: 45px;
-		cursor: pointer;
+	.header-logo {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		text-decoration: none;
+		color: white;
+	}
+	.controllers {
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		transition: all 0.3s ease;
+		gap: 1rem;
 
-		&:hover {
-			background: rgba(255, 255, 255, 0.2);
-			transform: scale(1.1);
+		.locale-switch {
+			position: relative;
+			display: inline-flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 2px 4px;
+			min-width: 110px;
+			height: 32px;
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.18);
+			box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+			font-size: 0.8rem;
+			cursor: pointer;
+			user-select: none;
 		}
 
-		.theme-icon {
-			font-size: 1.5rem;
+		.locale-label {
+			position: relative;
+			z-index: 1;
+			flex: 1;
+			text-align: center;
+			font-weight: 500;
+			color: rgba(255, 255, 255, 0.7);
+		}
+
+		.locale-label.active {
+			color: #000;
+			font-weight: 600;
+		}
+
+		.locale-thumb {
+			position: absolute;
+			top: 2px;
+			bottom: 2px;
+			left: 2px;
+			width: calc(50% - 2px);
+			border-radius: 999px;
+			background: #ffffff;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+			transition: transform 0.25s ease;
+		}
+
+		.locale-switch.is-en .locale-thumb {
+			transform: translateX(100%);
+		}
+
+		.theme-switch {
+			background: rgba(255, 255, 255, 0.1);
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			border-radius: 50%;
+			width: 45px;
+			height: 45px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.3s ease;
+
+			&:hover {
+				background: rgba(255, 255, 255, 0.2);
+				transform: scale(1.1);
+			}
+
+			.theme-icon {
+				font-size: 1.5rem;
+			}
 		}
 	}
 
 	nav {
 		display: flex;
-		gap: 2rem;
 		align-items: center;
 	}
 
