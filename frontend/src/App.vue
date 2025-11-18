@@ -8,5 +8,5 @@ import Header from './modules/header/index.vue';
 </template>
 
 <style lang="scss">
-@import './assets/scss/shared.scss';
+@use './assets/scss/shared';
 </style>
