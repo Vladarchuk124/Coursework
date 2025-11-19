@@ -4,7 +4,7 @@ import { ref, watch, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const { locale, t } = useI18n();
+const { t } = useI18n();
 
 let debounceTimeout = null;
 const query = ref('');
@@ -19,8 +19,28 @@ const props = defineProps({
 });
 
 const showList = computed(() => isOpen.value && results.value.length > 0);
-const showLoadingAction = computed(() => loading.value && results.value.length === 0);
+const showLoadingAction = computed(() => isOpen.value && loading.value && results.value.length === 0);
 const showSearchError = computed(() => isOpen.value && results.value.length === 0 && !loading.value);
+
+const getRatingColor = (rating) => {
+	const value = Number(rating);
+	if (!Number.isFinite(value)) {
+		return '#808080';
+	}
+	if (value < 3) {
+		return '#dc3545';
+	}
+	if (value < 5) {
+		return '#ff9800';
+	}
+	if (value < 7) {
+		return '#ffc107';
+	}
+	if (value < 9) {
+		return '#28a745';
+	}
+	return '#17a2b8';
+};
 
 watch(query, (newValue) => {
 	clearTimeout(debounceTimeout);
@@ -31,14 +51,12 @@ watch(query, (newValue) => {
 		return;
 	}
 	loading.value = true;
+	isOpen.value = true;
 	debounceTimeout = setTimeout(() => {
 		props
-			.doSearch(newValue, locale.value)
+			.doSearch(newValue)
 			.then((data) => {
 				results.value = data || [];
-				if (results.value.length > 0) {
-					isOpen.value = true;
-				}
 			})
 			.finally(() => {
 				loading.value = false;
@@ -71,8 +89,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-	<div class="search-bar" ref="searchBarRef">
-		<div class="input-wrapper">
+	<div v-if="isOpen" class="backdrop" />
+	<div class="search-bar">
+		<div class="input-wrapper" ref="searchBarRef">
 			<img class="search-img" src="../../../assets/images/search-icon.png" alt="search-img" />
 			<input v-model="query" type="text" class="search-input" :placeholder="t('header.search')" />
 			<ul v-if="showList" class="search-dropdown">
@@ -83,7 +102,12 @@ onBeforeUnmount(() => {
 							:src="item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : ''"
 							alt="item-img"
 						/>
-						{{ item.title }}
+						<div>
+							<h4>{{ item.original_title || item.original_name }} / {{ item.title || item.name }}</h4>
+							<h4 class="rating" :style="{ backgroundColor: getRatingColor(item.vote_average) }">
+								{{ item.vote_average }}
+							</h4>
+						</div>
 					</div>
 				</li>
 			</ul>
@@ -98,8 +122,18 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" scoped>
+.backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 5;
+}
 .search-bar {
 	position: relative;
+	z-index: 6;
 
 	.input-wrapper {
 		display: flex;
@@ -159,6 +193,7 @@ onBeforeUnmount(() => {
 		justify-self: center;
 		align-self: center;
 		color: black;
+		padding: 5rem 0;
 	}
 
 	.search-dropdown-item {
@@ -169,7 +204,16 @@ onBeforeUnmount(() => {
 		cursor: pointer;
 		color: #222;
 		transition: background-color 0.15s ease;
-
+		.rating {
+			border-radius: 25px;
+			padding: 0.2rem;
+			font-weight: 500;
+			max-width: 4rem;
+			text-align: center;
+			color: #ffffff;
+			background-color: #808080;
+			transition: background-color 0.3s ease;
+		}
 		.item-img {
 			width: 3rem;
 			margin-right: 1rem;
