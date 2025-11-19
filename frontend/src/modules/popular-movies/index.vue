@@ -43,7 +43,7 @@ const loadPopular = async () => {
 	loading.value = true;
 	try {
 		const data = await actions.getPopularMovies(1, locale.value);
-		movies.value = data.results;
+		movies.value = data;
 	} catch (error) {
 		console.error('Error loading movies:', error);
 	} finally {
@@ -77,6 +77,12 @@ const goToSlide = (index) => {
 
 const handlePaginationClick = (difference) => {
 	currentIndex.value += difference;
+	if (currentIndex.value === 10) {
+		currentIndex.value = 0;
+	}
+	if (currentIndex.value === -1) {
+		currentIndex.value = 9;
+	}
 };
 
 onMounted(() => {
@@ -106,6 +112,7 @@ watch(locale, () => {
 <template>
 	<div class="popular-movies">
 		<div class="pagination-btn left" @click="() => handlePaginationClick(-1)" />
+		<div class="pagination-btn right" @click="() => handlePaginationClick(1)" />
 		<div v-if="movies.length > 0 && movies[currentIndex]" class="movie">
 			<div class="pagination-dots">
 				<div
@@ -124,7 +131,6 @@ watch(locale, () => {
 			</div>
 			<div class="background-img" :style="backgroundStyle"><div class="dark-background" /></div>
 		</div>
-		<div class="pagination-btn right" @click="() => handlePaginationClick(1)" />
 	</div>
 </template>
 
@@ -133,6 +139,7 @@ watch(locale, () => {
 	display: flex;
 	height: 50rem;
 	color: #ffffff;
+	position: relative;
 
 	.pagination-btn {
 		position: absolute;
@@ -152,15 +159,15 @@ watch(locale, () => {
 		position: relative;
 		display: flex;
 		justify-content: end;
-
 		width: 100%;
 		height: 100%;
 
 		.movie-details {
 			display: flex;
 			flex-direction: column;
-			height: 100%;
-			z-index: 1;
+			position: relative;
+			z-index: 3;
+			pointer-events: none;
 			margin-right: 4rem;
 			justify-content: center;
 			align-items: end;
@@ -185,6 +192,7 @@ watch(locale, () => {
 				font-size: large;
 				font-weight: bolder;
 				transition: transform 0.1s ease;
+				pointer-events: auto;
 			}
 			.details-btn:hover {
 				cursor: pointer;

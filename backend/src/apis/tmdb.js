@@ -8,10 +8,20 @@ const tmdbApi = axios.create({
 	}
 });
 
+const contentFilter = (results) => {
+	return results
+		.filter((item) => item.poster_path)
+		.filter((item) => item.overview)
+		.filter((item) => item.vote_count > 100)
+		.filter((item) => item.popularity > 2)
+		.sort((a, b) => b.popularity - a.popularity);
+};
+
 export const tmdb = {
 	getPopularMovies: async (page = 1, language = 'en-US') => {
 		const res = await tmdbApi.get('/movie/popular', { params: { page, language } });
-		return res.data;
+		const movies = contentFilter(res.data.results);
+		return movies;
 	},
 	getMovieById: async (id, language = 'en-US') => {
 		const res = await tmdbApi.get(`/movie/${id}`, { params: { language } });
@@ -22,13 +32,16 @@ export const tmdb = {
 			return [];
 		}
 
-		const [movieRes, tvRes] = await Promise.all([
+		let [movieRes, tvRes] = await Promise.all([
 			tmdbApi.get('/search/movie', { params: { query, language } }),
 			tmdbApi.get('/search/tv', { params: { query, language } })
 		]);
 
-		const movies = movieRes.data.results?.slice(0, 5) || [];
-		const tvs = tvRes.data.results?.slice(0, 5) || [];
+		movieRes = contentFilter(movieRes.data.results);
+		tvRes = contentFilter(tvRes.data.results);
+
+		const movies = movieRes.slice(0, 5) || [];
+		const tvs = tvRes.slice(0, 5) || [];
 		const combined = [...movies, ...tvs].sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0)).slice(0, 10);
 
 		return combined;
