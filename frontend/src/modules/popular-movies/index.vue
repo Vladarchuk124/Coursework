@@ -75,6 +75,10 @@ const goToSlide = (index) => {
 	startSlideshow();
 };
 
+const handlePaginationClick = (difference) => {
+	currentIndex.value += difference;
+};
+
 onMounted(() => {
 	loadPopular().then(() => {
 		startSlideshow();
@@ -101,6 +105,7 @@ watch(locale, () => {
 
 <template>
 	<div class="popular-movies">
+		<div class="pagination-btn left" @click="() => handlePaginationClick(-1)" />
 		<div v-if="movies.length > 0 && movies[currentIndex]" class="movie">
 			<div class="pagination-dots">
 				<div
@@ -119,6 +124,7 @@ watch(locale, () => {
 			</div>
 			<div class="background-img" :style="backgroundStyle"><div class="dark-background" /></div>
 		</div>
+		<div class="pagination-btn right" @click="() => handlePaginationClick(1)" />
 	</div>
 </template>
 
@@ -128,6 +134,20 @@ watch(locale, () => {
 	height: 50rem;
 	color: #ffffff;
 
+	.pagination-btn {
+		position: absolute;
+		width: 20rem;
+		height: 50rem;
+		cursor: pointer;
+		z-index: 2;
+
+		&.left {
+			left: 0;
+		}
+		&.right {
+			right: 0;
+		}
+	}
 	.movie {
 		position: relative;
 		display: flex;
@@ -148,12 +168,14 @@ watch(locale, () => {
 
 			.movie-rating {
 				border-radius: 25px;
+				margin: 0.5rem 0;
 				padding: 0.2rem 1rem;
 				background-color: v-bind(ratingColor);
 			}
 
 			.details-btn {
 				z-index: 1;
+				margin: 0.5rem 0;
 				background-color: #00bbf9;
 				height: 3rem;
 				width: 10rem;
