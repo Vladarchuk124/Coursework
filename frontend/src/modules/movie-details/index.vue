@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { actions } from './store/actions';
 import { useI18n } from 'vue-i18n';
@@ -10,14 +10,14 @@ const loading = ref(false);
 
 const { locale, t } = useI18n();
 
+const movieId = computed(() => route.params.id);
+
 const loadMovieDetails = async () => {
-	const movieId = route.params.id;
-	if (!movieId) return;
+	if (!movieId.value) return;
 
 	loading.value = true;
 	try {
-		movie.value = await actions.getMovieById(movieId, locale.value);
-		console.log(movie);
+		movie.value = await actions.getMovieById(movieId.value, locale.value);
 	} catch (error) {
 		console.error('Error loading movie details:', error);
 	} finally {
@@ -29,7 +29,7 @@ onMounted(() => {
 	loadMovieDetails();
 });
 
-watch(locale, () => {
+watch([movieId, locale], () => {
 	loadMovieDetails();
 });
 </script>
