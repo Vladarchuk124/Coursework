@@ -1,7 +1,8 @@
 <script setup>
-// todo : update header
+import SearchBar from './components/search-bar.vue';
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { actions } from './store/actions';
 
 const { locale, t } = useI18n();
 const isDark = ref(true);
@@ -32,10 +33,7 @@ onMounted(() => {
 <template>
 	<header>
 		<router-link to="/popular-movies" class="header-logo"><h1>MOVIERACK</h1></router-link>
-		<!-- <nav>
-			<router-link to="/user-profile" class="nav-link">{{ t('header.userProfile') }}</router-link>
-			<router-link to="/upcoming-movies" class="nav-link">movies</router-link>
-		</nav> -->
+		<SearchBar :do-search="actions.doSearch" />
 		<div class="controllers">
 			<div
 				class="locale-switch"
@@ -44,7 +42,7 @@ onMounted(() => {
 				:aria-label="t('header.toggleLocale')"
 				role="button"
 			>
-				<span class="locale-label" :class="{ active: locale === 'uk' }">UKR</span>
+				<span class="locale-label" :class="{ active: locale === 'uk' }">УКР</span>
 				<span class="locale-label" :class="{ active: locale === 'en' }">ENG</span>
 				<div class="locale-thumb"></div>
 			</div>

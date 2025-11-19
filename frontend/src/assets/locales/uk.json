@@ -3,7 +3,9 @@
 		"mainPage": "Головна сторінка",
 		"userProfile": "Профіль користувача",
 		"toggleTheme": "Перемкнути тему",
-		"toggleLocale": "Змінити мову"
+		"toggleLocale": "Змінити мову",
+		"search": "Пошук",
+		"searchError": "Ой... Нічого не знайдено"
 	},
 	"theme": {
 		"enableLight": "Увімкнути світлу тему",

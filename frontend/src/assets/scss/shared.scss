@@ -1,4 +1,4 @@
-@import './fonts.scss';
+@use './fonts';
 
 :root[data-theme='light'] {
 	--bg-color: #f8f9fa;

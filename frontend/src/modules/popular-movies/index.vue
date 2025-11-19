@@ -15,7 +15,7 @@ const backgroundStyle = computed(() => {
 	const currentMovie = movies.value[currentIndex.value];
 	if (currentMovie?.backdrop_path) {
 		return {
-			backgroundImage: `url("https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}")`,
+			backgroundImage: `url("https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}")`
 		};
 	}
 	return {};
@@ -173,6 +173,7 @@ watch(locale, () => {
 		.background-img {
 			position: absolute;
 			background-size: cover;
+			box-shadow: inset 0 -30px 30px -10px rgba(0, 0, 0, 0.7), inset 0 30px 30px -10px rgba(0, 0, 0, 0.7);
 			width: 100%;
 			height: 100%;
 			z-index: 0;

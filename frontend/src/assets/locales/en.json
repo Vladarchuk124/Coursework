@@ -3,7 +3,9 @@
 		"mainPage": "Main page",
 		"userProfile": "User profile",
 		"toggleTheme": "Toggle theme",
-		"toggleLocale": "Change language"
+		"toggleLocale": "Change language",
+		"search": "Search",
+		"searchError": "Ooops... Nothing was found"
 	},
 	"theme": {
 		"enableLight": "Enable light theme",
