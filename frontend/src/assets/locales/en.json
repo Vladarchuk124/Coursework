@@ -15,5 +15,23 @@
 		"title": "Upcoming movies",
 		"detailsBtn": "Details",
 		"release": "Release date: "
+	},
+	"movie-details": {
+		"loading": "Preparing cinematic magic...",
+		"loadError": "Something went wrong while loading movie details.",
+		"missing": "We can't find this movie right now.",
+		"taglineFallback": "The story is just beginning.",
+		"rating": "Audience score",
+		"releaseDate": "Release date",
+		"runtime": "Runtime",
+		"genres": "Genres",
+		"overview": "Overview",
+		"facts": "Key facts",
+		"languages": "Languages",
+		"countries": "Countries",
+		"budget": "Budget",
+		"revenue": "Revenue",
+		"status": "Status",
+		"noData": "—"
 	}
 }
