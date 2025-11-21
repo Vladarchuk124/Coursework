@@ -1,4 +1,5 @@
 <script setup>
+// todo : refactor this page
 import { ref, onMounted, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { actions } from './store/actions';
