@@ -3,6 +3,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { actions } from './store/actions';
+import { contentTypes } from '../../../enums/content-type';
 
 const { locale, t } = useI18n();
 const router = useRouter();
@@ -63,7 +64,7 @@ const startSlideshow = () => {
 const goToMovieDetails = () => {
 	const currentMovie = movies.value[currentIndex.value];
 	if (currentMovie?.id) {
-		router.push(`/movie-details/${currentMovie.id}`);
+		router.push(`/content-details/${contentTypes.movie}/${currentMovie.id}`);
 	}
 };
 

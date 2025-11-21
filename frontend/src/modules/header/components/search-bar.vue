@@ -2,6 +2,7 @@
 import { useI18n } from 'vue-i18n';
 import { ref, watch, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
+import { contentTypes } from '../../../../enums/content-type';
 
 const router = useRouter();
 const { t } = useI18n();
@@ -67,9 +68,13 @@ watch(query, (newValue) => {
 	}, 400);
 });
 
-const handleClick = (id) => {
+const handleClick = (id, name) => {
+	let type = contentTypes.movie;
+	if (name) {
+		type = contentTypes.show;
+	}
 	query.value = '';
-	router.push(`/movie-details/${id}`);
+	router.push(`/content-details/${type}/${id}`);
 };
 
 const handleClickOutside = (event) => {
@@ -96,7 +101,11 @@ onBeforeUnmount(() => {
 			<input v-model="query" type="text" class="search-input" :placeholder="t('header.search')" />
 			<ul v-if="showList" class="search-dropdown">
 				<li v-for="(item, index) in results" :key="item.id || index">
-					<div v-if="item.poster_path" class="search-dropdown-item" @click="() => handleClick(item.id)">
+					<div
+						v-if="item.poster_path"
+						class="search-dropdown-item"
+						@click="() => handleClick(item.id, item.original_name)"
+					>
 						<img
 							class="item-img"
 							:src="item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : ''"

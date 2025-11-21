@@ -16,11 +16,10 @@
 		"detailsBtn": "Details",
 		"release": "Release date: "
 	},
-	"movie-details": {
+	"content-details": {
 		"loading": "Preparing cinematic magic...",
 		"loadError": "Something went wrong while loading movie details.",
 		"missing": "We can't find this movie right now.",
-		"taglineFallback": "The story is just beginning.",
 		"rating": "Audience score",
 		"releaseDate": "Release date",
 		"runtime": "Runtime",
@@ -32,6 +31,8 @@
 		"budget": "Budget",
 		"revenue": "Revenue",
 		"status": "Status",
-		"noData": "—"
+		"noData": "—",
+		"seasons": "Seasons",
+		"episodes": "Episodes"
 	}
 }

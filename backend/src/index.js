@@ -4,6 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import moviesRouter from './routes/movies/index.js';
 import searchRouter from './routes/searchBar/index.js';
+import showsRouter from './routes/shows/index.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use('/api/movies', moviesRouter);
 app.use('/api/search', searchRouter);
+app.use('/api/shows', showsRouter);
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);

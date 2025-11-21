@@ -27,6 +27,10 @@ export const tmdb = {
 		const res = await tmdbApi.get(`/movie/${id}`, { params: { language } });
 		return res.data;
 	},
+	getShowById: async (id, language = 'en-US') => {
+		const res = await tmdbApi.get(`/tv/${id}`, { params: { language } });
+		return res.data;
+	},
 	searchContent: async (query, language = 'en-US') => {
 		if (!query || query.trim().length === 0) {
 			return [];
