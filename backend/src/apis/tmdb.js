@@ -18,8 +18,8 @@ const contentFilter = (results) => {
 };
 
 export const tmdb = {
-	getPopularMovies: async (page = 1, language = 'en-US') => {
-		const res = await tmdbApi.get('/movie/popular', { params: { page, language } });
+	getPopularMovies: async (language = 'en-US') => {
+		const res = await tmdbApi.get('/movie/popular', { params: { language } });
 		const movies = contentFilter(res.data.results);
 		return movies;
 	},

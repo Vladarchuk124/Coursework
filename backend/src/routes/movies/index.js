@@ -5,9 +5,8 @@ const router = express.Router();
 
 router.get('/popular', async (req, res) => {
 	try {
-		const page = parseInt(req.query.page) || 1;
 		const language = getLocale(req);
-		const data = await tmdb.getPopularMovies(page, language);
+		const data = await tmdb.getPopularMovies(language);
 		res.json(data);
 	} catch (error) {
 		res.status(500).json({ error: error.message });

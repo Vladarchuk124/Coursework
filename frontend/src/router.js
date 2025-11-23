@@ -8,6 +8,14 @@ const routes = [
 	{
 		path: '/content-details/:type/:id',
 		component: () => import('./modules/content-details/index.vue')
+	},
+	{
+		path: '/authorization',
+		component: () => import('./modules/authorization/index.vue')
+	},
+	{
+		path: '/confirm-mail',
+		component: () => import('./modules/confirm-mail/index.vue')
 	}
 ];
 

@@ -1,30 +1,53 @@
 @use './fonts';
 
 :root[data-theme='light'] {
-	--bg-color: #f8f9fa;
+	--bg-color: radial-gradient(circle at 20% 20%, rgba(0, 187, 249, 0.12), transparent 35%),
+		radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.06), transparent 30%),
+		linear-gradient(150deg, #a8acb6 0%, #6390d8 55%, #828ea7 100%);
 	--header-color: #1e88e5;
 	--text-color: #212529;
+	--accent-color: #000000;
+	--overlay-color: linear-gradient(120deg, rgba(195, 230, 230, 0.8) 20%, rgba(176, 199, 243, 0.9) 70%);
+	--spinner-color: rgba(0, 0, 0, 0.2);
+	--card-color: #ffffff;
+	--input-color: #ffffff;
+	--link-color: #ffffff;
+	--link-text-hover: #082630;
 }
 
 :root[data-theme='dark'] {
-	--bg-color: #1c2028;
+	--bg-color: radial-gradient(circle at 20% 20%, rgba(0, 187, 249, 0.12), transparent 35%),
+		radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.06), transparent 30%),
+		linear-gradient(150deg, #050608 0%, #0b1018 55%, #050608 100%);
 	--header-color: #09151c;
 	--text-color: #ffffff;
+	--accent-color: #00bbf9;
+	--overlay-color: linear-gradient(120deg, rgba(5, 6, 8, 0.8) 20%, rgba(5, 6, 8, 0.9) 70%);
+	--spinner-color: rgba(255, 255, 255, 0.37);
+	--card-color: linear-gradient(135deg, #00bbf9, #4cb1ff);
+	--link-color: #00bbf9;
+	--link-text-hover: #32cdfc;
+}
+
+* {
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 header {
 	background-color: var(--header-color);
-	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html,
 body,
 main {
 	margin: 0;
-	background-color: var(--bg-color);
+	background: var(--bg-color);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	min-height: 100dvh;
 	color: var(--text-color);
 	font-family: Roboto;
-	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1,

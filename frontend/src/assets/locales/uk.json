@@ -3,7 +3,7 @@
 		"mainPage": "Головна сторінка",
 		"userProfile": "Профіль користувача",
 		"toggleTheme": "Перемкнути тему",
-		"toggleLocale": "Змінити мову",
+		"changeLanguage": "Змінити мову",
 		"search": "Пошук",
 		"searchError": "Ой... Нічого не знайдено"
 	},
@@ -11,16 +11,15 @@
 		"enableLight": "Увімкнути світлу тему",
 		"enableDark": "Увімкнути темну тему"
 	},
-	"popular-movies": {
+	"popularMovies": {
 		"title": "Скоро в прокаті",
-		"detailsBtn": "Деталі",
-		"release": "Дата виходу: "
+		"details": "Деталі",
+		"releaseDate": "Дата виходу: "
 	},
-	"content-details": {
+	"contentDetails": {
 		"loading": "Готуємо кінематичну магію...",
-		"loadError": "Сталася помилка під час завантаження сторінки фільму.",
-		"missing": "Наразі не вдалося знайти цей фільм.",
-		"taglineFallback": "Слоган відсутній.",
+		"error": "Сталася помилка під час завантаження сторінки фільму.",
+		"notFound": "Наразі не вдалося знайти цей фільм.",
 		"rating": "Оцінка аудиторії",
 		"releaseDate": "Дата релізу",
 		"runtime": "Тривалість",
@@ -35,5 +34,41 @@
 		"noData": "—",
 		"seasons": "Сезони",
 		"episodes": "Серії"
+	},
+	"auth": {
+		"signIn": "Вхід",
+		"signUp": "Реєстрація",
+		"recovery": "Відновлення",
+		"email": "Електронна пошта",
+		"password": "Пароль",
+		"confirmPassword": "Підтвердьте пароль",
+		"name": "Ім'я або нік",
+		"rememberMe": "Запам'ятати мене",
+		"forgotPassword": "Забули пароль?",
+		"continue": "Увійти",
+		"createAccount": "Створити акаунт",
+		"sendEmail": "Надіслати лист",
+		"noAccount": "Немає акаунта?",
+		"haveAccount": "Вже є акаунт?",
+		"passwordReady": "Згадали пароль?",
+		"description": "Дивіться прем'єри, обрані рекомендації та зберігайте списки в одному кабінеті.",
+		"title": "Ваша персональна підбірка кіно",
+		"highlightCurated": "Прем'єри та топи оновлюються щодня",
+		"highlightSecure": "Безпечний вхід і контроль сеансів",
+		"highlightSync": "Синхронізація уподобань між пристроями",
+		"emailPlaceholder": "name@example.com",
+		"passwordPlaceholder": "Ваш пароль",
+		"confirmPasswordPlaceholder": "Повторіть пароль",
+		"namePlaceholder": "Як до вас звертатися?",
+		"resetHint": "Вкажіть пошту, ми надішлемо посилання для зміни пароля.",
+		"validation": {
+			"required": "Заповніть обов'язкові поля, будь ласка.",
+			"passwordsMismatch": "Паролі мають співпадати."
+		},
+		"message": {
+			"registerSuccess": "Демо: акаунт створено. Підключіть бекенд, коли він буде готовий.",
+			"loginSuccess": "Демо: дані для входу відправлені. Додайте реальний виклик пізніше.",
+			"resetSuccess": "Демо: лист для відновлення надіслано."
+		}
 	}
 }

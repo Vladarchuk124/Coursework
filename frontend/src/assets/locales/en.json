@@ -3,7 +3,7 @@
 		"mainPage": "Main page",
 		"userProfile": "User profile",
 		"toggleTheme": "Toggle theme",
-		"toggleLocale": "Change language",
+		"changeLanguage": "Change language",
 		"search": "Search",
 		"searchError": "Ooops... Nothing was found"
 	},
@@ -11,15 +11,15 @@
 		"enableLight": "Enable light theme",
 		"enableDark": "Enable dark theme"
 	},
-	"popular-movies": {
+	"popularMovies": {
 		"title": "Upcoming movies",
-		"detailsBtn": "Details",
-		"release": "Release date: "
+		"details": "Details",
+		"releaseDate": "Release date: "
 	},
-	"content-details": {
+	"contentDetails": {
 		"loading": "Preparing cinematic magic...",
-		"loadError": "Something went wrong while loading movie details.",
-		"missing": "We can't find this movie right now.",
+		"error": "Something went wrong while loading movie details.",
+		"notFound": "We can't find this movie right now.",
 		"rating": "Audience score",
 		"releaseDate": "Release date",
 		"runtime": "Runtime",
@@ -34,5 +34,41 @@
 		"noData": "—",
 		"seasons": "Seasons",
 		"episodes": "Episodes"
+	},
+	"auth": {
+		"signIn": "Sign in",
+		"signUp": "Sign up",
+		"recovery": "Recovery",
+		"email": "Email",
+		"password": "Password",
+		"confirmPassword": "Confirm password",
+		"name": "Name or nickname",
+		"rememberMe": "Remember me",
+		"forgotPassword": "Forgot password?",
+		"continue": "Continue",
+		"createAccount": "Create account",
+		"sendEmail": "Send email",
+		"noAccount": "No account yet?",
+		"haveAccount": "Already have an account?",
+		"passwordReady": "Password ready?",
+		"description": "Sign in to track premieres, curated picks, and keep watchlists in one place.",
+		"title": "Your personal movie space",
+		"highlightCurated": "Fresh premieres and trending lists every day",
+		"highlightSecure": "Secure sign-in and session control",
+		"highlightSync": "Sync your favorites across devices",
+		"emailPlaceholder": "name@example.com",
+		"passwordPlaceholder": "Your password",
+		"confirmPasswordPlaceholder": "Repeat the password",
+		"namePlaceholder": "How should we call you?",
+		"resetHint": "Tell us your email and we'll send a reset link.",
+		"validation": {
+			"required": "Please fill the required fields.",
+			"passwordsMismatch": "Passwords must match."
+		},
+		"message": {
+			"registerSuccess": "Demo only: account prepared. Connect the backend later.",
+			"loginSuccess": "Demo only: credentials submitted. Wire up the real API later.",
+			"resetSuccess": "Demo only: reset email sent."
+		}
 	}
 }
