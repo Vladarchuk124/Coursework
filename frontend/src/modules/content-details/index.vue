@@ -113,25 +113,25 @@ const formatCurrency = (amount) => {
 
 const factSheet = computed(() => {
 	const facts = [
-		{ label: t('content-details.status'), value: content.value?.status },
-		{ label: t('content-details.languages'), value: spokenLanguages.value },
-		{ label: t('content-details.countries'), value: productionCountries.value }
+		{ label: t('contentDetails.status'), value: content.value?.status },
+		{ label: t('contentDetails.languages'), value: spokenLanguages.value },
+		{ label: t('contentDetails.countries'), value: productionCountries.value }
 	];
 
 	if (contentType.value === contentTypes.movie) {
 		facts.push(
-			{ label: t('content-details.budget'), value: formatCurrency(content.value?.budget) },
-			{ label: t('content-details.revenue'), value: formatCurrency(content.value?.revenue) }
+			{ label: t('contentDetails.budget'), value: formatCurrency(content.value?.budget) },
+			{ label: t('contentDetails.revenue'), value: formatCurrency(content.value?.revenue) }
 		);
 	} else if (contentType.value === contentTypes.show) {
 		facts.push(
-			{ label: t('content-details.seasons'), value: content.value?.number_of_seasons },
-			{ label: t('content-details.episodes'), value: content.value?.number_of_episodes }
+			{ label: t('contentDetails.seasons'), value: content.value?.number_of_seasons },
+			{ label: t('contentDetails.episodes'), value: content.value?.number_of_episodes }
 		);
 	}
 	return facts.map((fact) => ({
 		...fact,
-		value: fact.value ?? t('content-details.noData')
+		value: fact.value ?? t('contentDetails.noData')
 	}));
 });
 
@@ -168,10 +168,10 @@ watch([contentId, locale], () => {
 
 		<div v-if="loading" class="loader">
 			<div class="loader__spinner" />
-			<p>{{ t('content-details.loading') }}</p>
+			<p>{{ t('contentDetails.loading') }}</p>
 		</div>
 		<div v-else-if="error" class="loader loader--error">
-			<p>{{ t('content-details.loadError') }}</p>
+			<p>{{ t('contentDetails.error') }}</p>
 		</div>
 
 		<div v-else-if="content" class="content-section">
@@ -195,21 +195,21 @@ watch([contentId, locale], () => {
 						{{ content.tagline || '' }}
 					</p>
 					<div class="chips">
-						<span v-if="formattedReleaseDate">{{ t('content-details.releaseDate') }}: {{ formattedReleaseDate }}</span>
-						<span v-if="formattedRuntime">{{ t('content-details.runtime') }}: {{ formattedRuntime }}</span>
-						<span v-if="genresList">{{ t('content-details.genres') }}: {{ genresList }}</span>
+						<span v-if="formattedReleaseDate">{{ t('contentDetails.releaseDate') }}: {{ formattedReleaseDate }}</span>
+						<span v-if="formattedRuntime">{{ t('contentDetails.runtime') }}: {{ formattedRuntime }}</span>
+						<span v-if="genresList">{{ t('contentDetails.genres') }}: {{ genresList }}</span>
 					</div>
 				</div>
 			</div>
 
 			<div class="foot-info">
 				<div class="overview">
-					<h2>{{ t('content-details.overview') }}</h2>
-					<p v-if="overviewParagraphs.length === 0">{{ t('content-details.noData') }}</p>
+					<h2>{{ t('contentDetails.overview') }}</h2>
+					<p v-if="overviewParagraphs.length === 0">{{ t('contentDetails.noData') }}</p>
 					<p v-for="(paragraph, index) in overviewParagraphs" :key="index">{{ paragraph }}</p>
 				</div>
 				<div class="key-facts">
-					<h2>{{ t('content-details.facts') }}</h2>
+					<h2>{{ t('contentDetails.facts') }}</h2>
 					<dl>
 						<template v-for="fact in factSheet" :key="fact.label">
 							<dt>{{ fact.label }}</dt>
@@ -220,18 +220,18 @@ watch([contentId, locale], () => {
 			</div>
 		</div>
 		<div v-else class="loader">
-			<p>{{ t('content-details.missing') }}</p>
+			<p>{{ t('contentDetails.notFound') }}</p>
 		</div>
 	</section>
 </template>
 
 <style lang="scss" scoped>
 .content-details {
+	background: var(--bg-color);
 	position: relative;
 	min-height: 100vh;
 	padding: 4rem 2rem;
 	color: #f4f4f4;
-	background-color: #050608;
 	overflow: hidden;
 
 	.background {
@@ -247,13 +247,14 @@ watch([contentId, locale], () => {
 		opacity: 0.45;
 
 		.background-overlay {
+			background: var(--overlay-color);
 			position: absolute;
 			inset: 0;
-			background: linear-gradient(120deg, rgba(5, 6, 8, 0.8) 20%, rgba(5, 6, 8, 0.9) 70%);
 		}
 	}
 
 	.loader {
+		color: var(--text-color);
 		min-height: 60vh;
 		display: flex;
 		flex-direction: column;
@@ -261,15 +262,14 @@ watch([contentId, locale], () => {
 		justify-content: center;
 		gap: 1rem;
 		text-align: center;
-		color: rgba(255, 255, 255, 0.85);
 
 		&__spinner {
 			width: 48px;
 			height: 48px;
 			border-radius: 50%;
-			border: 4px solid rgba(255, 255, 255, 0.2);
 			border-top-color: #00bbf9;
 			animation: spin 1s linear infinite;
+			border: 4px solid var(--spinner-color);
 		}
 
 		&--error {
@@ -284,7 +284,7 @@ watch([contentId, locale], () => {
 		margin: 0 auto;
 		padding: 2rem;
 		border-radius: 24px;
-		background: rgba(8, 10, 15, 0.8);
+		background: var(--header-color);
 		backdrop-filter: blur(12px);
 		box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
 		display: flex;
@@ -383,7 +383,7 @@ watch([contentId, locale], () => {
 	margin-top: 1rem;
 
 	span {
-		background: rgba(255, 255, 255, 0.08);
+		background: rgba(255, 255, 255, 0.2);
 		padding: 0.4rem 0.9rem;
 		border-radius: 999px;
 		font-size: 0.9rem;
@@ -403,7 +403,7 @@ watch([contentId, locale], () => {
 .key-facts {
 	padding: 1.5rem;
 	border-radius: 20px;
-	background: rgba(255, 255, 255, 0.03);
+	background: rgba(255, 255, 255, 0.2);
 	border: 1px solid rgba(255, 255, 255, 0.05);
 
 	dl {

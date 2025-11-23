@@ -78,8 +78,7 @@ const handleClick = (id, name) => {
 };
 
 const handleClickOutside = (event) => {
-	if (!searchBarRef.value) return;
-	if (!searchBarRef.value.contains(event.target)) {
+	if (searchBarRef.value && !searchBarRef.value.contains(event.target)) {
 		isOpen.value = false;
 	}
 };
@@ -141,6 +140,9 @@ onBeforeUnmount(() => {
 	z-index: 5;
 }
 .search-bar {
+	display: flex;
+	justify-content: center;
+	width: 40%;
 	position: relative;
 	z-index: 6;
 
