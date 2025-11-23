@@ -33,6 +33,10 @@ export default createStore({
 			} finally {
 				commit('setLoading', false);
 			}
+		},
+		async logout({ commit }) {
+			commit('clearSession');
+			localStorage.removeItem('session');
 		}
 	}
 });

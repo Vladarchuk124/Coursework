@@ -1,7 +1,8 @@
 <script setup>
 import SearchBar from './components/search-bar.vue';
 import User from './components/user-logo.vue';
-import NavBar from './components/nav-bar.vue';
+// import NavBar from './components/nav-bar.vue';
+
 import { actions } from './store/actions';
 </script>
 

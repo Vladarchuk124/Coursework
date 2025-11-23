@@ -142,7 +142,6 @@ const loadContentDetails = async () => {
 	error.value = null;
 	try {
 		content.value = await actions.getContentById(contentId.value, contentType.value, locale.value);
-		console.log(content.value);
 	} catch (err) {
 		error.value = true;
 		console.error('Error loading movie details:', err);

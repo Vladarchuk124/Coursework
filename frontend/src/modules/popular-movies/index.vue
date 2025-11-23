@@ -43,7 +43,7 @@ const ratingColor = computed(() => {
 const loadPopular = async () => {
 	loading.value = true;
 	try {
-		const data = await actions.getPopularMovies(1, locale.value);
+		const data = await actions.getPopularMovies(locale.value);
 		movies.value = data;
 	} catch (error) {
 		console.error('Error loading movies:', error);
