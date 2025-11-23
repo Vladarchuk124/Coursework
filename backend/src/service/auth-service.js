@@ -66,7 +66,7 @@ export const auth = {
 	activate: async (activation_link) => {
 		const user = await prisma.user.findFirst({ where: { activation_link } });
 		if (!user) {
-			throw new Error();
+			throw new Error('No user');
 		}
 		await prisma.user.update({
 			where: { id: user.id },

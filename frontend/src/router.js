@@ -16,6 +16,10 @@ const routes = [
 	{
 		path: '/confirm-mail',
 		component: () => import('./modules/confirm-mail/index.vue')
+	},
+	{
+		path: '/user-profile',
+		component: () => import('./modules/user-profile/index.vue')
 	}
 ];
 

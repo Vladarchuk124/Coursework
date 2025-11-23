@@ -16,6 +16,59 @@
 		"details": "Details",
 		"releaseDate": "Release date: "
 	},
+	"userProfile": {
+		"anonymous": "Guest user",
+		"subtitle": "Account overview, session details, and quick access to your feed.",
+		"statusActive": "Email confirmed",
+		"statusPending": "Email not confirmed",
+		"ctaMovies": "Back to feed",
+		"ctaLogout": "Log out",
+		"settings": {
+			"title": "Settings",
+			"subtitle": "Update your name and check the activation status.",
+			"name": "Display name",
+			"placeholder": "How should we call you?",
+			"save": "Save name",
+			"email": "Email",
+			"activation": "Email activation",
+			"activated": "Email confirmed",
+			"notActivated": "Awaiting confirmation"
+		},
+		"empty": "Not provided",
+		"session": {
+			"title": "Session",
+			"subtitle": "Tokens are stored locally for this demo.",
+			"token": "Access token",
+			"noToken": "Token not available",
+			"expires": "Expires at",
+			"noLimit": "No expiration set",
+			"expired": "Session expired",
+			"minutesLeft": "{minutes} min left"
+		},
+		"lists": {
+			"title": "Lists",
+			"subtitle": "Choose where to go next.",
+			"ready": "Open",
+			"soon": "Soon",
+			"favorites": {
+				"title": "Favorites",
+				"desc": "Your liked movies and shows."
+			},
+			"watchLater": {
+				"title": "Watch later",
+				"desc": "Queue for evenings and weekends."
+			},
+			"custom": {
+				"title": "Custom lists",
+				"desc": "Create and group picks your way."
+			}
+		},
+		"emptyState": {
+			"title": "You are not signed in",
+			"description": "Sign in to view your account information and manage the session.",
+			"ctaLogin": "Go to sign in"
+		}
+	},
 	"contentDetails": {
 		"loading": "Preparing cinematic magic...",
 		"error": "Something went wrong while loading movie details.",
@@ -70,5 +123,16 @@
 			"loginSuccess": "Demo only: credentials submitted. Wire up the real API later.",
 			"resetSuccess": "Demo only: reset email sent."
 		}
+	},
+	"confirmMail": {
+		"verification": "Verification",
+		"activated": "Activated",
+		"pendingTitle": "Please, confirm your email",
+		"successTitle": "Email successfully confirmed!",
+		"pendingMessage": "We've sent a confirmation link to your email address.",
+		"successMessage": "Your account has been successfully activated. You can now use all features.",
+		"openInbox": "Open inbox",
+		"goToMovies": "Go to movies",
+		"backToAuth": "Back to sign in"
 	}
 }

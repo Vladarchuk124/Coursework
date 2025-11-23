@@ -17,7 +17,6 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
 	try {
 		const { email, password } = req.body;
-		console.log('===', email, password);
 		const data = await auth.login(email, password);
 		res.json(data);
 	} catch (error) {
@@ -29,7 +28,7 @@ router.get('/activate/:link', async (req, res) => {
 	try {
 		const { link } = req.params;
 		await auth.activate(link);
-		return res.redirect(`${process.env.CLIENT_URL}/popular-movies`);
+		return res.redirect(`${process.env.CLIENT_URL}/confirm-mail?activated=true`);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}

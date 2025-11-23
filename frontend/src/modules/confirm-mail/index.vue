@@ -1,30 +1,50 @@
 <script setup>
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
+const { t } = useI18n();
 
 const userEmail = computed(() => store.state.session.user?.email || 'your email');
+const isActivated = computed(() => store.state.session.user?.is_activated || false);
+
+onMounted(() => {
+	if (route.query.activated === 'true' && store.getters.isAuthenticated) {
+		store.dispatch('updateUserActivationStatus');
+		router.replace({ query: {} });
+	}
+});
 
 const openInbox = () => window.open('https://mail.google.com', '_blank');
 const backToAuth = () => router.push('/authorization');
+const goToMovies = () => router.push('/popular-movies');
 </script>
 
 <template>
 	<section class="confirm-mail">
 		<div class="shell">
 			<div class="envelope">
-				<div class="stamp">Verification</div>
-				<div class="flap"></div>
+				<div class="stamp">{{ isActivated ? t('confirmMail.activated') : t('confirmMail.verification') }}</div>
+				<div class="flap" :class="{ success: isActivated }"></div>
 			</div>
 			<div class="text-block">
-				<h1>Please, confirm your email</h1>
+				<h1 v-if="isActivated">{{ t('confirmMail.successTitle') }}</h1>
+				<h1 v-else>{{ t('confirmMail.pendingTitle') }}</h1>
 				<p class="eyebrow">{{ userEmail }}</p>
+				<p v-if="isActivated" class="success-message">{{ t('confirmMail.successMessage') }}</p>
+				<p v-else class="pending-message">{{ t('confirmMail.pendingMessage') }}</p>
 				<div class="actions">
-					<button type="button" class="btn primary" @click="openInbox">Open inbox</button>
-					<button type="button" class="btn link" @click="backToAuth">Back to sign in</button>
+					<button v-if="isActivated" type="button" class="btn primary" @click="goToMovies">
+						{{ t('confirmMail.goToMovies') }}
+					</button>
+					<button v-else type="button" class="btn primary" @click="openInbox">
+						{{ t('confirmMail.openInbox') }}
+					</button>
+					<button type="button" class="btn link" @click="backToAuth">{{ t('confirmMail.backToAuth') }}</button>
 				</div>
 			</div>
 		</div>
@@ -72,6 +92,11 @@ const backToAuth = () => router.push('/authorization');
 				clip-path: polygon(0 0, 100% 0, 50% 55%);
 				opacity: 0.9;
 				animation: sway 4s ease-in-out infinite;
+
+				&.success {
+					background: linear-gradient(135deg, #34e89e, #0acffe);
+					box-shadow: 0 15px 35px rgba(52, 232, 158, 0.35);
+				}
 			}
 
 			.stamp {
@@ -114,6 +139,19 @@ const backToAuth = () => router.push('/authorization');
 				text-transform: uppercase;
 				letter-spacing: 0.06em;
 				width: fit-content;
+			}
+
+			.success-message,
+			.pending-message {
+				margin: 0;
+				color: rgba(255, 255, 255, 0.8);
+				font-size: 1.1rem;
+				text-align: center;
+				max-width: 500px;
+			}
+
+			.success-message {
+				color: rgba(52, 232, 158, 0.9);
 			}
 
 			.actions {
