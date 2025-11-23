@@ -4,3 +4,6 @@ dev:
 	
 prf:
 	cd backend && npm run prisma:format	
+
+migration:
+	cd backend && npx prisma migrate dev --name ${name}
