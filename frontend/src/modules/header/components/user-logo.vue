@@ -11,9 +11,9 @@ const isOpen = ref(false);
 const isDark = ref(true);
 const menuRef = ref(null);
 
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
 const user = computed(() => store.state.session.user);
 
-console.log(store);
 const toggleMenu = () => (isOpen.value = !isOpen.value);
 
 const toggleLocale = () => {
@@ -87,7 +87,10 @@ onBeforeUnmount(() => {
 					<span class="switch-label" :class="{ active: isDark === true }">🌙</span>
 					<div class="switch-thumb"></div>
 				</div>
-				<div v-if="user" class="login-btn" @click="handleLogOut">Log out</div>
+				<router-link v-if="isAuthenticated" to="/user-profile" class="login-btn" @click="isOpen = false">
+					Profile
+				</router-link>
+				<div v-if="isAuthenticated" class="login-btn" @click="handleLogOut">Log out</div>
 				<router-link v-else to="/authorization" class="login-btn" @click="isOpen = false">Log in</router-link>
 			</div>
 		</div>

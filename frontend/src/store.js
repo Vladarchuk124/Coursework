@@ -37,6 +37,19 @@ export default createStore({
 		async logout({ commit }) {
 			commit('clearSession');
 			localStorage.removeItem('session');
+		},
+		updateUserActivationStatus({ commit, state }) {
+			if (state.session.user) {
+				const updatedSession = {
+					...state.session,
+					user: {
+						...state.session.user,
+						is_activated: true
+					}
+				};
+				commit('setSession', updatedSession);
+				localStorage.setItem('session', JSON.stringify(updatedSession));
+			}
 		}
 	}
 });
