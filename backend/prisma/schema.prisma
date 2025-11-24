@@ -22,6 +22,7 @@ model User {
   activation_link String?
   created_at      DateTime @default(now())
   tokens          Token[]
+  lists           UserList[]
 }
 
 model Token {
@@ -30,3 +31,32 @@ model Token {
   user_id       Int
   refresh_token String
 }
+
+model UserList {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id    Int
+  title      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  items      ListItem[]
+}
+
+model ListItem {
+  id              Int      @id @default(autoincrement())
+  list            UserList @relation(fields: [list_id], references: [id], onDelete: Cascade)
+  list_id         Int
+
+  content_id      Int
+  content_type    String
+
+  poster_path     String?
+  content_title_en String
+  content_title_uk String
+
+  created_at      DateTime @default(now())
+
+  @@unique([list_id, content_id, content_type])
+}
+

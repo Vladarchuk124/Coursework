@@ -44,7 +44,9 @@ const goToMovies = () => router.push('/popular-movies');
 					<button v-else type="button" class="btn primary" @click="openInbox">
 						{{ t('confirmMail.openInbox') }}
 					</button>
-					<button type="button" class="btn link" @click="backToAuth">{{ t('confirmMail.backToAuth') }}</button>
+					<button v-if="!isActivated" type="button" class="btn link" @click="backToAuth">
+						{{ t('confirmMail.backToAuth') }}
+					</button>
 				</div>
 			</div>
 		</div>

@@ -5,6 +5,17 @@ import { v4 as uuidv4 } from 'uuid';
 import prisma from '../config/prisma-client.js';
 import bcrypt from 'bcrypt';
 
+const createDefaultUserLists = async (user_id) => {
+	const defaultTitles = ['Favorites', 'Watched', 'Watchlist'];
+
+	await prisma.userList.createMany({
+		data: defaultTitles.map((title) => ({
+			user_id,
+			title
+		}))
+	});
+};
+
 export const auth = {
 	register: async (name, email, password) => {
 		if (!email || !password) {
@@ -26,6 +37,7 @@ export const auth = {
 				activation_link
 			}
 		});
+		await createDefaultUserLists(user.id);
 		await mailer.sendActivationMail(email, `http://localhost:3000/api/auth/activate/${activation_link}`);
 		const tokens = token.generateToken({ ...user });
 		await token.saveToken(user.id, tokens.refresh_token);

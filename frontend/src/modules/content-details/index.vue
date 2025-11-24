@@ -1,22 +1,33 @@
 <script setup>
-// todo : refactor this page
+import SaveToListModal from './components/save-to-list-modal.vue';
+
 import { ref, onMounted, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { actions } from './store/actions';
+import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { actions } from './store/actions';
+
 import { contentTypes } from '../../../enums/content-type';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p';
 
 const route = useRoute();
+const store = useStore();
+
 const content = ref(null);
 const loading = ref(false);
 const error = ref(null);
+const isAddModalOpen = ref(false);
+const userLists = ref([]);
+const listFeedback = ref('');
+const listsLoading = ref(false);
 
 const { locale, t } = useI18n();
 
 const contentId = computed(() => route.params.id);
 const contentType = computed(() => route.params.type);
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
+const userId = computed(() => store.state.session.user?.id);
 
 const posterUrl = computed(() => {
 	const path = content.value?.poster_path;
@@ -157,6 +168,50 @@ onMounted(() => {
 watch([contentId, locale], () => {
 	loadContentDetails();
 });
+
+const loadUserLists = async () => {
+	if (!userId.value) return;
+
+	listsLoading.value = true;
+	try {
+		const data = await actions.getUserLists(userId.value);
+		userLists.value = Array.isArray(data) ? data : [];
+	} catch (err) {
+		console.error('Error loading user lists:', err);
+	} finally {
+		listsLoading.value = false;
+	}
+};
+
+const openAddModal = async () => {
+	listFeedback.value = '';
+
+	if (!isAuthenticated.value || !userId.value) {
+		listFeedback.value = t('contentDetails.listModal.authRequired');
+		return;
+	}
+
+	if (!userLists.value.length) {
+		await loadUserLists();
+	}
+
+	isAddModalOpen.value = true;
+};
+
+const handleCloseAddModal = () => {
+	isAddModalOpen.value = false;
+};
+
+const handleConfirmAddModal = async (ids) => {
+	const localizeContent = await actions.getContentById(contentId.value, contentType.value, 'uk');
+	const data = {
+		list_ids: ids,
+		...localizeContent
+	};
+	await actions.addToList(data);
+
+	isAddModalOpen.value = false;
+};
 </script>
 
 <template>
@@ -194,9 +249,15 @@ watch([contentId, locale], () => {
 						{{ content.tagline || '' }}
 					</p>
 					<div class="chips">
-						<span v-if="formattedReleaseDate">{{ t('contentDetails.releaseDate') }}: {{ formattedReleaseDate }}</span>
-						<span v-if="formattedRuntime">{{ t('contentDetails.runtime') }}: {{ formattedRuntime }}</span>
-						<span v-if="genresList">{{ t('contentDetails.genres') }}: {{ genresList }}</span>
+						<span v-if="formattedReleaseDate"> {{ t('contentDetails.releaseDate') }}: {{ formattedReleaseDate }} </span>
+						<span v-if="formattedRuntime"> {{ t('contentDetails.runtime') }}: {{ formattedRuntime }} </span>
+						<span v-if="genresList"> {{ t('contentDetails.genres') }}: {{ genresList }} </span>
+					</div>
+					<div class="actions">
+						<button type="button" class="btn primary" @click="openAddModal">
+							{{ t('contentDetails.addToList') }}
+						</button>
+						<span v-if="listFeedback" class="status-note">{{ listFeedback }}</span>
 					</div>
 				</div>
 			</div>
@@ -221,6 +282,13 @@ watch([contentId, locale], () => {
 		<div v-else class="loader">
 			<p>{{ t('contentDetails.notFound') }}</p>
 		</div>
+		<SaveToListModal
+			:show="isAddModalOpen"
+			:lists="userLists"
+			:loading="listsLoading"
+			@close="handleCloseAddModal"
+			@confirm="handleConfirmAddModal"
+		/>
 	</section>
 </template>
 
@@ -285,6 +353,7 @@ watch([contentId, locale], () => {
 		border-radius: 24px;
 		background: var(--header-color);
 		backdrop-filter: blur(12px);
+		border: 1px solid rgba(255, 255, 255, 0.08);
 		box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
 		display: flex;
 		flex-direction: column;
@@ -389,6 +458,44 @@ watch([contentId, locale], () => {
 	}
 }
 
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.75rem;
+	margin-top: 1rem;
+
+	.status-note {
+		color: rgba(255, 255, 255, 0.85);
+		font-weight: 600;
+	}
+}
+
+.btn {
+	border: none;
+	border-radius: 12px;
+	padding: 0.85rem 1.2rem;
+	font-weight: 700;
+	cursor: pointer;
+	color: #0a0c10;
+	transition: transform 0.12s ease, box-shadow 0.18s ease, background-color 0.2s ease, opacity 0.2s ease;
+
+	&.primary {
+		background: linear-gradient(135deg, #00bbf9, #4cb1ff);
+		box-shadow: 0 12px 30px rgba(0, 187, 249, 0.35);
+	}
+
+	&:hover {
+		transform: translateY(-1px);
+	}
+
+	&:disabled {
+		opacity: 0.7;
+		cursor: not-allowed;
+		transform: none;
+	}
+}
+
 .overview {
 	font-size: 1rem;
 	line-height: 1.8;
@@ -427,30 +534,6 @@ watch([contentId, locale], () => {
 @keyframes spin {
 	to {
 		transform: rotate(360deg);
-	}
-}
-
-@media (max-width: 900px) {
-	.foot-info {
-		grid-template-columns: 1fr;
-	}
-}
-
-@media (max-width: 700px) {
-	.content-details {
-		padding: 2rem 1.5rem;
-	}
-
-	.content-section {
-		padding: 1.5rem;
-	}
-
-	.head-info {
-		flex-direction: column;
-	}
-
-	.poster {
-		width: 100%;
 	}
 }
 </style>
