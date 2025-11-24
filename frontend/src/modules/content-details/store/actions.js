@@ -13,5 +13,19 @@ export const actions = {
 			default:
 				break;
 		}
+	},
+	getUserLists: async (user_id) => {
+		const response = await fetch(`${API_BASE_URL}/lists/user-lists/${user_id}`);
+		return response.json();
+	},
+	addToList: async (data) => {
+		const response = await fetch(`${API_BASE_URL}/lists/add-to-list`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+		return response.json();
 	}
 };

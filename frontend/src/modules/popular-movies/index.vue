@@ -86,6 +86,20 @@ const handlePaginationClick = (difference) => {
 	}
 };
 
+const formattedReleaseDate = computed(() => {
+	const date = movies.value[currentIndex.value].release_date;
+	if (!date) return null;
+	try {
+		return new Intl.DateTimeFormat(locale.value, {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric'
+		}).format(new Date(date));
+	} catch (err) {
+		return date;
+	}
+});
+
 onMounted(() => {
 	loadPopular().then(() => {
 		startSlideshow();
@@ -127,7 +141,7 @@ watch(locale, () => {
 			<div class="movie-details">
 				<div class="movie-rating">{{ movies[currentIndex].vote_average.toFixed(1) }}</div>
 				<h1>{{ movies[currentIndex].title }}</h1>
-				<h2>{{ t('popularMovies.releaseDate') + movies[currentIndex].release_date }}</h2>
+				<h2>{{ t('popularMovies.releaseDate') + formattedReleaseDate }}</h2>
 				<button class="details-btn" @click="goToMovieDetails">{{ t('popularMovies.details') }}</button>
 			</div>
 			<div class="background-img" :style="backgroundStyle"><div class="dark-background" /></div>

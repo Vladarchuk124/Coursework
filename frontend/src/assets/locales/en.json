@@ -50,6 +50,19 @@
 			"subtitle": "Choose where to go next.",
 			"ready": "Open",
 			"soon": "Soon",
+			"loading": "Loading your lists...",
+			"empty": "No lists yet — start with favorites.",
+			"error": "We couldn't load your lists. Try again later.",
+			"open": "Open list",
+			"create": {
+				"title": "Create a list",
+				"placeholder": "Name your new list",
+				"button": "Create",
+				"creating": "Creating...",
+				"required": "Please enter a list name.",
+				"error": "We couldn't create the list. Try again.",
+				"authError": "Sign in to create lists."
+			},
 			"favorites": {
 				"title": "Favorites",
 				"desc": "Your liked movies and shows."
@@ -86,7 +99,22 @@
 		"status": "Status",
 		"noData": "—",
 		"seasons": "Seasons",
-		"episodes": "Episodes"
+		"episodes": "Episodes",
+		"addToList": "Add to list",
+		"listModal": {
+			"title": "Save to list",
+			"selectLabel": "Choose a list",
+			"placeholder": "Select a list",
+			"loading": "Loading lists...",
+			"addButton": "Add",
+			"cancelButton": "Cancel",
+			"required": "Pick a list before adding.",
+			"authRequired": "Sign in to save items to your lists.",
+			"empty": "Create a list first to save this title.",
+			"loadError": "Couldn't load your lists. Try again.",
+			"added": "Added to your list.",
+			"addedTo": "Added to \"{list}\""
+		}
 	},
 	"auth": {
 		"signIn": "Sign in",

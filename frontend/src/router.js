@@ -20,6 +20,10 @@ const routes = [
 	{
 		path: '/user-profile',
 		component: () => import('./modules/user-profile/index.vue')
+	},
+	{
+		path: '/list-details/:id',
+		component: () => import('./modules/list-details/index.vue')
 	}
 ];
 
