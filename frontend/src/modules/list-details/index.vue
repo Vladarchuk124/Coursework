@@ -44,7 +44,7 @@ const handleClick = (id, content_type) => {
 };
 
 const handleRemove = async (id) => {
-	const confirmed = window.confirm('Видалити цей елемент зі списку?');
+	const confirmed = window.confirm(t('listDetails.removeConfirm'));
 	if (!confirmed) return;
 
 	await actions.removeItemFromList(id);
@@ -68,7 +68,7 @@ onMounted(() => {
 	<div class="list-details">
 		<button class="btn" type="button" @click="goBack">
 			<span class="icon">←</span>
-			<span>Назад</span>
+			<span>{{ t('listDetails.back') }}</span>
 		</button>
 		<h1>{{ list?.title }}</h1>
 
@@ -91,7 +91,7 @@ onMounted(() => {
 				<h4>{{ contentTitle(item) }}</h4>
 			</div>
 		</div>
-		<h3 v-else class="empty">У цьому списку поки немає елементів</h3>
+		<h3 v-else class="empty">{{ t('listDetails.empty') }}</h3>
 	</div>
 </template>
 

@@ -88,10 +88,12 @@ onBeforeUnmount(() => {
 					<div class="switch-thumb"></div>
 				</div>
 				<router-link v-if="isAuthenticated" to="/user-profile" class="login-btn" @click="isOpen = false">
-					Profile
+					{{ t('header.profile') }}
 				</router-link>
-				<div v-if="isAuthenticated" class="login-btn" @click="handleLogOut">Log out</div>
-				<router-link v-else to="/authorization" class="login-btn" @click="isOpen = false">Log in</router-link>
+				<div v-if="isAuthenticated" class="login-btn" @click="handleLogOut">{{ t('userProfile.ctaLogout') }}</div>
+				<router-link v-else to="/authorization" class="login-btn" @click="isOpen = false">{{
+					t('auth.signIn')
+				}}</router-link>
 			</div>
 		</div>
 	</div>

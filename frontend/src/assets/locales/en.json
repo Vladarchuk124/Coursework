@@ -1,7 +1,6 @@
 {
 	"header": {
-		"mainPage": "Main page",
-		"userProfile": "User profile",
+		"profile": "Profile",
 		"toggleTheme": "Toggle theme",
 		"changeLanguage": "Change language",
 		"search": "Search",
@@ -12,7 +11,6 @@
 		"enableDark": "Enable dark theme"
 	},
 	"popularMovies": {
-		"title": "Upcoming movies",
 		"details": "Details",
 		"releaseDate": "Release date: "
 	},
@@ -23,34 +21,8 @@
 		"statusPending": "Email not confirmed",
 		"ctaMovies": "Back to feed",
 		"ctaLogout": "Log out",
-		"settings": {
-			"title": "Settings",
-			"subtitle": "Update your name and check the activation status.",
-			"name": "Display name",
-			"placeholder": "How should we call you?",
-			"save": "Save name",
-			"email": "Email",
-			"activation": "Email activation",
-			"activated": "Email confirmed",
-			"notActivated": "Awaiting confirmation"
-		},
-		"empty": "Not provided",
-		"session": {
-			"title": "Session",
-			"subtitle": "Tokens are stored locally for this demo.",
-			"token": "Access token",
-			"noToken": "Token not available",
-			"expires": "Expires at",
-			"noLimit": "No expiration set",
-			"expired": "Session expired",
-			"minutesLeft": "{minutes} min left"
-		},
 		"lists": {
 			"title": "Lists",
-			"subtitle": "Choose where to go next.",
-			"ready": "Open",
-			"soon": "Soon",
-			"loading": "Loading your lists...",
 			"empty": "No lists yet — start with favorites.",
 			"error": "We couldn't load your lists. Try again later.",
 			"open": "Open list",
@@ -61,19 +33,8 @@
 				"creating": "Creating...",
 				"required": "Please enter a list name.",
 				"error": "We couldn't create the list. Try again.",
-				"authError": "Sign in to create lists."
-			},
-			"favorites": {
-				"title": "Favorites",
-				"desc": "Your liked movies and shows."
-			},
-			"watchLater": {
-				"title": "Watch later",
-				"desc": "Queue for evenings and weekends."
-			},
-			"custom": {
-				"title": "Custom lists",
-				"desc": "Create and group picks your way."
+				"authError": "Sign in to create lists.",
+				"tooMany": "Too many lists"
 			}
 		},
 		"emptyState": {
@@ -86,7 +47,6 @@
 		"loading": "Preparing cinematic magic...",
 		"error": "Something went wrong while loading movie details.",
 		"notFound": "We can't find this movie right now.",
-		"rating": "Audience score",
 		"releaseDate": "Release date",
 		"runtime": "Runtime",
 		"genres": "Genres",
@@ -104,16 +64,11 @@
 		"listModal": {
 			"title": "Save to list",
 			"selectLabel": "Choose a list",
-			"placeholder": "Select a list",
 			"loading": "Loading lists...",
 			"addButton": "Add",
 			"cancelButton": "Cancel",
 			"required": "Pick a list before adding.",
-			"authRequired": "Sign in to save items to your lists.",
-			"empty": "Create a list first to save this title.",
-			"loadError": "Couldn't load your lists. Try again.",
-			"added": "Added to your list.",
-			"addedTo": "Added to \"{list}\""
+			"authRequired": "Sign in to save items to your lists."
 		}
 	},
 	"auth": {
@@ -134,22 +89,13 @@
 		"passwordReady": "Password ready?",
 		"description": "Sign in to track premieres, curated picks, and keep watchlists in one place.",
 		"title": "Your personal movie space",
-		"highlightCurated": "Fresh premieres and trending lists every day",
-		"highlightSecure": "Secure sign-in and session control",
-		"highlightSync": "Sync your favorites across devices",
 		"emailPlaceholder": "name@example.com",
 		"passwordPlaceholder": "Your password",
 		"confirmPasswordPlaceholder": "Repeat the password",
 		"namePlaceholder": "How should we call you?",
-		"resetHint": "Tell us your email and we'll send a reset link.",
 		"validation": {
 			"required": "Please fill the required fields.",
 			"passwordsMismatch": "Passwords must match."
-		},
-		"message": {
-			"registerSuccess": "Demo only: account prepared. Connect the backend later.",
-			"loginSuccess": "Demo only: credentials submitted. Wire up the real API later.",
-			"resetSuccess": "Demo only: reset email sent."
 		}
 	},
 	"confirmMail": {
@@ -162,5 +108,10 @@
 		"openInbox": "Open inbox",
 		"goToMovies": "Go to movies",
 		"backToAuth": "Back to sign in"
+	},
+	"listDetails": {
+		"back": "Back",
+		"removeConfirm": "Remove this item from the list?",
+		"empty": "This list is empty"
 	}
 }

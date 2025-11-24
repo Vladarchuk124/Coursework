@@ -68,7 +68,7 @@ const handleCreateList = async () => {
 	}
 
 	if (lists.value.length > 4) {
-		createListError.value = 'Too much lists';
+		createListError.value = t('userProfile.lists.create.tooMany');
 		return;
 	}
 
