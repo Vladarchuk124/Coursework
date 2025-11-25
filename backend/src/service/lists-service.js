@@ -1,4 +1,5 @@
 import { contentTypes } from '../../enums/content-type.js';
+import { ErrorCodes } from '../../enums/error-codes.js';
 import prisma from '../config/prisma-client.js';
 
 export const lists = {
@@ -6,7 +7,7 @@ export const lists = {
 		const id = Number(list_id);
 		const list = await prisma.userList.findUnique({ where: { id } });
 		if (!list) {
-			throw new Error('No list');
+			throw new Error(ErrorCodes.NO_LIST);
 		}
 		const listItems = await prisma.listItem.findMany({ where: { list_id: id } });
 
@@ -19,26 +20,26 @@ export const lists = {
 		const id = Number(user_id);
 		const user = await prisma.user.findUnique({ where: { id } });
 		if (!user) {
-			throw new Error('No user');
+			throw new Error(ErrorCodes.NO_USER);
 		}
 		const lists = await prisma.userList.findMany({ where: { user_id: id } });
 		if (!lists) {
-			throw new Error('No lists');
+			throw new Error(ErrorCodes.NO_LISTS);
 		}
 		return lists;
 	},
 	createUserList: async (user_id, title) => {
 		const id = Number(user_id);
 		if (!id || Number.isNaN(id)) {
-			throw new Error('Invalid user id');
+			throw new Error(ErrorCodes.INVALID_USER_ID);
 		}
 		if (!title || typeof title !== 'string') {
-			throw new Error('Invalid title');
+			throw new Error(ErrorCodes.INVALID_TITLE);
 		}
 
 		const user = await prisma.user.findUnique({ where: { id } });
 		if (!user) {
-			throw new Error('No user');
+			throw new Error(ErrorCodes.NO_USER);
 		}
 
 		const list = await prisma.userList.create({
@@ -53,7 +54,7 @@ export const lists = {
 	addItemToList: async (data) => {
 		const { list_ids, ...content } = data;
 		if (!list_ids || !content) {
-			throw new Error('Corrupted');
+			throw new Error(ErrorCodes.CORRUPTED);
 		}
 		content.title ? (content.type = contentTypes.movie) : (content.type = contentTypes.show);
 		const contentData = {

@@ -7,7 +7,7 @@ import store from './store.js';
 import uk from './assets/locales/uk.json';
 import en from './assets/locales/en.json';
 
-const i18n = createI18n({
+export const i18n = createI18n({
 	legacy: false,
 	locale: localStorage.getItem('locale') || 'uk',
 	fallbackLocale: 'uk',

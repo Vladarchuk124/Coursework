@@ -4,6 +4,7 @@ import { token } from './token-service.js';
 import { v4 as uuidv4 } from 'uuid';
 import prisma from '../config/prisma-client.js';
 import bcrypt from 'bcrypt';
+import { ErrorCodes } from '../../enums/error-codes.js';
 
 const createDefaultUserLists = async (user_id) => {
 	const defaultTitles = ['Favorites', 'Watched', 'Watchlist'];
@@ -19,13 +20,13 @@ const createDefaultUserLists = async (user_id) => {
 export const auth = {
 	register: async (name, email, password) => {
 		if (!email || !password) {
-			throw new Error('Email and password are required');
+			throw new Error(ErrorCodes.EMAIL_PASSWORD_REQUIRED);
 		}
 		const existingUser = await prisma.user.findUnique({
 			where: { email }
 		});
 		if (existingUser) {
-			throw new Error('User with this email already exists');
+			throw new Error(ErrorCodes.USER_EXISTS);
 		}
 		const hashPassword = await bcrypt.hash(password, 3);
 		const activation_link = uuidv4();
@@ -52,17 +53,17 @@ export const auth = {
 
 	login: async (email, password) => {
 		if (!email || !password) {
-			throw new Error('Email and password are required');
+			throw new Error(ErrorCodes.EMAIL_PASSWORD_REQUIRED);
 		}
 		const user = await prisma.user.findUnique({
 			where: { email }
 		});
 		if (!user) {
-			throw new Error(`No user`);
+			throw new Error(ErrorCodes.NO_USER);
 		}
 		const isValidPassword = await bcrypt.compare(password, user.password);
 		if (!isValidPassword) {
-			throw new Error('Invalid password');
+			throw new Error(ErrorCodes.INVALID_PASSWORD);
 		}
 		const tokens = token.generateToken({ ...user });
 		await token.saveToken(user.id, tokens.refresh_token);
@@ -78,7 +79,7 @@ export const auth = {
 	activate: async (activation_link) => {
 		const user = await prisma.user.findFirst({ where: { activation_link } });
 		if (!user) {
-			throw new Error('No user');
+			throw new Error(ErrorCodes.NO_USER);
 		}
 		await prisma.user.update({
 			where: { id: user.id },
