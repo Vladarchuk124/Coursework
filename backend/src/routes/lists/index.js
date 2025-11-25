@@ -27,13 +27,13 @@ router.post('/create', async (req, res) => {
 	try {
 		const { user_id, title } = req.body;
 		if (!user_id || !title) {
-			return res.status(400).json({ error: 'user_id and title are required' });
+			return res.status(400).json({ error: 'USER_AND_TITLE_REQUIRED' });
 		}
 
 		const data = await lists.createUserList(user_id, title);
 		res.status(201).json(data);
 	} catch (error) {
-		const status = error.message === 'No user' ? 404 : 500;
+		const status = error.message === 'NO_USER' ? 404 : 500;
 		res.status(status).json({ error: error.message });
 	}
 });

@@ -1,31 +1,27 @@
-const API_BASE_URL = 'http://localhost:3000/api';
+import { apiRequest } from '../../../composables/api-client';
 import { contentTypes } from '../../../../enums/content-type';
+import { i18n } from '../../../main.js';
 
 export const actions = {
 	getContentById: async (id, type, locale) => {
-		switch (type) {
-			case contentTypes.movie:
-				const resMovie = await fetch(`${API_BASE_URL}/movies/${id}?locale=${locale}`);
-				return resMovie.json();
-			case contentTypes.show:
-				const resShow = await fetch(`${API_BASE_URL}/shows/${id}?locale=${locale}`);
-				return resShow.json();
-			default:
-				break;
+		if (type === contentTypes.movie) {
+			return apiRequest(`/movies/${id}?locale=${locale}`);
+		} else if (type === contentTypes.show) {
+			return apiRequest(`/shows/${id}?locale=${locale}`);
 		}
+		const errorMessage = i18n.global.t('errors.unsupportedContentType');
+		throw new Error(errorMessage);
 	},
 	getUserLists: async (user_id) => {
-		const response = await fetch(`${API_BASE_URL}/lists/user-lists/${user_id}`);
-		return response.json();
+		return apiRequest(`/lists/user-lists/${user_id}`);
 	},
 	addToList: async (data) => {
-		const response = await fetch(`${API_BASE_URL}/lists/add-to-list`, {
+		return apiRequest('/lists/add-to-list', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(data)
 		});
-		return response.json();
 	}
 };

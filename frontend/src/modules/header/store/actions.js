@@ -1,8 +1,7 @@
-const API_BASE_URL = 'http://localhost:3000/api';
+import { apiRequest } from '../../../composables/api-client';
 
 export const actions = {
 	doSearch: async (query, locale = 'uk') => {
-		const response = await fetch(`${API_BASE_URL}/search?query=${query}&locale=${locale}`);
-		return response.json();
+		return apiRequest(`/search?query=${query}&locale=${locale}`);
 	}
 };

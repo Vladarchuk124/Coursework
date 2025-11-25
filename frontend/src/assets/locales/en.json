@@ -113,5 +113,20 @@
 		"back": "Back",
 		"removeConfirm": "Remove this item from the list?",
 		"empty": "This list is empty"
+	},
+	"errors": {
+		"title": "Something went wrong",
+		"default": "Something went wrong",
+		"unsupportedContentType": "Unsupported content type",
+		"noList": "List not found",
+		"noUser": "User not found",
+		"noLists": "Lists not found",
+		"invalidUserId": "Invalid user id",
+		"invalidTitle": "Invalid title",
+		"corrupted": "Corrupted data",
+		"emailPasswordRequired": "Email and password are required",
+		"userExists": "User with this email already exists",
+		"invalidPassword": "Invalid password",
+		"userAndTitleRequired": "User id and title are required"
 	}
 }

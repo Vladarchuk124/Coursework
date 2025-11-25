@@ -1,29 +1,23 @@
-const API_BASE_URL = 'http://localhost:3000/api';
-
-const makeData = (data) => {
-	return {
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({ ...data })
-	};
-};
+import { apiRequest } from '../../../composables/api-client.js';
 
 export const actions = {
 	login: async (data) => {
-		const newData = makeData(data);
-		const response = await fetch(`${API_BASE_URL}/auth/login`, {
+		return apiRequest('/auth/login', {
 			method: 'POST',
-			...newData
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json'
+			}
 		});
-		return response.json();
 	},
+
 	register: async (data) => {
-		const newData = makeData(data);
-		const response = await fetch(`${API_BASE_URL}/auth/register`, {
+		return apiRequest('/auth/register', {
 			method: 'POST',
-			...newData
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json'
+			}
 		});
-		return response.json();
 	}
 };

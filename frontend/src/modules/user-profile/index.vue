@@ -50,7 +50,12 @@ const loadLists = async () => {
 	try {
 		const data = await actions.getUserLists(user.value.id);
 		if (data?.error) {
-			throw new Error(data.error);
+			const errorMap = {
+				NO_USER: t('errors.noUser'),
+				NO_LISTS: t('errors.noLists')
+			};
+			const localizedError = errorMap[data.error] || data.error;
+			throw new Error(localizedError);
 		}
 		lists.value = Array.isArray(data) ? data : [];
 		listsError.value = '';
@@ -87,7 +92,15 @@ const handleCreateList = async () => {
 		});
 
 		if (response?.error) {
-			throw new Error(response.error);
+			// Map backend error code to localized message
+			const errorMap = {
+				NO_USER: t('errors.noUser'),
+				INVALID_USER_ID: t('errors.invalidUserId'),
+				INVALID_TITLE: t('errors.invalidTitle'),
+				USER_AND_TITLE_REQUIRED: t('errors.userAndTitleRequired')
+			};
+			const localizedError = errorMap[response.error] || response.error;
+			throw new Error(localizedError);
 		}
 
 		lists.value = [response, ...lists.value];
