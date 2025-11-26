@@ -8,7 +8,7 @@ import { actions } from './store/actions';
 
 <template>
 	<header>
-		<router-link to="/popular-movies" class="header-logo"><h1>MOVIERACK</h1></router-link>
+		<router-link to="/" class="header-logo"><h1>MOVIERACK</h1></router-link>
 		<SearchBar :do-search="actions.doSearch" />
 		<User />
 	</header>

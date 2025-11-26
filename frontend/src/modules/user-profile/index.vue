@@ -29,7 +29,7 @@ watch(
 	{ immediate: true }
 );
 
-const goToMovies = () => router.push('/popular-movies');
+const goToMovies = () => router.push('/');
 const goToAuth = () => router.push('/authorization');
 const handleLogout = async () => {
 	await store.dispatch('logout');
@@ -124,7 +124,7 @@ onMounted(() => {
 			<div class="user-info">
 				<div class="avatar">{{ initials }}</div>
 				<div class="profile-body">
-					<p class="eyebrow">{{ t('header.userProfile') }}</p>
+					<p class="eyebrow">{{ t('header.profile') }}</p>
 					<h1>{{ user?.name || t('userProfile.anonymous') }}</h1>
 					<p class="subtitle">{{ t('userProfile.subtitle') }}</p>
 					<div class="pill-row">

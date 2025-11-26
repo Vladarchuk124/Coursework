@@ -36,7 +36,7 @@ const handleClickOutside = (event) => {
 const handleLogOut = () => {
 	isOpen.value = false;
 	store.dispatch('logout');
-	router.push('/popular-movies');
+	router.push('/');
 };
 
 onMounted(() => {

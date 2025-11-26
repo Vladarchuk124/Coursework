@@ -21,7 +21,7 @@ onMounted(() => {
 
 const openInbox = () => window.open('https://mail.google.com', '_blank');
 const backToAuth = () => router.push('/authorization');
-const goToMovies = () => router.push('/popular-movies');
+const goToMovies = () => router.push('/');
 </script>
 
 <template>

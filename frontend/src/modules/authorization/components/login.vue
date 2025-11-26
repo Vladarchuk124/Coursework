@@ -37,7 +37,7 @@ const submit = async () => {
 	store.commit('setSession', session);
 	localStorage.setItem('session', JSON.stringify(session));
 
-	router.push('/popular-movies');
+	router.push('/');
 };
 </script>
 

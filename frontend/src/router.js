@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
 	{
-		path: '/popular-movies',
-		component: () => import('./modules/popular-movies/index.vue')
+		path: '/',
+		component: () => import('./modules/root/index.vue')
 	},
 	{
 		path: '/content-details/:type/:id',
