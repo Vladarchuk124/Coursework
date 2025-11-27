@@ -69,6 +69,30 @@
 			"cancelButton": "Cancel",
 			"required": "Pick a list before adding.",
 			"authRequired": "Sign in to save items to your lists."
+		},
+		"reviews": {
+			"title": "Comments",
+			"cta": "Share your thoughts about this title.",
+			"placeholder": "Tell others what worked or what didn't...",
+			"submit": "Publish",
+			"loginRequired": "Sign in to publish a comment.",
+			"textRequired": "Please add a few words before submitting.",
+			"saved": "Comment saved.",
+			"empty": "No comments yet — be the first to write one.",
+			"delete": "Delete",
+			"deleteConfirm": "Delete your comment?",
+			"loading": "Loading feedback..."
+		},
+		"rating": {
+			"title": "Your rating",
+			"cta": "Rate this title",
+			"average": "Average",
+			"votes": "Votes",
+			"yourRating": "Your rating",
+			"rate": "Rate",
+			"remove": "Remove",
+			"loginRequired": "Sign in to rate.",
+			"clickToRate": "Click a star to rate"
 		}
 	},
 	"auth": {
@@ -128,6 +152,10 @@
 		"userExists": "User with this email already exists",
 		"invalidPassword": "Invalid password",
 		"userAndTitleRequired": "User id and title are required",
-		"userIsNotActivated": "To login you have to activate the email!"
+		"userIsNotActivated": "To login you have to activate the email!",
+		"invalidContentId": "Invalid content id",
+		"reviewTextRequired": "Review text is required",
+		"noReview": "Review not found",
+		"notReviewOwner": "You can only delete your own review"
 	}
 }

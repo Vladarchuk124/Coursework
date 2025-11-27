@@ -18,7 +18,13 @@ const mapErrorToKey = (errorCodeOrMessage) => {
 		USER_EXISTS: 'errors.userExists',
 		INVALID_PASSWORD: 'errors.invalidPassword',
 		USER_AND_TITLE_REQUIRED: 'errors.userAndTitleRequired',
-		USER_IS_NOT_ACTIVATED: 'errors.userIsNotActivated'
+		USER_IS_NOT_ACTIVATED: 'errors.userIsNotActivated',
+		INVALID_CONTENT_ID: 'errors.invalidContentId',
+		REVIEW_TEXT_REQUIRED: 'errors.reviewTextRequired',
+		NO_REVIEW: 'errors.noReview',
+		NOT_REVIEW_OWNER: 'errors.notReviewOwner',
+		INVALID_RATING_VALUE: 'errors.invalidRatingValue',
+		NO_RATING: 'errors.noRating'
 	};
 
 	return errorMap[errorCodeOrMessage] || 'errors.default';

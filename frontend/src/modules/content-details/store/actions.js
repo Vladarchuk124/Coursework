@@ -26,5 +26,57 @@ export const actions = {
 			},
 			body: JSON.stringify(data)
 		});
+	},
+	getReviews: async (content_id, content_type, user_id) => {
+		const query = new URLSearchParams({
+			content_id,
+			content_type,
+			...(user_id ? { user_id } : {})
+		});
+		return apiRequest(`/reviews?${query.toString()}`);
+	},
+	saveReview: async (data) => {
+		return apiRequest('/reviews', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+	},
+	deleteReview: async (review_id, user_id) => {
+		return apiRequest(`/reviews/${review_id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ user_id })
+		});
+	},
+	getRating: async (content_id, content_type, user_id) => {
+		const query = new URLSearchParams({
+			content_id,
+			content_type,
+			...(user_id ? { user_id } : {})
+		});
+		return apiRequest(`/ratings?${query.toString()}`);
+	},
+	setRating: async (data) => {
+		return apiRequest('/ratings', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+	},
+	deleteRating: async (data) => {
+		return apiRequest('/ratings', {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
 	}
 };
