@@ -15,6 +15,7 @@ const listsError = ref('');
 const createListError = ref('');
 const newListTitle = ref('');
 const isCreatingList = ref(false);
+const deletingId = ref(null);
 const user = computed(() => store.state.session.user);
 const initials = computed(() => store.getters.userInitials || 'U');
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
@@ -38,6 +39,14 @@ const handleLogout = async () => {
 
 const handleListClick = (list_id) => {
 	router.push(`/list-details/${list_id}`);
+};
+
+const handleDeleteClick = async (list_id) => {
+	if (deletingId.value) return;
+	deletingId.value = list_id;
+	await actions.deleteUserList(list_id);
+	await loadLists();
+	deletingId.value = null;
 };
 
 const loadLists = async () => {
@@ -156,19 +165,25 @@ onMounted(() => {
 					</div>
 
 					<p v-if="listsError" class="form-error">{{ listsError }}</p>
-					<p v-else-if="!lists.length" class="subtitle muted">
-						{{ t('userProfile.lists.empty') }}
-					</p>
 				</div>
 			</div>
 			<div class="user-lists">
 				<p class="eyebrow">{{ t('userProfile.lists.title') }}</p>
 				<div v-for="item in lists" :key="item.id" class="list-card">
 					<div class="list-icon">{{ item.title }}</div>
-					<button class="btn list" @click="handleListClick(item.id)">
-						{{ t('userProfile.lists.open') }}
-					</button>
+					<div class="buttons">
+						<button class="btn list" @click="handleListClick(item.id)">
+							{{ t('userProfile.lists.open') }}
+						</button>
+						<button class="btn delete" :disabled="deletingId === item.id" @click="handleDeleteClick(item.id)">
+							<span v-if="deletingId !== item.id">Delete list</span>
+							<span v-else class="btn__spinner" aria-hidden="true" />
+						</button>
+					</div>
 				</div>
+				<p v-if="!lists.length" class="subtitle muted">
+					{{ t('userProfile.lists.empty') }}
+				</p>
 			</div>
 		</div>
 
@@ -324,7 +339,16 @@ onMounted(() => {
 	margin-top: 0.5rem;
 }
 
+.buttons {
+	display: flex;
+	justify-content: center;
+	gap: 2.5rem;
+}
+
 .btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	border: none;
 	border-radius: 12px;
 	padding: 0.85rem 1.2rem;
@@ -347,9 +371,27 @@ onMounted(() => {
 		background: linear-gradient(135deg, #00bbf9, #4cb1ff);
 		box-shadow: 0 12px 30px rgba(0, 187, 249, 0.35);
 	}
+	&.delete {
+		background: linear-gradient(135deg, #f90000, #ff614c);
+		box-shadow: 0 12px 30px rgba(249, 50, 0, 0.35);
+	}
 	&:hover {
 		transform: translateY(-1px);
 	}
+	&:disabled {
+		opacity: 0.65;
+		cursor: not-allowed;
+		transform: none;
+	}
+}
+
+.btn__spinner {
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	border: 2px solid rgba(255, 255, 255, 0.6);
+	border-top-color: #0a0c10;
+	animation: spin 0.8s linear infinite;
 }
 
 .eyebrow {
@@ -438,5 +480,14 @@ onMounted(() => {
 
 .subtitle.muted {
 	color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 </style>

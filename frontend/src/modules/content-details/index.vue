@@ -163,6 +163,7 @@ const loadContentDetails = async () => {
 
 onMounted(() => {
 	loadContentDetails();
+	loadUserLists();
 });
 
 watch([contentId, locale], () => {
@@ -173,14 +174,9 @@ const loadUserLists = async () => {
 	if (!userId.value) return;
 
 	listsLoading.value = true;
-	try {
-		const data = await actions.getUserLists(userId.value);
-		userLists.value = Array.isArray(data) ? data : [];
-	} catch (err) {
-		console.error('Error loading user lists:', err);
-	} finally {
-		listsLoading.value = false;
-	}
+	const data = await actions.getUserLists(userId.value, contentId.value, contentType.value);
+	userLists.value = Array.isArray(data) ? data : [];
+	listsLoading.value = false;
 };
 
 const openAddModal = async () => {
@@ -209,7 +205,7 @@ const handleConfirmAddModal = async (ids) => {
 		...localizeContent
 	};
 	await actions.addToList(data);
-
+	userLists.value = userLists.value.filter((list) => !ids.includes(Number(list.id)));
 	isAddModalOpen.value = false;
 };
 </script>
@@ -253,7 +249,7 @@ const handleConfirmAddModal = async (ids) => {
 						<span v-if="formattedRuntime"> {{ t('contentDetails.runtime') }}: {{ formattedRuntime }} </span>
 						<span v-if="genresList"> {{ t('contentDetails.genres') }}: {{ genresList }} </span>
 					</div>
-					<div class="actions">
+					<div v-if="userLists.length" class="actions">
 						<button type="button" class="btn primary" @click="openAddModal">
 							{{ t('contentDetails.addToList') }}
 						</button>

@@ -16,17 +16,27 @@ export const lists = {
 			items: listItems
 		};
 	},
-	getUserLists: async (user_id) => {
+	getUserLists: async (data) => {
+		const { user_id, content_id, content_type } = data;
 		const id = Number(user_id);
 		const user = await prisma.user.findUnique({ where: { id } });
 		if (!user) {
 			throw new Error(ErrorCodes.NO_USER);
 		}
-		const lists = await prisma.userList.findMany({ where: { user_id: id } });
-		if (!lists) {
-			throw new Error(ErrorCodes.NO_LISTS);
+		if (content_id && content_type) {
+			return prisma.userList.findMany({
+				where: {
+					user_id: id,
+					items: {
+						none: {
+							content_id: Number(content_id),
+							content_type
+						}
+					}
+				}
+			});
 		}
-		return lists;
+		return prisma.userList.findMany({ where: { user_id: id } });
 	},
 	createUserList: async (user_id, title) => {
 		const id = Number(user_id);
@@ -78,6 +88,11 @@ export const lists = {
 	},
 	removeItemFromList: async (id) => {
 		await prisma.listItem.delete({
+			where: { id: Number(id) }
+		});
+	},
+	deleteList: async (id) => {
+		await prisma.userList.delete({
 			where: { id: Number(id) }
 		});
 	}

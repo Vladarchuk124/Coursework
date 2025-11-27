@@ -12,8 +12,11 @@ export const actions = {
 		const errorMessage = i18n.global.t('errors.unsupportedContentType');
 		throw new Error(errorMessage);
 	},
-	getUserLists: async (user_id) => {
-		return apiRequest(`/lists/user-lists/${user_id}`);
+	getUserLists: async (user_id, content_id, content_type) => {
+		return apiRequest(`/lists/user-lists/${user_id}`, {
+			method: 'POST',
+			body: JSON.stringify({ content_id, content_type })
+		});
 	},
 	addToList: async (data) => {
 		return apiRequest('/lists/add-to-list', {
