@@ -8,29 +8,154 @@ const tmdbApi = axios.create({
 	}
 });
 
-const contentFilter = (results) => {
+const contentFilter = (results, minVotes = 100) => {
 	return results
 		.filter((item) => item.poster_path)
 		.filter((item) => item.overview)
-		.filter((item) => item.vote_count > 100)
+		.filter((item) => item.vote_count > minVotes)
 		.filter((item) => item.popularity > 2)
 		.sort((a, b) => b.popularity - a.popularity);
 };
 
+// Animation genre IDs: 16 for both movies and TV
+const ANIMATION_GENRE_ID = 16;
+
+// Базові параметри фільтрації для discover API
+const discoverBaseParams = {
+	include_adult: false,
+	include_video: false,
+	'vote_count.gte': 50,
+	sort_by: 'popularity.desc'
+};
+
 export const tmdb = {
-	getPopularMovies: async (language = 'en-US') => {
-		const res = await tmdbApi.get('/movie/popular', { params: { language } });
+	getPopularMovies: async (language = 'en-US', page = 1) => {
+		const res = await tmdbApi.get('/movie/popular', { params: { language, page } });
 		const movies = contentFilter(res.data.results);
-		return movies;
+		return { results: movies, page: res.data.page, totalPages: res.data.total_pages };
 	},
+
+	getTopRatedMovies: async (language = 'en-US', page = 1) => {
+		const res = await tmdbApi.get('/movie/top_rated', { params: { language, page } });
+		const movies = contentFilter(res.data.results, 500);
+		return { results: movies, page: res.data.page, totalPages: res.data.total_pages };
+	},
+
+	getNowPlayingMovies: async (language = 'en-US', page = 1) => {
+		const res = await tmdbApi.get('/movie/now_playing', { params: { language, page } });
+		const movies = contentFilter(res.data.results, 50);
+		return { results: movies, page: res.data.page, totalPages: res.data.total_pages };
+	},
+
+	discoverMovies: async (language = 'en-US', page = 1, options = {}) => {
+		const res = await tmdbApi.get('/discover/movie', {
+			params: {
+				language,
+				page,
+				...discoverBaseParams,
+				...options
+			}
+		});
+		return { results: res.data.results, page: res.data.page, totalPages: res.data.total_pages };
+	},
+
 	getMovieById: async (id, language = 'en-US') => {
 		const res = await tmdbApi.get(`/movie/${id}`, { params: { language } });
 		return res.data;
 	},
+
+	// TV Shows endpoints
+	getPopularShows: async (language = 'en-US', page = 1) => {
+		const res = await tmdbApi.get('/tv/popular', { params: { language, page } });
+		const shows = contentFilter(res.data.results, 50);
+		return { results: shows, page: res.data.page, totalPages: res.data.total_pages };
+	},
+
+	getTopRatedShows: async (language = 'en-US', page = 1) => {
+		const res = await tmdbApi.get('/tv/top_rated', { params: { language, page } });
+		const shows = contentFilter(res.data.results, 200);
+		return { results: shows, page: res.data.page, totalPages: res.data.total_pages };
+	},
+
+	discoverShows: async (language = 'en-US', page = 1, options = {}) => {
+		const res = await tmdbApi.get('/discover/tv', {
+			params: {
+				language,
+				page,
+				...discoverBaseParams,
+				...options
+			}
+		});
+		return { results: res.data.results, page: res.data.page, totalPages: res.data.total_pages };
+	},
+
 	getShowById: async (id, language = 'en-US') => {
 		const res = await tmdbApi.get(`/tv/${id}`, { params: { language } });
 		return res.data;
 	},
+
+	// Animation/Cartoons endpoints
+	getAnimatedMovies: async (language = 'en-US', page = 1) => {
+		const res = await tmdbApi.get('/discover/movie', {
+			params: {
+				language,
+				page,
+				...discoverBaseParams,
+				with_genres: ANIMATION_GENRE_ID
+			}
+		});
+		return { results: res.data.results, page: res.data.page, totalPages: res.data.total_pages };
+	},
+
+	getAnimatedShows: async (language = 'en-US', page = 1) => {
+		const res = await tmdbApi.get('/discover/tv', {
+			params: {
+				language,
+				page,
+				...discoverBaseParams,
+				'vote_count.gte': 30,
+				with_genres: ANIMATION_GENRE_ID
+			}
+		});
+		return { results: res.data.results, page: res.data.page, totalPages: res.data.total_pages };
+	},
+
+	// Combined top rated
+	getTopRatedAll: async (language = 'en-US', page = 1) => {
+		const baseTopParams = {
+			...discoverBaseParams,
+			'vote_average.gte': 7,
+			sort_by: 'vote_average.desc'
+		};
+
+		const [moviesRes, showsRes] = await Promise.all([
+			tmdbApi.get('/discover/movie', {
+				params: { language, page, ...baseTopParams, 'vote_count.gte': 500 }
+			}),
+			tmdbApi.get('/discover/tv', {
+				params: { language, page, ...baseTopParams, 'vote_count.gte': 200 }
+			})
+		]);
+
+		const movies = moviesRes.data.results.map((m) => ({ ...m, media_type: 'movie' }));
+		const shows = showsRes.data.results.map((s) => ({ ...s, media_type: 'tv' }));
+
+		const combined = [...movies, ...shows].sort((a, b) => b.vote_average - a.vote_average);
+		return { results: combined, page, totalPages: Math.min(moviesRes.data.total_pages, showsRes.data.total_pages) };
+	},
+
+	// Genres
+	getMovieGenres: async (language = 'en-US') => {
+		const res = await tmdbApi.get('/genre/movie/list', { params: { language } });
+		return res.data.genres;
+	},
+
+	getTvGenres: async (language = 'en-US') => {
+		const res = await tmdbApi.get('/genre/tv/list', { params: { language } });
+		return res.data.genres;
+	},
+
+	// Search
 	searchContent: async (query, language = 'en-US') => {
 		if (!query || query.trim().length === 0) {
 			return [];

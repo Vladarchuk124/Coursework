@@ -6,6 +6,10 @@ const routes = [
 		component: () => import('./modules/root/index.vue')
 	},
 	{
+		path: '/catalog/:category',
+		component: () => import('./modules/catalog/index.vue')
+	},
+	{
 		path: '/content-details/:type/:id',
 		component: () => import('./modules/content-details/index.vue')
 	},

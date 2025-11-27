@@ -6,6 +6,54 @@
 		"search": "Search",
 		"searchError": "Ooops... Nothing was found"
 	},
+	"nav": {
+		"movies": "Movies",
+		"shows": "TV Shows",
+		"cartoons": "Cartoons",
+		"top": "Top Rated"
+	},
+	"content": {
+		"movie": "Movie",
+		"show": "Series"
+	},
+	"catalog": {
+		"movies": {
+			"title": "Movies",
+			"subtitle": "Popular movies from around the world"
+		},
+		"shows": {
+			"title": "TV Shows",
+			"subtitle": "Binge-worthy series for your next marathon"
+		},
+		"cartoons": {
+			"title": "Cartoons",
+			"subtitle": "Animation for the whole family"
+		},
+		"top": {
+			"title": "Top Rated",
+			"subtitle": "Best picks according to viewer ratings"
+		}
+	},
+	"filters": {
+		"title": "Filters",
+		"sortBy": "Sort by",
+		"genre": "Genre",
+		"year": "Year",
+		"rating": "Rating",
+		"allGenres": "All genres",
+		"allYears": "All years",
+		"clear": "Clear",
+		"apply": "Apply",
+		"sort": {
+			"default": "Default",
+			"popularityDesc": "Most popular",
+			"popularityAsc": "Least popular",
+			"ratingDesc": "Highest rated",
+			"ratingAsc": "Lowest rated",
+			"dateDesc": "Newest first",
+			"dateAsc": "Oldest first"
+		}
+	},
 	"theme": {
 		"enableLight": "Enable light theme",
 		"enableDark": "Enable dark theme"

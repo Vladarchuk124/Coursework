@@ -44,7 +44,7 @@ const loadPopular = async () => {
 	loading.value = true;
 	try {
 		const data = await actions.getPopularMovies(locale.value);
-		movies.value = data;
+		movies.value = data.results || data;
 	} catch (error) {
 		console.error('Error loading movies:', error);
 	} finally {
