@@ -95,7 +95,6 @@ const toggleGenre = (genreId) => {
 
 const updateRatingMin = (e) => {
 	let val = parseInt(e.target.value);
-	// Мінімальна різниця 1
 	const maxAllowed = ratingMax.value - 1;
 	if (val > maxAllowed) {
 		val = maxAllowed;
@@ -107,7 +106,6 @@ const updateRatingMin = (e) => {
 
 const updateRatingMax = (e) => {
 	let val = parseInt(e.target.value);
-	// Мінімальна різниця 1
 	const minAllowed = ratingMin.value + 1;
 	if (val < minAllowed) {
 		val = minAllowed;
@@ -119,7 +117,6 @@ const updateRatingMax = (e) => {
 
 const updateYearMin = (e) => {
 	let val = parseInt(e.target.value);
-	// Мінімальна різниця 1 рік
 	const maxAllowed = yearMax.value - 1;
 	if (val > maxAllowed) {
 		val = maxAllowed;
@@ -131,7 +128,6 @@ const updateYearMin = (e) => {
 
 const updateYearMax = (e) => {
 	let val = parseInt(e.target.value);
-	// Мінімальна різниця 1 рік
 	const minAllowed = yearMin.value + 1;
 	if (val < minAllowed) {
 		val = minAllowed;
@@ -700,7 +696,6 @@ onUnmounted(() => {
 	}
 }
 
-/* Transitions */
 .fade-enter-active,
 .fade-leave-active {
 	transition: opacity 0.25s ease;
@@ -730,7 +725,6 @@ onUnmounted(() => {
 	transform: translate(-50%, -50%) scale(1);
 }
 
-/* Light theme */
 :root[data-theme='light'] {
 	.filter-btn {
 		background: rgba(0, 0, 0, 0.05);

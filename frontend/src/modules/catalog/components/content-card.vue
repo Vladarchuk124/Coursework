@@ -193,7 +193,6 @@ const goToDetails = () => {
 	}
 }
 
-/* Light theme */
 :root[data-theme='light'] {
 	.content-card {
 		background: rgba(0, 0, 0, 0.03);
