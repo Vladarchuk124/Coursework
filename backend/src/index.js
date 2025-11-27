@@ -3,11 +3,12 @@ import './config/env.js';
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import moviesRouter from './routes/movies/index.js';
-import searchRouter from './routes/searchBar/index.js';
-import showsRouter from './routes/shows/index.js';
-import authRouter from './routes/authorization/index.js';
-import listsRouter from './routes/lists/index.js';
+import moviesRouter from './routes/movies.js';
+import searchRouter from './routes/search.js';
+import showsRouter from './routes/shows.js';
+import authRouter from './routes/authorization.js';
+import listsRouter from './routes/lists.js';
+import userRouter from './routes/users.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +22,7 @@ app.use('/api/search', searchRouter);
 app.use('/api/shows', showsRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/lists', listsRouter);
+app.use('/api/users', userRouter);
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);

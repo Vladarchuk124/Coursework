@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import LoginFrom from './components/login.vue';
 import RegisterForm from './components/register.vue';
@@ -7,9 +8,11 @@ import ForgotPassword from './components/forgot-password.vue';
 import { actions } from './store/actions';
 
 const { t } = useI18n();
+const store = useStore();
 
 const activeView = ref('login');
 const statusMessage = ref('');
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
 
 const tabs = computed(() => [
 	{ id: 'login', label: t('auth.signIn') },
@@ -25,7 +28,7 @@ const setView = (view) => {
 
 <template>
 	<section class="auth-page">
-		<div class="auth-layout">
+		<div v-if="!isAuthenticated" class="auth-layout">
 			<div class="welcoming-window">
 				<h1>
 					{{ t('auth.title') }}
@@ -54,6 +57,15 @@ const setView = (view) => {
 					<RegisterForm v-else-if="activeView === 'register'" @switch="setView" :register="actions.register" />
 					<ForgotPassword v-else @switch="setView" />
 				</div>
+			</div>
+		</div>
+		<div v-else class="auth-locked">
+			<div class="auth-locked__card">
+				<h2>{{ t('errors.title') }}</h2>
+				<p class="auth-locked__lead">
+					{{ t('auth.signIn') }} недоступний, поки ви вже в акаунті.
+				</p>
+				<p class="auth-locked__hint">Спочатку вийдіть з профілю, щоб повернутися на сторінку авторизації.</p>
 			</div>
 		</div>
 	</section>
@@ -294,6 +306,35 @@ const setView = (view) => {
 		border-color: rgba(255, 193, 7, 0.5);
 		background: rgba(255, 193, 7, 0.12);
 		color: #ffe7a0;
+	}
+}
+
+.auth-locked {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 400px;
+
+	&__card {
+		max-width: 520px;
+		width: 100%;
+		background: var(--header-color);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 22px;
+		padding: 1.75rem;
+		box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+		text-align: center;
+	}
+
+	&__lead {
+		margin: 0.5rem 0 0.35rem;
+		font-weight: 600;
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	&__hint {
+		margin: 0;
+		color: rgba(255, 255, 255, 0.75);
 	}
 }
 

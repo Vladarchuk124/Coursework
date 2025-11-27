@@ -3,18 +3,26 @@ import { computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { actions } from './store/actions';
 
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
 const { t } = useI18n();
 
-const userEmail = computed(() => store.state.session.user?.email || 'your email');
 const isActivated = computed(() => store.state.session.user?.is_activated || false);
 
-onMounted(() => {
-	if (route.query.activated === 'true' && store.getters.isAuthenticated) {
-		store.dispatch('updateUserActivationStatus');
+onMounted(async () => {
+	if (route.query.activated === 'true') {
+		const result = await actions.getUser(route.query.id);
+		console.log(result);
+		const session = {
+			user: { id: result.id, name: result.name, email: result.email, is_activated: result.is_activated },
+			token: result.access_token,
+			expiresAt: Date.now() + 30 * 60 * 1000
+		};
+		store.commit('setSession', session);
+		localStorage.setItem('session', JSON.stringify(session));
 		router.replace({ query: {} });
 	}
 });
@@ -34,7 +42,6 @@ const goToMovies = () => router.push('/');
 			<div class="text-block">
 				<h1 v-if="isActivated">{{ t('confirmMail.successTitle') }}</h1>
 				<h1 v-else>{{ t('confirmMail.pendingTitle') }}</h1>
-				<p class="eyebrow">{{ userEmail }}</p>
 				<p v-if="isActivated" class="success-message">{{ t('confirmMail.successMessage') }}</p>
 				<p v-else class="pending-message">{{ t('confirmMail.pendingMessage') }}</p>
 				<div class="actions">
@@ -126,21 +133,6 @@ const goToMovies = () => router.push('/');
 				font-size: clamp(2.2rem, 4vw, 3rem);
 				letter-spacing: -0.01em;
 				color: white;
-			}
-
-			.eyebrow {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.5rem;
-				background: rgba(0, 187, 249, 0.12);
-				color: var(--link-color);
-				border: 1px solid rgba(0, 187, 249, 0.35);
-				border-radius: 999px;
-				padding: 0.35rem 0.85rem;
-				font-weight: 700;
-				text-transform: uppercase;
-				letter-spacing: 0.06em;
-				width: fit-content;
 			}
 
 			.success-message,

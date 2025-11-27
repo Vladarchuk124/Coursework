@@ -17,7 +17,8 @@ const mapErrorToKey = (errorCodeOrMessage) => {
 		EMAIL_PASSWORD_REQUIRED: 'errors.emailPasswordRequired',
 		USER_EXISTS: 'errors.userExists',
 		INVALID_PASSWORD: 'errors.invalidPassword',
-		USER_AND_TITLE_REQUIRED: 'errors.userAndTitleRequired'
+		USER_AND_TITLE_REQUIRED: 'errors.userAndTitleRequired',
+		USER_IS_NOT_ACTIVATED: 'errors.userIsNotActivated'
 	};
 
 	return errorMap[errorCodeOrMessage] || 'errors.default';

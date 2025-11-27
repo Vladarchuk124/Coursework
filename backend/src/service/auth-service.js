@@ -18,6 +18,23 @@ const createDefaultUserLists = async (user_id) => {
 };
 
 export const auth = {
+	getUserById: async (user_id) => {
+		const user = await prisma.user.findUnique({
+			where: { id: Number(user_id) }
+		});
+		if (!user) {
+			throw new Error(ErrorCodes.NO_USER);
+		}
+		const tokens = token.generateToken({ ...user, is_activated: true });
+		await token.saveToken(user.id, tokens.refresh_token);
+		return {
+			...tokens,
+			id: user.id,
+			email: user.email,
+			name: user.name,
+			is_activated: true
+		};
+	},
 	register: async (name, email, password) => {
 		if (!email || !password) {
 			throw new Error(ErrorCodes.EMAIL_PASSWORD_REQUIRED);
@@ -65,6 +82,9 @@ export const auth = {
 		if (!isValidPassword) {
 			throw new Error(ErrorCodes.INVALID_PASSWORD);
 		}
+		if (!user.is_activated) {
+			throw new Error(ErrorCodes.USER_IS_NOT_ACTIVATED);
+		}
 		const tokens = token.generateToken({ ...user });
 		await token.saveToken(user.id, tokens.refresh_token);
 		return {
@@ -81,9 +101,10 @@ export const auth = {
 		if (!user) {
 			throw new Error(ErrorCodes.NO_USER);
 		}
-		await prisma.user.update({
+		const updatedUser = await prisma.user.update({
 			where: { id: user.id },
 			data: { is_activated: true }
 		});
+		return updatedUser.id;
 	}
 };

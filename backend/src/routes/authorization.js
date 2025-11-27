@@ -1,5 +1,5 @@
 import express from 'express';
-import { auth } from '../../service/auth-service.js';
+import { auth } from '../service/auth-service.js';
 
 const router = express.Router();
 
@@ -27,8 +27,8 @@ router.post('/login', async (req, res) => {
 router.get('/activate/:link', async (req, res) => {
 	try {
 		const { link } = req.params;
-		await auth.activate(link);
-		return res.redirect(`${process.env.CLIENT_URL}/confirm-mail?activated=true`);
+		const user_id = await auth.activate(link);
+		return res.redirect(`${process.env.CLIENT_URL}/confirm-mail?id=${user_id}&activated=true`);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}

@@ -1,14 +1,13 @@
 import express from 'express';
-import { tmdb } from '../../apis/tmdb.js';
+import { tmdb } from '../apis/tmdb.js';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
 	try {
-		// const query = req.body?.query; // for testing from postman
-		const query = req.query?.query;
+		const { id } = req.params;
 		const language = getLocale(req);
-		const data = await tmdb.searchContent(query, language);
+		const data = await tmdb.getShowById(id, language);
 		res.json(data);
 	} catch (error) {
 		res.status(500).json({ error: error.message });

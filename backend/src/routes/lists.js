@@ -1,5 +1,5 @@
 import express from 'express';
-import { lists } from '../../service/lists-service.js';
+import { lists } from '../service/lists-service.js';
 
 const router = express.Router();
 

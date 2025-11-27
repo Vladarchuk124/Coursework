@@ -1,10 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 
-const store = useStore();
 const router = useRouter();
 
 const emit = defineEmits(['switch']);
@@ -21,6 +19,7 @@ const form = ref({
 	confirm: ''
 });
 const warning = ref('');
+const loading = ref(false);
 
 const submit = async () => {
 	warning.value = '';
@@ -34,19 +33,13 @@ const submit = async () => {
 		warning.value = t('auth.validation.passwordsMismatch');
 		return;
 	}
-	const result = await props.register({
+	loading.value = true;
+	await props.register({
 		name: form.value.name,
 		email: form.value.email,
 		password: form.value.password
 	});
-	const session = {
-		user: { id: result.id, name: result.name, email: result.email, is_activated: result.is_activated },
-		token: result.access_token,
-		expiresAt: Date.now() + 30 * 60 * 1000
-	};
-	store.commit('setSession', session);
-	localStorage.setItem('session', JSON.stringify(session));
-
+	loading.value = false;
 	router.push('/confirm-mail');
 };
 </script>
@@ -90,7 +83,12 @@ const submit = async () => {
 			</div>
 		</div>
 
-		<button type="submit" class="primary-btn">{{ t('auth.createAccount') }}</button>
+		<button type="submit" class="primary-btn">
+			<span v-if="!loading">{{ t('auth.createAccount') }}</span>
+			<span v-else class="loader">
+				<span class="loader__spinner" aria-hidden="true" />
+			</span>
+		</button>
 
 		<p class="form-footer">
 			{{ t('auth.haveAccount') }}
@@ -104,3 +102,30 @@ const submit = async () => {
 		</p>
 	</form>
 </template>
+
+<style scoped>
+.loader {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.55rem;
+}
+
+.loader__spinner {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	border: 2px solid rgba(255, 255, 255, 0.35);
+	border-top-color: #00bbf9;
+	animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+</style>

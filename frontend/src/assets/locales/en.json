@@ -127,6 +127,7 @@
 		"emailPasswordRequired": "Email and password are required",
 		"userExists": "User with this email already exists",
 		"invalidPassword": "Invalid password",
-		"userAndTitleRequired": "User id and title are required"
+		"userAndTitleRequired": "User id and title are required",
+		"userIsNotActivated": "To login you have to activate the email!"
 	}
 }
