@@ -14,15 +14,17 @@ datasource db {
 }
 
 model User {
-  id              Int      @id @default(autoincrement())
-  email           String   @unique
+  id              Int        @id @default(autoincrement())
+  email           String     @unique
   name            String?
   password        String
-  is_activated    Boolean  @default(false)
+  is_activated    Boolean    @default(false)
   activation_link String?
-  created_at      DateTime @default(now())
+  created_at      DateTime   @default(now())
   tokens          Token[]
   lists           UserList[]
+  reviews         Review[]
+  ratings         Rating[]
 }
 
 model Token {
@@ -40,23 +42,46 @@ model UserList {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  items      ListItem[]
+  items ListItem[]
 }
 
 model ListItem {
-  id              Int      @id @default(autoincrement())
-  list            UserList @relation(fields: [list_id], references: [id], onDelete: Cascade)
-  list_id         Int
+  id      Int      @id @default(autoincrement())
+  list    UserList @relation(fields: [list_id], references: [id], onDelete: Cascade)
+  list_id Int
 
-  content_id      Int
-  content_type    String
+  content_id   Int
+  content_type String
 
-  poster_path     String?
+  poster_path      String?
   content_title_en String
   content_title_uk String
 
-  created_at      DateTime @default(now())
+  created_at DateTime @default(now())
 
   @@unique([list_id, content_id, content_type])
 }
 
+model Review {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id      Int
+  content_id   Int
+  content_type String
+  body         String
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model Rating {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id      Int
+  content_id   Int
+  content_type String
+  value        Int
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@unique([user_id, content_id, content_type])
+}

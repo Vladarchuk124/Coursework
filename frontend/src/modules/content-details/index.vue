@@ -1,7 +1,10 @@
 <script setup>
 import SaveToListModal from './components/save-to-list-modal.vue';
+import ReviewsPanel from './components/reviews-panel.vue';
+import RatingStars from './components/rating-stars.vue';
+import upArrow from '../../assets/images/up-arrow.png';
 
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, watch, computed, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -21,6 +24,7 @@ const isAddModalOpen = ref(false);
 const userLists = ref([]);
 const listFeedback = ref('');
 const listsLoading = ref(false);
+const showScrollTop = ref(false);
 
 const { locale, t } = useI18n();
 
@@ -164,10 +168,15 @@ const loadContentDetails = async () => {
 onMounted(() => {
 	loadContentDetails();
 	loadUserLists();
+	window.addEventListener('scroll', handleScroll, { passive: true });
 });
 
 watch([contentId, locale], () => {
 	loadContentDetails();
+});
+
+onUnmounted(() => {
+	window.removeEventListener('scroll', handleScroll);
 });
 
 const loadUserLists = async () => {
@@ -207,6 +216,14 @@ const handleConfirmAddModal = async (ids) => {
 	await actions.addToList(data);
 	userLists.value = userLists.value.filter((list) => !ids.includes(Number(list.id)));
 	isAddModalOpen.value = false;
+};
+
+const handleScroll = () => {
+	showScrollTop.value = window.scrollY > 320;
+};
+
+const scrollToTop = () => {
+	window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 </script>
 
@@ -274,6 +291,8 @@ const handleConfirmAddModal = async (ids) => {
 					</dl>
 				</div>
 			</div>
+			<RatingStars :content-id="contentId" :content-type="contentType" />
+			<ReviewsPanel :content-id="contentId" :content-type="contentType" />
 		</div>
 		<div v-else class="loader">
 			<p>{{ t('contentDetails.notFound') }}</p>
@@ -285,6 +304,9 @@ const handleConfirmAddModal = async (ids) => {
 			@close="handleCloseAddModal"
 			@confirm="handleConfirmAddModal"
 		/>
+		<button v-if="showScrollTop" type="button" class="scroll-top" @click="scrollToTop" aria-label="Back to top">
+			<img class="scroll-top__icon" :src="upArrow" alt="" aria-hidden="true" />
+		</button>
 	</section>
 </template>
 
@@ -530,6 +552,38 @@ const handleConfirmAddModal = async (ids) => {
 @keyframes spin {
 	to {
 		transform: rotate(360deg);
+	}
+}
+
+.scroll-top {
+	position: fixed;
+	bottom: 22px;
+	right: 22px;
+	background: linear-gradient(135deg, #00bbf9, #35ffc7);
+	color: #0a0c10;
+	border: none;
+	border-radius: 50%;
+	width: 48px;
+	height: 48px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 800;
+	box-shadow: 0 18px 50px rgba(0, 187, 249, 0.35);
+	cursor: pointer;
+	transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+	z-index: 20;
+
+	&:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 22px 60px rgba(0, 187, 249, 0.4);
+	}
+
+	&__icon {
+		width: 22px;
+		height: 22px;
+		object-fit: contain;
+		display: block;
 	}
 }
 </style>
