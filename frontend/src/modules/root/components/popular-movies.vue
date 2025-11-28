@@ -152,7 +152,7 @@ watch(locale, () => {
 <style lang="scss" scoped>
 .popular-movies {
 	display: flex;
-	height: 50rem;
+	height: 45rem;
 	color: #ffffff;
 	position: relative;
 

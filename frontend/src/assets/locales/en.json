@@ -16,6 +16,14 @@
 		"movie": "Movie",
 		"show": "Series"
 	},
+	"home": {
+		"trending": "Trending",
+		"nowPlaying": "Now Playing",
+		"upcoming": "Coming Soon",
+		"topRated": "Top Rated",
+		"popularShows": "Popular TV Shows",
+		"onTheAir": "Currently On Air"
+	},
 	"catalog": {
 		"movies": {
 			"title": "Movies",

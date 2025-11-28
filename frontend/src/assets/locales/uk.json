@@ -16,6 +16,14 @@
 		"movie": "Фільм",
 		"show": "Серіал"
 	},
+	"home": {
+		"trending": "У тренді",
+		"nowPlaying": "Зараз у кіно",
+		"upcoming": "Очікувані прем'єри",
+		"topRated": "Найкращі за рейтингом",
+		"popularShows": "Популярні серіали",
+		"onTheAir": "Зараз на ТБ"
+	},
 	"catalog": {
 		"movies": {
 			"title": "Фільми",
