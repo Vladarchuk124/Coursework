@@ -1,7 +1,9 @@
-dev:
-	cd backend && npm run dev &
+dev-back:
+	cd backend && npm run dev 
+
+dev-front:
 	cd frontend && npm run dev
-	
+
 prf:
 	cd backend && npm run prisma:format	
 

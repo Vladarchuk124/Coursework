@@ -17,6 +17,8 @@
 		"show": "Series"
 	},
 	"home": {
+		"recommendations": "Recommendations for you",
+		"noRecommendations": "No recommendations available. Rate more content to get personalized suggestions!",
 		"trending": "Trending",
 		"nowPlaying": "Now Playing",
 		"upcoming": "Coming Soon",

@@ -3,7 +3,6 @@ import { tmdb } from '../apis/tmdb.js';
 
 const router = express.Router();
 
-// Витягує параметри фільтрації з запиту (для фільмів)
 const getMovieFilterParams = (req) => {
 	const params = {};
 
@@ -15,7 +14,6 @@ const getMovieFilterParams = (req) => {
 		params.with_genres = req.query.with_genres;
 	}
 
-	// Діапазон років для фільмів
 	if (req.query.year_gte) {
 		params['primary_release_date.gte'] = `${req.query.year_gte}-01-01`;
 	}
@@ -23,7 +21,6 @@ const getMovieFilterParams = (req) => {
 		params['primary_release_date.lte'] = `${req.query.year_lte}-12-31`;
 	}
 
-	// Рейтинг
 	if (req.query.vote_average_gte) {
 		params['vote_average.gte'] = parseFloat(req.query.vote_average_gte);
 	}
@@ -34,12 +31,10 @@ const getMovieFilterParams = (req) => {
 	return params;
 };
 
-// Витягує параметри фільтрації з запиту (для серіалів)
 const getShowFilterParams = (req) => {
 	const params = {};
 
 	if (req.query.sort_by) {
-		// Для серіалів використовуємо first_air_date замість primary_release_date
 		let sortBy = req.query.sort_by;
 		if (sortBy.includes('primary_release_date')) {
 			sortBy = sortBy.replace('primary_release_date', 'first_air_date');
@@ -51,7 +46,6 @@ const getShowFilterParams = (req) => {
 		params.with_genres = req.query.with_genres;
 	}
 
-	// Діапазон років для серіалів
 	if (req.query.year_gte) {
 		params['first_air_date.gte'] = `${req.query.year_gte}-01-01`;
 	}
@@ -59,7 +53,6 @@ const getShowFilterParams = (req) => {
 		params['first_air_date.lte'] = `${req.query.year_lte}-12-31`;
 	}
 
-	// Рейтинг
 	if (req.query.vote_average_gte) {
 		params['vote_average.gte'] = parseFloat(req.query.vote_average_gte);
 	}

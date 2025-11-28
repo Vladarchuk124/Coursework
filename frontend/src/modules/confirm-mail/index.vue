@@ -15,7 +15,6 @@ const isActivated = computed(() => store.state.session.user?.is_activated || fal
 onMounted(async () => {
 	if (route.query.activated === 'true') {
 		const result = await actions.getUser(route.query.id);
-		console.log(result);
 		const session = {
 			user: { id: result.id, name: result.name, email: result.email, is_activated: result.is_activated },
 			token: result.access_token,

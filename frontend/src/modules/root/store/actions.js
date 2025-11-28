@@ -27,5 +27,12 @@ export const actions = {
 
 	getPopularShows: async (locale = 'uk') => {
 		return apiRequest(`/home/popular-shows?locale=${locale}`);
+	},
+
+	getRecommendations: async (userId, options = {}) => {
+		return apiRequest('/recommendations', {
+			method: 'POST',
+			body: JSON.stringify({ userId, ...options })
+		});
 	}
 };

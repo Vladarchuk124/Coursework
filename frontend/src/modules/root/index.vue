@@ -3,6 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import PopularMovies from './components/popular-movies.vue';
 import ContentRow from './components/content-row.vue';
+import Recommendations from './components/recomendations.vue';
 import { actions } from './store/actions';
 
 const { locale, t } = useI18n();
@@ -65,6 +66,8 @@ watch(locale, () => {
 		<PopularMovies />
 
 		<div class="content-sections">
+			<Recommendations />
+
 			<ContentRow :title="t('home.trending')" :items="trending" :loading="loadingTrending" />
 
 			<ContentRow

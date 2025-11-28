@@ -24,12 +24,12 @@ const isOpen = ref(false);
 const currentYear = new Date().getFullYear();
 const minYear = 1970;
 
-const ratingMin = ref(0);
-const ratingMax = ref(10);
-const yearMin = ref(minYear);
-const yearMax = ref(currentYear);
+const ratingMin = ref(props.modelValue.ratingGte ? parseInt(props.modelValue.ratingGte) : 0);
+const ratingMax = ref(props.modelValue.ratingLte ? parseInt(props.modelValue.ratingLte) : 10);
+const yearMin = ref(props.modelValue.yearGte ? parseInt(props.modelValue.yearGte) : minYear);
+const yearMax = ref(props.modelValue.yearLte ? parseInt(props.modelValue.yearLte) : currentYear);
 
-const selectedGenres = ref([]);
+const selectedGenres = ref(props.modelValue.genres ? props.modelValue.genres.split(',').map(Number) : []);
 
 const localFilters = ref({
 	sortBy: props.modelValue.sortBy || '',
@@ -203,6 +203,27 @@ watch(
 	}
 );
 
+watch(
+	() => props.modelValue,
+	(newValue) => {
+		localFilters.value = {
+			sortBy: newValue.sortBy || '',
+			genres: newValue.genres || '',
+			yearGte: newValue.yearGte || '',
+			yearLte: newValue.yearLte || '',
+			ratingGte: newValue.ratingGte || '',
+			ratingLte: newValue.ratingLte || ''
+		};
+
+		selectedGenres.value = newValue.genres ? newValue.genres.split(',').map(Number) : [];
+		ratingMin.value = newValue.ratingGte ? parseInt(newValue.ratingGte) : 0;
+		ratingMax.value = newValue.ratingLte ? parseInt(newValue.ratingLte) : 10;
+		yearMin.value = newValue.yearGte ? parseInt(newValue.yearGte) : minYear;
+		yearMax.value = newValue.yearLte ? parseInt(newValue.yearLte) : currentYear;
+	},
+	{ deep: true }
+);
+
 watch(locale, () => {
 	loadGenres();
 });
@@ -322,22 +343,8 @@ onUnmounted(() => {
 							<div class="range-slider">
 								<div class="range-track"></div>
 								<div class="range-fill" :style="ratingRangeStyle"></div>
-								<input
-									type="range"
-									min="0"
-									max="10"
-									step="1"
-									:value="ratingMin"
-									@input="updateRatingMin"
-								/>
-								<input
-									type="range"
-									min="0"
-									max="10"
-									step="1"
-									:value="ratingMax"
-									@input="updateRatingMax"
-								/>
+								<input type="range" min="0" max="10" step="1" :value="ratingMin" @input="updateRatingMin" />
+								<input type="range" min="0" max="10" step="1" :value="ratingMax" @input="updateRatingMax" />
 							</div>
 							<div class="range-labels">
 								<span>0</span>
@@ -875,4 +882,3 @@ onUnmounted(() => {
 	}
 }
 </style>
-

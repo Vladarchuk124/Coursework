@@ -159,7 +159,7 @@ watch(locale, () => {
 	.pagination-btn {
 		position: absolute;
 		width: 20rem;
-		height: 50rem;
+		height: 45rem;
 		cursor: pointer;
 		z-index: 2;
 

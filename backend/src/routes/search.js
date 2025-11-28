@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
 	try {
-		// const query = req.body?.query; // for testing from postman
 		const query = req.query?.query;
 		const language = getLocale(req);
 		const data = await tmdb.searchContent(query, language);

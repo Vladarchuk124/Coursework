@@ -101,7 +101,6 @@ const handleCreateList = async () => {
 		});
 
 		if (response?.error) {
-			// Map backend error code to localized message
 			const errorMap = {
 				NO_USER: t('errors.noUser'),
 				INVALID_USER_ID: t('errors.invalidUserId'),

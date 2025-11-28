@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import ContentGrid from './components/content-grid.vue';
 import Pagination from './components/pagination.vue';
@@ -8,13 +8,31 @@ import CatalogFilters from './components/catalog-filters.vue';
 import { actions } from './store/actions';
 
 const route = useRoute();
+const router = useRouter();
 const { locale, t } = useI18n();
 
 const items = ref([]);
 const loading = ref(false);
-const currentPage = ref(1);
 const totalPages = ref(1);
-const filters = ref({});
+
+const getFiltersFromQuery = () => {
+	const query = route.query;
+	return {
+		sortBy: query.sortBy || '',
+		genres: query.genres || '',
+		yearGte: query.yearGte || '',
+		yearLte: query.yearLte || '',
+		ratingGte: query.ratingGte || '',
+		ratingLte: query.ratingLte || ''
+	};
+};
+
+const currentPage = computed({
+	get: () => parseInt(route.query.page) || 1,
+	set: (value) => updateQueryParams({ page: value > 1 ? value : undefined })
+});
+
+const filters = ref(getFiltersFromQuery());
 
 const currentCategory = computed(() => route.params.category || 'movies');
 
@@ -47,10 +65,23 @@ const categoryConfig = computed(() => {
 	return configs[category] || configs.movies;
 });
 
+const updateQueryParams = (newParams) => {
+	const query = { ...route.query, ...newParams };
+
+	Object.keys(query).forEach((key) => {
+		if (!query[key] || query[key] === '') {
+			delete query[key];
+		}
+	});
+
+	router.replace({ query });
+};
+
 const fetchContent = async () => {
 	loading.value = true;
 	try {
-		const data = await categoryConfig.value.fetchFn(locale.value, currentPage.value, filters.value);
+		const page = parseInt(route.query.page) || 1;
+		const data = await categoryConfig.value.fetchFn(locale.value, page, filters.value);
 		items.value = data.results || [];
 		totalPages.value = data.totalPages || 1;
 	} catch (error) {
@@ -68,31 +99,43 @@ const handlePageChange = (page) => {
 
 const handleFiltersChange = (newFilters) => {
 	filters.value = newFilters;
-	currentPage.value = 1;
-	fetchContent();
+
+	updateQueryParams({
+		page: undefined,
+		sortBy: newFilters.sortBy || undefined,
+		genres: newFilters.genres || undefined,
+		yearGte: newFilters.yearGte || undefined,
+		yearLte: newFilters.yearLte || undefined,
+		ratingGte: newFilters.ratingGte || undefined,
+		ratingLte: newFilters.ratingLte || undefined
+	});
 };
 
-// Watch for category changes
 watch(
 	() => route.params.category,
-	() => {
-		currentPage.value = 1;
-		filters.value = {};
-		fetchContent();
+	(newCategory, oldCategory) => {
+		if (newCategory !== oldCategory) {
+			filters.value = {};
+			router.replace({ params: { category: newCategory }, query: {} });
+		}
 	}
 );
 
-// Watch for page changes
-watch(currentPage, () => {
-	fetchContent();
-});
+watch(
+	() => route.query,
+	() => {
+		filters.value = getFiltersFromQuery();
+		fetchContent();
+	},
+	{ deep: true }
+);
 
-// Watch for locale changes
 watch(locale, () => {
 	fetchContent();
 });
 
 onMounted(() => {
+	filters.value = getFiltersFromQuery();
 	fetchContent();
 });
 </script>
