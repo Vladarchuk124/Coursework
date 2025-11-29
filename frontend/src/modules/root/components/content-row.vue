@@ -206,6 +206,7 @@ const goToCategory = () => {
 	display: flex;
 	gap: 1rem;
 	overflow-x: auto;
+	margin: 0 2rem;
 	padding: 0 2rem 1rem;
 	scroll-snap-type: x mandatory;
 	scrollbar-width: none;
