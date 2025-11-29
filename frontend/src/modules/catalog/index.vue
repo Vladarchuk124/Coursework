@@ -180,7 +180,7 @@ onMounted(() => {
 			font-weight: 700;
 			color: var(--text-color);
 			letter-spacing: -0.02em;
-			background: linear-gradient(135deg, #ffffff, rgba(255, 255, 255, 0.8));
+			background: var(--accent-gradient);
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
 			background-clip: text;
@@ -189,7 +189,7 @@ onMounted(() => {
 		p {
 			margin: 0.5rem 0 0;
 			font-size: 1.1rem;
-			color: rgba(255, 255, 255, 0.6);
+			color: var(--text-color-secondary);
 		}
 	}
 }
@@ -198,18 +198,23 @@ onMounted(() => {
 	padding: 0 4rem;
 }
 
-/* Light theme */
 :root[data-theme='light'] {
-	.catalog-header .header-content {
-		h1 {
-			background: linear-gradient(135deg, #1565c0, #1e88e5);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
-		}
+	.catalog-page {
+		background: transparent;
+	}
 
-		p {
-			color: rgba(0, 0, 0, 0.5);
+	.catalog-header {
+		.header-content {
+			h1 {
+				background: linear-gradient(135deg, #1e88e5, #42a5f5);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+			}
+
+			p {
+				color: rgba(0, 0, 0, 0.6);
+			}
 		}
 	}
 }

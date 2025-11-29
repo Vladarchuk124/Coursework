@@ -23,14 +23,20 @@ header {
 	justify-content: space-between;
 	align-items: center;
 	z-index: 1000;
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	box-shadow: 0 2px 80px rgba(0, 0, 0, 0.4);
+	border: 1px solid var(--border-color);
+	box-shadow: var(--shadow-lg);
 
 	.header-logo {
 		width: 30%;
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		text-decoration: none;
 		color: white;
+	}
+}
+
+:root[data-theme='light'] {
+	header .header-logo {
+		color: var(--text-color-inverted);
 	}
 }
 </style>

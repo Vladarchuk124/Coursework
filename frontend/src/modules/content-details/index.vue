@@ -85,12 +85,12 @@ const releaseYear = computed(() => {
 });
 
 const ratingColor = computed(() => {
-	const rating = content.value?.vote_average ?? 0;
-	if (!rating) return '#4c566a';
-	if (rating < 4) return '#dc3545';
-	if (rating < 6) return '#ff9800';
-	if (rating < 8) return '#ffc107';
-	if (rating < 9) return '#28a745';
+	const value = Number(content.value?.vote_average);
+	if (!Number.isFinite(value)) return '#4c566a';
+	if (value < 4) return '#dc3545';
+	if (value < 6) return '#ff9800';
+	if (value < 8) return '#ffc107';
+	if (value < 9) return '#28a745';
 	return '#17a2b8';
 });
 
@@ -344,7 +344,7 @@ const scrollToTop = () => {
 	position: relative;
 	min-height: 100vh;
 	padding: 4rem 2rem;
-	color: #f4f4f4;
+	color: var(--text-color);
 	overflow: hidden;
 
 	.background {
@@ -380,13 +380,13 @@ const scrollToTop = () => {
 			width: 48px;
 			height: 48px;
 			border-radius: 50%;
-			border-top-color: #00bbf9;
+			border-top-color: var(--spinner-accent);
 			animation: spin 1s linear infinite;
 			border: 4px solid var(--spinner-color);
 		}
 
 		&--error {
-			color: #ff6b6b;
+			color: var(--error-color);
 		}
 	}
 
@@ -397,10 +397,10 @@ const scrollToTop = () => {
 		margin: 0 auto;
 		padding: 2rem;
 		border-radius: 24px;
-		background: var(--header-color);
+		background: var(--card-bg);
 		backdrop-filter: blur(12px);
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+		border: 1px solid var(--card-border);
+		box-shadow: var(--shadow-xl);
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
@@ -431,8 +431,8 @@ const scrollToTop = () => {
 	flex: 0 0 240px;
 	border-radius: 20px;
 	overflow: hidden;
-	background: rgba(255, 255, 255, 0.02);
-	box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+	background: var(--surface-color);
+	box-shadow: var(--shadow-lg);
 
 	img {
 		width: 100%;
@@ -451,14 +451,14 @@ const scrollToTop = () => {
 	h1 {
 		font-size: clamp(2rem, 4vw, 3rem);
 		margin: 0;
-		color: #ffffff;
+		color: var(--text-color);
 	}
 }
 
 .eyebrow {
 	margin: 0;
 	font-size: 0.95rem;
-	color: rgba(255, 255, 255, 0.65);
+	color: var(--text-color-secondary);
 	letter-spacing: 1px;
 	text-transform: uppercase;
 }
@@ -467,6 +467,7 @@ const scrollToTop = () => {
 	font-size: 1.2rem;
 	font-weight: 500;
 	margin: 0;
+	color: var(--text-color-secondary);
 }
 
 .title {
@@ -474,7 +475,7 @@ const scrollToTop = () => {
 	align-items: center;
 	gap: 0.7rem;
 	font-size: 1rem;
-	color: rgba(255, 255, 255, 0.85);
+	color: var(--text-color);
 
 	.rating {
 		display: inline-flex;
@@ -485,8 +486,8 @@ const scrollToTop = () => {
 		border-radius: 25px;
 		font-size: 1.2rem;
 		font-weight: 700;
-		color: #ffffff;
-		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+		color: var(--text-color-inverted);
+		box-shadow: var(--shadow-md);
 	}
 }
 
@@ -497,10 +498,11 @@ const scrollToTop = () => {
 	margin-top: 1rem;
 
 	span {
-		background: rgba(255, 255, 255, 0.2);
+		background: var(--surface-color-hover);
 		padding: 0.4rem 0.9rem;
 		border-radius: 999px;
 		font-size: 0.9rem;
+		color: var(--text-color);
 	}
 }
 
@@ -512,53 +514,24 @@ const scrollToTop = () => {
 	margin-top: 1rem;
 
 	.status-note {
-		color: rgba(255, 255, 255, 0.85);
+		color: var(--text-color);
 		font-weight: 600;
 	}
-}
 
-.btn {
-	border: none;
-	border-radius: 12px;
-	padding: 0.85rem 1.2rem;
-	font-weight: 700;
-	cursor: pointer;
-	color: #0a0c10;
-	transition: transform 0.12s ease, box-shadow 0.18s ease, background-color 0.2s ease, opacity 0.2s ease;
-
-	&.primary {
-		background: linear-gradient(135deg, #00bbf9, #4cb1ff);
-		box-shadow: 0 12px 30px rgba(0, 187, 249, 0.35);
-	}
-
-	&.secondary {
-		background: linear-gradient(135deg, #f472b6, #ec4899);
-		box-shadow: 0 12px 30px rgba(244, 114, 182, 0.35);
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-
-		svg {
-			width: 1.1rem;
-			height: 1.1rem;
-		}
-	}
-
-	&:hover {
-		transform: translateY(-1px);
-	}
-
-	&:disabled {
-		opacity: 0.7;
-		cursor: not-allowed;
-		transform: none;
+	.btn svg {
+		width: 1.1rem;
+		height: 1.1rem;
 	}
 }
 
 .overview {
 	font-size: 1rem;
 	line-height: 1.8;
-	color: rgba(255, 255, 255, 0.85);
+	color: var(--text-color-secondary);
+
+	h2 {
+		color: var(--text-color);
+	}
 
 	p {
 		margin-bottom: 1rem;
@@ -568,8 +541,12 @@ const scrollToTop = () => {
 .key-facts {
 	padding: 1.5rem;
 	border-radius: 20px;
-	background: rgba(255, 255, 255, 0.2);
-	border: 1px solid rgba(255, 255, 255, 0.05);
+	background: var(--surface-color-hover);
+	border: 1px solid var(--border-color-light);
+
+	h2 {
+		color: var(--text-color);
+	}
 
 	dl {
 		display: grid;
@@ -580,12 +557,12 @@ const scrollToTop = () => {
 
 	dt {
 		font-weight: 600;
-		color: rgba(255, 255, 255, 0.75);
+		color: var(--text-color-secondary);
 	}
 
 	dd {
 		margin: 0;
-		color: #ffffff;
+		color: var(--text-color);
 		font-weight: 500;
 	}
 }
@@ -600,8 +577,8 @@ const scrollToTop = () => {
 	position: fixed;
 	bottom: 22px;
 	right: 22px;
-	background: linear-gradient(135deg, #00bbf9, #35ffc7);
-	color: #0a0c10;
+	background: var(--accent-gradient);
+	color: var(--btn-primary-text);
 	border: none;
 	border-radius: 50%;
 	width: 48px;
@@ -610,14 +587,13 @@ const scrollToTop = () => {
 	align-items: center;
 	justify-content: center;
 	font-weight: 800;
-	box-shadow: 0 18px 50px rgba(0, 187, 249, 0.35);
+	box-shadow: var(--btn-primary-shadow);
 	cursor: pointer;
 	transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 	z-index: 20;
 
 	&:hover {
 		transform: translateY(-2px);
-		box-shadow: 0 22px 60px rgba(0, 187, 249, 0.4);
 	}
 
 	&__icon {
@@ -625,6 +601,30 @@ const scrollToTop = () => {
 		height: 22px;
 		object-fit: contain;
 		display: block;
+	}
+}
+
+@media (max-width: 768px) {
+	.content-details {
+		padding: 2rem 1rem;
+
+		.content-section {
+			padding: 1.5rem;
+
+			.head-info {
+				flex-direction: column;
+			}
+
+			.foot-info {
+				grid-template-columns: 1fr;
+			}
+		}
+	}
+
+	.poster {
+		flex: 0 0 auto;
+		max-width: 200px;
+		margin: 0 auto;
 	}
 }
 </style>

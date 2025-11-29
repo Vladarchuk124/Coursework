@@ -122,9 +122,6 @@ watch(
 
 <template>
 	<div class="rating-panel">
-		<span class="rating-panel__glow rating-panel__glow--one" aria-hidden="true" />
-		<span class="rating-panel__glow rating-panel__glow--two" aria-hidden="true" />
-
 		<div class="rating-panel__header">
 			<div class="rating-panel__title">
 				<p class="eyebrow">{{ t('contentDetails.rating.title') }}</p>
@@ -191,19 +188,15 @@ watch(
 <style scoped lang="scss">
 .rating-panel {
 	margin-top: 0.5rem;
-	padding: 1rem 1.25rem;
+	padding: 1.5rem;
 	border-radius: 20px;
-	background: radial-gradient(120% 140% at 90% 20%, rgba(255, 200, 55, 0.12), transparent 50%),
-		radial-gradient(120% 140% at 20% 80%, rgba(255, 107, 107, 0.1), transparent 40%),
-		linear-gradient(145deg, rgba(13, 18, 30, 0.8), rgba(14, 20, 31, 0.9));
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
-	color: #f5f7fb;
+	background: var(--surface-color);
+	border: 1px solid var(--border-color);
+	box-shadow: var(--shadow-md);
+	color: var(--text-color);
 	display: flex;
 	flex-direction: column;
-	gap: 0.9rem;
-	position: relative;
-	overflow: hidden;
+	gap: 1rem;
 
 	&__header {
 		display: flex;
@@ -215,6 +208,7 @@ watch(
 		h3 {
 			margin: 0.2rem 0 0;
 			font-size: 1.5rem;
+			color: var(--text-color);
 		}
 	}
 
@@ -245,40 +239,13 @@ watch(
 
 	&__feedback {
 		margin: 0;
-		color: #ffcb6b;
+		color: var(--warning-color);
 		font-weight: 700;
-		background: rgba(255, 200, 55, 0.12);
-		border: 1px solid rgba(255, 200, 55, 0.28);
+		background: var(--warning-bg);
+		border: 1px solid var(--warning-border);
 		padding: 0.65rem 0.9rem;
 		border-radius: 12px;
 	}
-
-	&__glow {
-		position: absolute;
-		width: 200px;
-		border-radius: 50%;
-		filter: blur(80px);
-		opacity: 0.3;
-		z-index: 0;
-		pointer-events: none;
-
-		&--one {
-			background: #ffc837;
-			top: -60px;
-			left: -50px;
-		}
-
-		&--two {
-			background: #ff6b6b;
-			bottom: -70px;
-			right: -40px;
-		}
-	}
-}
-
-.rating-panel * {
-	position: relative;
-	z-index: 1;
 }
 
 .stat {
@@ -290,15 +257,12 @@ watch(
 	&__value {
 		font-size: 1.6rem;
 		font-weight: 800;
-		background: linear-gradient(135deg, #ffc837, #ff8008);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
+		color: var(--warning-color);
 	}
 
 	&__label {
 		font-size: 0.75rem;
-		color: rgba(255, 255, 255, 0.6);
+		color: var(--text-color-secondary);
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
 	}
@@ -332,44 +296,36 @@ watch(
 	&__icon {
 		width: 28px;
 		height: 28px;
-		fill: rgba(255, 255, 255, 0.2);
-		stroke: rgba(255, 255, 255, 0.4);
+		fill: var(--surface-color-hover);
+		stroke: var(--text-color-tertiary);
 		stroke-width: 1;
 		transition: fill 0.15s ease, stroke 0.15s ease, filter 0.15s ease;
 	}
 
 	&--filled &__icon {
-		fill: #ffc837;
-		stroke: #ff8008;
-		filter: drop-shadow(0 0 6px rgba(255, 200, 55, 0.5));
+		fill: var(--warning-color);
+		stroke: var(--warning-color);
+		filter: drop-shadow(0 0 6px var(--warning-border));
 	}
 
 	&--user &__icon {
-		filter: drop-shadow(0 0 10px rgba(255, 200, 55, 0.8));
+		filter: drop-shadow(0 0 10px var(--warning-color));
 	}
 }
 
 .user-rating {
 	font-size: 0.95rem;
-	color: rgba(255, 255, 255, 0.9);
+	color: var(--text-color);
 
 	strong {
-		color: #ffc837;
+		color: var(--warning-color);
 		font-size: 1.1rem;
 	}
 }
 
 .muted {
-	color: rgba(255, 255, 255, 0.6);
+	color: var(--text-color-secondary);
 	font-size: 0.9rem;
-}
-
-.eyebrow {
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	color: rgba(255, 255, 255, 0.75);
-	font-size: 0.85rem;
-	margin: 0;
 }
 
 .loader {
@@ -381,42 +337,18 @@ watch(
 		width: 20px;
 		height: 20px;
 		border-radius: 50%;
-		border: 3px solid rgba(255, 255, 255, 0.3);
-		border-top-color: #ffc837;
+		border: 3px solid var(--spinner-color);
+		border-top-color: var(--warning-color);
 		animation: spin 1s linear infinite;
 	}
 }
 
 .btn {
-	border: none;
-	border-radius: 10px;
-	padding: 0.5rem 0.85rem;
-	font-weight: 600;
-	font-size: 0.85rem;
-	cursor: pointer;
-	display: inline-flex;
-	align-items: center;
-	gap: 0.3rem;
-	transition: transform 0.12s ease, opacity 0.2s ease;
-
-	&.ghost {
-		background: transparent;
-		color: #e5e7eb;
-		border: 1px solid rgba(255, 255, 255, 0.25);
-	}
-
-	&.danger {
-		border-color: rgba(255, 107, 107, 0.6);
-		color: #ffb0b0;
-	}
-
-	&:hover:not(:disabled) {
-		transform: translateY(-1px);
-	}
-
-	&:disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
+	&.ghost.danger {
+		padding: 0.5rem 0.85rem;
+		font-size: 0.85rem;
+		border-color: var(--error-border);
+		color: var(--error-color);
 	}
 }
 

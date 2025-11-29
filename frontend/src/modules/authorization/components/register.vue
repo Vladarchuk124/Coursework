@@ -115,8 +115,8 @@ const submit = async () => {
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;
-	border: 2px solid rgba(255, 255, 255, 0.35);
-	border-top-color: #00bbf9;
+	border: 2px solid var(--spinner-color);
+	border-top-color: var(--spinner-accent);
 	animation: spin 0.9s linear infinite;
 }
 

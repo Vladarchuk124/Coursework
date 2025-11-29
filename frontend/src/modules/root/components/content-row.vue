@@ -53,11 +53,13 @@ const getRating = (item) => {
 	return item.vote_average?.toFixed(1) || '—';
 };
 
-const getRatingColor = (val) => {
-	if (!val) return '#808080';
-	if (val < 5) return '#dc3545';
-	if (val < 7) return '#ffc107';
-	if (val < 8) return '#28a745';
+const getRatingColor = (rating) => {
+	const value = Number(rating);
+	if (!Number.isFinite(value)) return '#4c566a';
+	if (value < 4) return '#dc3545';
+	if (value < 6) return '#ff9800';
+	if (value < 8) return '#ffc107';
+	if (value < 9) return '#28a745';
 	return '#17a2b8';
 };
 
@@ -126,7 +128,7 @@ const goToCategory = () => {
 .row-title {
 	font-size: 1.5rem;
 	font-weight: 700;
-	color: var(--text-color);
+	color: white;
 	margin: 0;
 	display: flex;
 	align-items: center;
@@ -137,8 +139,6 @@ const goToCategory = () => {
 		transition: color 0.2s ease;
 
 		&:hover {
-			color: #00bbf9;
-
 			.arrow {
 				transform: translateX(4px);
 			}
@@ -160,9 +160,9 @@ const goToCategory = () => {
 	width: 36px;
 	height: 36px;
 	border-radius: 50%;
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	background: rgba(255, 255, 255, 0.05);
-	color: var(--text-color);
+	border: 1px solid var(--root-content-row-scroll-btn-border);
+	background: var(--root-content-row-scroll-btn-bg);
+	color: white;
 	font-size: 1.5rem;
 	cursor: pointer;
 	transition: all 0.2s ease;
@@ -171,8 +171,8 @@ const goToCategory = () => {
 	justify-content: center;
 
 	&:hover {
-		background: rgba(0, 187, 249, 0.2);
-		border-color: #00bbf9;
+		background: var(--root-content-row-scroll-btn-hover-bg);
+		border-color: var(--root-content-row-scroll-btn-hover-border);
 	}
 }
 
@@ -187,7 +187,7 @@ const goToCategory = () => {
 	flex-shrink: 0;
 	width: 180px;
 	height: 320px;
-	background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 75%);
+	background: var(--root-content-row-skeleton-card-bg);
 	background-size: 200% 100%;
 	animation: shimmer 1.5s infinite;
 	border-radius: 12px;
@@ -241,7 +241,7 @@ const goToCategory = () => {
 	aspect-ratio: 2/3;
 	border-radius: 12px;
 	overflow: hidden;
-	background: rgba(255, 255, 255, 0.05);
+	background: var(--root-content-row-item-poster-bg);
 
 	img {
 		width: 100%;
@@ -256,7 +256,7 @@ const goToCategory = () => {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
+		background: var(--root-content-row-no-poster-bg);
 		font-size: 2.5rem;
 	}
 }
@@ -277,7 +277,7 @@ const goToCategory = () => {
 	margin: 0;
 	font-size: 0.9rem;
 	font-weight: 600;
-	color: var(--text-color);
+	color: white;
 	line-height: 1.3;
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
@@ -297,29 +297,6 @@ const goToCategory = () => {
 	border-radius: 10px;
 	font-size: 0.75rem;
 	font-weight: 600;
-	color: white;
-}
-
-:root[data-theme='light'] {
-	.scroll-btn {
-		border-color: rgba(0, 0, 0, 0.15);
-		background: rgba(0, 0, 0, 0.03);
-	}
-
-	.skeleton-card {
-		background: linear-gradient(90deg, rgba(0, 0, 0, 0.05) 25%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.05) 75%);
-		background-size: 200% 100%;
-	}
-
-	.item-poster {
-		background: rgba(0, 0, 0, 0.05);
-	}
-
-	.no-poster {
-		background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 100%);
-	}
+	color: var(--root-content-row-item-rating-color);
 }
 </style>
-
-
-

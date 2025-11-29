@@ -25,6 +25,26 @@ watch(
 	}
 );
 
+const getLocalizedListTitle = (title) => {
+	if (!title) return title;
+
+	const normalizedTitle = title.trim();
+
+	switch (normalizedTitle) {
+		case 'Favorites':
+		case 'Обране':
+			return t('userProfile.lists.names.favorites');
+		case 'Watched':
+		case 'Переглянуто':
+			return t('userProfile.lists.names.watched');
+		case 'Watchlist':
+		case 'Хочу подивитися':
+			return t('userProfile.lists.names.watchlist');
+		default:
+			return title;
+	}
+};
+
 const closeAddModal = () => {
 	selectedListIds.value = [];
 	localError.value = '';
@@ -71,7 +91,7 @@ const handleAddToList = () => {
 					:class="{ active: selectedListIds.includes(Number(list.id)) }"
 					@click="toggleListSelection(list.id)"
 				>
-					<span class="modal__list-title">{{ list.title }}</span>
+					<span class="modal__list-title">{{ getLocalizedListTitle(list.title) }}</span>
 				</button>
 			</div>
 
@@ -96,37 +116,37 @@ const handleAddToList = () => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	z-index: 5;
+	z-index: 1000;
 
 	&__backdrop {
 		position: absolute;
 		inset: 0;
-		background: rgba(0, 0, 0, 0.5);
+		background: var(--modal-backdrop);
 		backdrop-filter: blur(6px);
 	}
 
 	&__dialog {
 		position: relative;
 		z-index: 1;
-		background: var(--header-color);
-		border: 1px solid rgba(255, 255, 255, 0.12);
+		background: var(--card-bg);
+		border: 1px solid var(--border-color);
 		border-radius: 16px;
 		padding: 1.5rem;
 		min-width: min(480px, 90%);
-		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+		box-shadow: var(--shadow-xl);
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
 
 		h3 {
 			margin: 0;
-			color: #ffffff;
+			color: var(--text-color);
 		}
 	}
 
 	&__hint {
 		margin: 0;
-		color: rgba(255, 255, 255, 0.75);
+		color: var(--text-color-secondary);
 		font-weight: 600;
 	}
 
@@ -142,8 +162,8 @@ const handleAddToList = () => {
 		justify-content: center;
 		padding: 0.9rem 1rem;
 		border-radius: 12px;
-		border: 1px solid rgba(255, 255, 255, 0.2);
-		background: rgba(0, 0, 0, 0.2);
+		border: 1px solid var(--border-color);
+		background: var(--input-bg);
 		color: var(--text-color);
 		font-weight: 700;
 		cursor: pointer;
@@ -151,13 +171,13 @@ const handleAddToList = () => {
 
 		&:hover {
 			transform: translateY(-1px);
-			border-color: rgba(0, 187, 249, 0.6);
+			border-color: var(--accent-color);
 		}
 
 		&.active {
-			background: linear-gradient(135deg, rgba(0, 187, 249, 0.18), rgba(0, 187, 249, 0.08));
-			border-color: rgba(0, 187, 249, 0.8);
-			box-shadow: 0 12px 30px rgba(0, 187, 249, 0.2);
+			background: var(--accent-color-light);
+			border-color: var(--accent-color);
+			box-shadow: 0 12px 30px var(--accent-shadow);
 		}
 	}
 
@@ -175,39 +195,8 @@ const handleAddToList = () => {
 
 	&__error {
 		margin: 0;
-		color: #ff6b6b;
+		color: var(--error-color);
 		font-weight: 600;
-	}
-}
-
-.btn {
-	border: none;
-	border-radius: 12px;
-	padding: 0.85rem 1.2rem;
-	font-weight: 700;
-	cursor: pointer;
-	color: #0a0c10;
-	transition: transform 0.12s ease, box-shadow 0.18s ease, background-color 0.2s ease, opacity 0.2s ease;
-
-	&.primary {
-		background: linear-gradient(135deg, #00bbf9, #4cb1ff);
-		box-shadow: 0 12px 30px rgba(0, 187, 249, 0.35);
-	}
-
-	&.ghost {
-		background: transparent;
-		color: var(--text-color);
-		border: 1px solid rgba(255, 255, 255, 0.16);
-	}
-
-	&:hover {
-		transform: translateY(-1px);
-	}
-
-	&:disabled {
-		opacity: 0.7;
-		cursor: not-allowed;
-		transform: none;
 	}
 }
 </style>

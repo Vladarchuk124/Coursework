@@ -12,6 +12,26 @@ const router = useRouter();
 const list = ref();
 const listId = computed(() => route.params.id);
 
+const getLocalizedListTitle = (title) => {
+	if (!title) return title;
+
+	const normalizedTitle = title.trim();
+
+	switch (normalizedTitle) {
+		case 'Favorites':
+		case 'Обране':
+			return t('userProfile.lists.names.favorites');
+		case 'Watched':
+		case 'Переглянуто':
+			return t('userProfile.lists.names.watched');
+		case 'Watchlist':
+		case 'Хочу подивитися':
+			return t('userProfile.lists.names.watchlist');
+		default:
+			return title;
+	}
+};
+
 const contentTitle = (item) => {
 	if (locale.value === 'uk') {
 		return item.content_title_uk;
@@ -70,7 +90,7 @@ onMounted(() => {
 			<span class="icon">←</span>
 			<span>{{ t('listDetails.back') }}</span>
 		</button>
-		<h1>{{ list?.title }}</h1>
+		<h1>{{ getLocalizedListTitle(list?.title) }}</h1>
 
 		<div v-if="list?.items.length" class="content-container">
 			<div
@@ -86,7 +106,12 @@ onMounted(() => {
 				>
 					X
 				</button>
-				<div class="eyebrow">{{ contentType(item) }}</div>
+				<div
+					class="eyebrow"
+					:class="{ show: item.content_type === contentTypes.show || item.content_type === contentTypes.show_uk }"
+				>
+					{{ contentType(item) }}
+				</div>
 				<img :src="`https://image.tmdb.org/t/p/original${item.poster_path}`" />
 				<h4>{{ contentTitle(item) }}</h4>
 			</div>
@@ -122,9 +147,9 @@ onMounted(() => {
 		padding: 0.85rem 1.2rem;
 		font-weight: 700;
 		cursor: pointer;
-		color: #ffffff;
-		background: linear-gradient(135deg, #00bbf9, #4cb1ff);
-		box-shadow: 0 12px 30px rgba(0, 187, 249, 0.35);
+		color: white;
+		background: var(--list-details-btn-bg);
+		box-shadow: var(--list-details-btn-shadow);
 		transition: transform 0.12s ease, box-shadow 0.18s ease, background-color 0.2s ease, opacity 0.2s ease;
 
 		&:hover {
@@ -162,8 +187,8 @@ onMounted(() => {
 
 		&:hover {
 			transform: translateY(-4px);
-			box-shadow: 0 24px 55px rgba(15, 23, 42, 0.9);
-			border-color: rgba(248, 250, 252, 0.7);
+			box-shadow: var(--list-details-content-item-hover-shadow);
+			border-color: var(--list-details-content-item-hover-border);
 		}
 
 		.eyebrow {
@@ -175,13 +200,14 @@ onMounted(() => {
 			font-size: 0.7rem;
 			font-weight: 600;
 			text-transform: uppercase;
-			letter-spacing: 0.08em;
-			color: #e5e7eb;
-			background: rgba(15, 23, 42, 0.86);
-			border: 1px solid rgba(148, 163, 184, 0.7);
-			backdrop-filter: blur(8px);
-			box-shadow: 0 8px 20px rgba(15, 23, 42, 0.8);
-			white-space: nowrap;
+			letter-spacing: 0.5px;
+			color: white;
+			background: rgba(0, 0, 0, 0.7);
+			backdrop-filter: blur(4px);
+
+			&.show {
+				background: rgba(156, 39, 176, 0.85);
+			}
 		}
 
 		img {
@@ -228,13 +254,14 @@ onMounted(() => {
 	}
 
 	.empty {
+		color: white;
 		margin-top: 3rem;
 		padding: 2.5rem 2rem;
 		max-width: 480px;
 		text-align: center;
 		border-radius: 20px;
 		border: 1px dashed rgba(148, 163, 184, 0.6);
-		background: radial-gradient(circle at top, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.6));
+		background: radial-gradient(circle at top, rgba(131, 135, 145, 0.493), rgba(135, 140, 153, 0.473));
 		box-shadow: 0 18px 40px rgba(15, 23, 42, 0.7);
 
 		&__icon {

@@ -114,23 +114,23 @@ const goNext = () => {
 	padding: 0 12px;
 	border: none;
 	border-radius: 10px;
-	background: rgba(255, 255, 255, 0.08);
-	color: rgba(255, 255, 255, 0.8);
+	background: var(--surface-color);
+	color: var(--text-color);
 	font-size: 0.95rem;
 	font-weight: 500;
 	cursor: pointer;
 	transition: all 0.2s ease;
 
 	&:hover:not(:disabled) {
-		background: rgba(0, 187, 249, 0.2);
-		color: #00bbf9;
+		background: var(--accent-color-light);
+		color: var(--accent-color);
 		transform: translateY(-2px);
 	}
 
 	&.active {
-		background: linear-gradient(135deg, #00bbf9, #4cb1ff);
-		color: white;
-		box-shadow: 0 4px 15px rgba(0, 187, 249, 0.4);
+		background: var(--accent-gradient);
+		color: var(--btn-primary-text);
+		box-shadow: var(--btn-primary-shadow);
 	}
 
 	&:disabled {
@@ -146,30 +146,36 @@ const goNext = () => {
 }
 
 .ellipsis {
-	color: rgba(255, 255, 255, 0.4);
+	color: var(--text-color-tertiary);
 	padding: 0 8px;
 }
 
-/* Light theme */
 :root[data-theme='light'] {
 	.pagination-btn {
-		background: rgba(0, 0, 0, 0.06);
-		color: rgba(0, 0, 0, 0.7);
+		background: rgba(255, 255, 255, 0.95);
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
 		&:hover:not(:disabled) {
-			background: rgba(30, 136, 229, 0.15);
+			background: rgba(30, 136, 229, 0.1);
+			border-color: rgba(30, 136, 229, 0.3);
 			color: #1e88e5;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 		}
 
 		&.active {
 			background: linear-gradient(135deg, #1e88e5, #42a5f5);
-			color: white;
-			box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+			border-color: transparent;
+			box-shadow: 0 8px 24px rgba(30, 136, 229, 0.35);
+		}
+
+		&:disabled {
+			opacity: 0.4;
 		}
 	}
 
 	.ellipsis {
-		color: rgba(0, 0, 0, 0.3);
+		color: rgba(0, 0, 0, 0.4);
 	}
 }
 </style>

@@ -96,7 +96,7 @@ const handleBackdropClick = (event) => {
 .modal-backdrop {
 	position: fixed;
 	inset: 0;
-	background: rgba(0, 0, 0, 0.75);
+	background: var(--modal-backdrop);
 	backdrop-filter: blur(8px);
 	display: flex;
 	align-items: center;
@@ -106,15 +106,15 @@ const handleBackdropClick = (event) => {
 }
 
 .modal-container {
-	background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+	background: var(--modal-bg);
 	border-radius: 24px;
 	width: 100%;
 	max-width: 800px;
 	max-height: 80vh;
 	display: flex;
 	flex-direction: column;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+	border: 1px solid var(--border-color);
+	box-shadow: var(--shadow-xl);
 	overflow: hidden;
 }
 
@@ -123,8 +123,8 @@ const handleBackdropClick = (event) => {
 	align-items: center;
 	justify-content: space-between;
 	padding: 1.25rem 1.5rem;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-	background: rgba(0, 0, 0, 0.2);
+	border-bottom: 1px solid var(--border-color);
+	background: var(--surface-color);
 }
 
 .header-title {
@@ -135,19 +135,19 @@ const handleBackdropClick = (event) => {
 	svg {
 		width: 1.5rem;
 		height: 1.5rem;
-		color: #f472b6;
+		color: var(--secondary-accent);
 	}
 
 	h2 {
 		margin: 0;
 		font-size: 1.25rem;
 		font-weight: 600;
-		color: #ffffff;
+		color: var(--text-color);
 	}
 }
 
 .close-btn {
-	background: rgba(255, 255, 255, 0.1);
+	background: var(--surface-color-hover);
 	border: none;
 	border-radius: 50%;
 	width: 36px;
@@ -161,14 +161,14 @@ const handleBackdropClick = (event) => {
 	svg {
 		width: 18px;
 		height: 18px;
-		color: rgba(255, 255, 255, 0.7);
+		color: var(--text-color-secondary);
 	}
 
 	&:hover {
-		background: rgba(255, 255, 255, 0.2);
+		background: var(--surface-color-elevated);
 
 		svg {
-			color: #ffffff;
+			color: var(--text-color);
 		}
 	}
 }
@@ -187,7 +187,7 @@ const handleBackdropClick = (event) => {
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background: rgba(255, 255, 255, 0.15);
+		background: var(--scrollbar-thumb);
 		border-radius: 3px;
 	}
 }
@@ -203,14 +203,14 @@ const handleBackdropClick = (event) => {
 	.loading-spinner {
 		width: 40px;
 		height: 40px;
-		border: 3px solid rgba(244, 114, 182, 0.2);
-		border-top-color: #f472b6;
+		border: 3px solid var(--spinner-color);
+		border-top-color: var(--secondary-accent);
 		border-radius: 50%;
 		animation: spin 0.8s linear infinite;
 	}
 
 	p {
-		color: rgba(255, 255, 255, 0.6);
+		color: var(--text-color-secondary);
 		margin: 0;
 	}
 }
@@ -222,7 +222,7 @@ const handleBackdropClick = (event) => {
 }
 
 .actor-card {
-	background: rgba(255, 255, 255, 0.05);
+	background: var(--surface-color);
 	border-radius: 16px;
 	padding: 1rem;
 	cursor: pointer;
@@ -234,8 +234,8 @@ const handleBackdropClick = (event) => {
 	text-align: center;
 
 	&:hover {
-		background: rgba(244, 114, 182, 0.1);
-		border-color: rgba(244, 114, 182, 0.3);
+		background: var(--secondary-accent-light);
+		border-color: var(--secondary-accent);
 		transform: translateY(-4px);
 
 		.actor-photo img {
@@ -250,8 +250,8 @@ const handleBackdropClick = (event) => {
 	border-radius: 50%;
 	overflow: hidden;
 	margin-bottom: 0.75rem;
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-	border: 3px solid rgba(255, 255, 255, 0.1);
+	box-shadow: var(--shadow-md);
+	border: 3px solid var(--border-color);
 
 	img {
 		width: 100%;
@@ -266,12 +266,12 @@ const handleBackdropClick = (event) => {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: linear-gradient(135deg, #2a2a3e 0%, #1a1a2e 100%);
+		background: var(--surface-color-elevated);
 
 		svg {
 			width: 40%;
 			height: 40%;
-			color: rgba(255, 255, 255, 0.2);
+			color: var(--text-color-tertiary);
 		}
 	}
 }
@@ -281,7 +281,7 @@ const handleBackdropClick = (event) => {
 		margin: 0 0 0.25rem 0;
 		font-size: 0.9rem;
 		font-weight: 600;
-		color: #ffffff;
+		color: var(--text-color);
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
@@ -291,7 +291,7 @@ const handleBackdropClick = (event) => {
 	.actor-character {
 		margin: 0;
 		font-size: 0.8rem;
-		color: #f472b6;
+		color: var(--secondary-accent);
 		display: -webkit-box;
 		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
@@ -310,11 +310,11 @@ const handleBackdropClick = (event) => {
 	svg {
 		width: 60px;
 		height: 60px;
-		color: rgba(255, 255, 255, 0.2);
+		color: var(--text-color-tertiary);
 	}
 
 	p {
-		color: rgba(255, 255, 255, 0.5);
+		color: var(--text-color-secondary);
 		margin: 0;
 	}
 }

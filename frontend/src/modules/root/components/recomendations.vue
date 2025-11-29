@@ -91,7 +91,7 @@ watch(locale, () => {
 .no-recommendations {
 	padding: 2rem;
 	text-align: center;
-	color: var(--text-secondary);
+	color: var(--reviews-panel-muted-color);
 	font-size: 0.9rem;
 }
 </style>

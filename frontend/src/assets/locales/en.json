@@ -1,6 +1,7 @@
 {
 	"header": {
 		"profile": "Profile",
+		"userProfile": "User Profile",
 		"adminPanel": "Admin Panel",
 		"toggleTheme": "Toggle theme",
 		"changeLanguage": "Change language",
@@ -88,6 +89,12 @@
 			"empty": "No lists yet — start with favorites.",
 			"error": "We couldn't load your lists. Try again later.",
 			"open": "Open list",
+			"delete": "Delete",
+			"names": {
+				"favorites": "Favorites",
+				"watched": "Watched",
+				"watchlist": "Watchlist"
+			},
 			"create": {
 				"title": "Create a list",
 				"placeholder": "Name your new list",
@@ -271,5 +278,10 @@
 		"blockConfirm": "Block user {name}? They won't be able to log in.",
 		"deleteReviewConfirm": "Delete this comment? This action cannot be undone.",
 		"dismissConfirm": "Dismiss this report without action?"
+	},
+	"common": {
+		"close": "Close",
+		"backToTop": "Back to top",
+		"deleteFromList": "Delete from list"
 	}
 }

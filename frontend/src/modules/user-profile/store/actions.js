@@ -6,7 +6,24 @@ export const actions = {
 			method: 'POST'
 		});
 	},
-	createUserList: async ({ user_id, title }) => {
+	createUserList: async ({ user_id, list_title }) => {
+		let title;
+		switch (list_title) {
+			case 'Favorites':
+			case 'Обране':
+				title = 'Favorites';
+				break;
+			case 'Watched':
+			case 'Переглянуто':
+				title = 'Watched';
+				break;
+			case 'Watchlist':
+			case 'Хочу подивитися':
+				title = 'Watchlist';
+				break;
+			default:
+				title = list_title;
+		}
 		return apiRequest('/lists/create', {
 			method: 'POST',
 			headers: {

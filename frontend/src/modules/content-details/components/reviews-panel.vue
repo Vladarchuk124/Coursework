@@ -237,9 +237,6 @@ watch(
 
 <template>
 	<section class="reviews">
-		<span class="reviews__glow reviews__glow--one" aria-hidden="true" />
-		<span class="reviews__glow reviews__glow--two" aria-hidden="true" />
-
 		<div class="reviews__header">
 			<div class="reviews__title">
 				<p class="eyebrow">{{ t('contentDetails.reviews.title') }}</p>
@@ -299,7 +296,7 @@ watch(
 								type="button"
 								class="btn ghost danger"
 								:disabled="deletingId === review.id"
-								@click="handleAdminDelete(review.id)"
+								@click="() => handleAdminDelete(review.id)"
 							>
 								{{ t('admin.deleteReview') }}
 							</button>
@@ -365,19 +362,15 @@ watch(
 <style scoped lang="scss">
 .reviews {
 	margin-top: 0.5rem;
-	padding: 1rem 1.25rem;
+	padding: 1.5rem;
 	border-radius: 20px;
-	background: radial-gradient(120% 140% at 10% 20%, rgba(0, 187, 249, 0.15), transparent 50%),
-		radial-gradient(120% 140% at 80% 0%, rgba(255, 143, 58, 0.14), transparent 40%),
-		linear-gradient(145deg, rgba(13, 18, 30, 0.8), rgba(14, 20, 31, 0.9));
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
-	color: #f5f7fb;
+	background: var(--surface-color);
+	border: 1px solid var(--border-color);
+	box-shadow: var(--shadow-md);
+	color: var(--text-color);
 	display: flex;
 	flex-direction: column;
-	gap: 0.9rem;
-	position: relative;
-	overflow: hidden;
+	gap: 1rem;
 
 	&__header {
 		display: flex;
@@ -388,13 +381,14 @@ watch(
 		h3 {
 			margin: 0.2rem 0 0;
 			font-size: 1.6rem;
+			color: var(--text-color);
 		}
 	}
 
 	&__title {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 0.5rem;
 	}
 
 	&__form {
@@ -407,11 +401,10 @@ watch(
 		display: flex;
 		flex-direction: column;
 		gap: 0.6rem;
-		background: rgba(255, 255, 255, 0.02);
+		background: var(--surface-color-hover);
 		border-radius: 16px;
-		border: 1px solid rgba(255, 255, 255, 0.08);
+		border: 1px solid var(--border-color);
 		padding: 1.1rem;
-		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
 	}
 
 	.form__row {
@@ -426,21 +419,25 @@ watch(
 			min-height: 96px;
 			border-radius: 12px;
 			padding: 1rem;
-			background: rgba(0, 0, 0, 0.35);
-			border: 1px solid rgba(255, 255, 255, 0.12);
-			color: #ffffff;
+			background: var(--input-bg);
+			border: 1px solid var(--input-border);
+			color: var(--text-color);
 			font-size: 1rem;
 			resize: vertical;
 			transition: border-color 0.18s ease, box-shadow 0.18s ease;
 
 			&:focus {
 				outline: none;
-				border-color: rgba(0, 187, 249, 0.6);
-				box-shadow: 0 0 0 3px rgba(0, 187, 249, 0.15);
+				border-color: var(--input-focus-border);
+				box-shadow: var(--input-focus-shadow);
 			}
 
 			&:disabled {
 				opacity: 0.7;
+			}
+
+			&::placeholder {
+				color: var(--text-color-tertiary);
 			}
 		}
 	}
@@ -478,10 +475,10 @@ watch(
 
 	&__feedback {
 		margin: 0;
-		color: #c2e7ff;
+		color: var(--info-color);
 		font-weight: 700;
-		background: rgba(0, 187, 249, 0.12);
-		border: 1px solid rgba(0, 187, 249, 0.28);
+		background: var(--info-bg);
+		border: 1px solid var(--info-border);
 		padding: 0.65rem 0.9rem;
 		border-radius: 12px;
 	}
@@ -494,7 +491,7 @@ watch(
 }
 
 .muted {
-	color: rgba(255, 255, 255, 0.7);
+	color: var(--text-color-secondary);
 	margin: 0;
 	font-size: 0.95rem;
 }
@@ -508,38 +505,25 @@ watch(
 		width: 20px;
 		height: 20px;
 		border-radius: 50%;
-		border: 3px solid rgba(255, 255, 255, 0.3);
-		border-top-color: #00bbf9;
+		border: 3px solid var(--spinner-color);
+		border-top-color: var(--spinner-accent);
 		animation: spin 1s linear infinite;
 	}
 }
 
 .empty {
 	margin: 0.5rem 0;
-	color: rgba(255, 255, 255, 0.8);
+	color: var(--text-color-secondary);
 }
 
 .review-card {
 	padding: 1.1rem;
 	border-radius: 16px;
-	background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
-	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: var(--surface-color-hover);
+	border: 1px solid var(--border-color);
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
-	position: relative;
-	overflow: hidden;
-
-	&::before {
-		content: '';
-		position: absolute;
-		inset: -1px;
-		border-radius: inherit;
-		padding: 1px;
-		background: linear-gradient(135deg, rgba(0, 187, 249, 0.35), rgba(255, 143, 58, 0.3));
-		mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
-		mask-composite: exclude;
-	}
 
 	&__users {
 		display: flex;
@@ -567,7 +551,7 @@ watch(
 	&__text {
 		margin: 0;
 		line-height: 1.6;
-		color: rgba(255, 255, 255, 0.9);
+		color: var(--text-color);
 		white-space: pre-wrap;
 		overflow-wrap: break-word;
 		word-break: break-word;
@@ -577,75 +561,40 @@ watch(
 		width: 40px;
 		height: 40px;
 		border-radius: 12px;
-		background: linear-gradient(135deg, rgba(0, 187, 249, 0.8), rgba(49, 255, 194, 0.7));
-		color: #0a0c10;
+		background: var(--accent-gradient);
+		color: var(--btn-primary-text);
 		font-weight: 800;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		box-shadow: 0 10px 30px rgba(0, 187, 249, 0.25);
+		box-shadow: var(--shadow-sm);
 	}
 }
 
 .btn {
-	border: none;
-	border-radius: 12px;
-	padding: 0.65rem 1rem;
-	font-weight: 700;
-	cursor: pointer;
-	color: #0a0c10;
-	display: inline-flex;
-	align-items: center;
-	gap: 0.4rem;
-	transition: transform 0.12s ease, box-shadow 0.18s ease, background-color 0.2s ease, opacity 0.2s ease;
-
-	&.primary {
-		background: linear-gradient(135deg, #00bbf9, #4cb1ff);
-		box-shadow: 0 12px 30px rgba(0, 187, 249, 0.35);
-	}
-
 	&.ghost {
-		background: transparent;
-		color: #e5e7eb;
-		border: 1px solid rgba(255, 255, 255, 0.3);
-	}
+		padding: 0.5rem 0.75rem;
+		font-size: 0.85rem;
 
-	&.danger {
-		border-color: rgba(255, 107, 107, 0.7);
-		color: #ffb0b0;
-	}
+		&.danger {
+			border-color: var(--error-border);
+			color: var(--error-color);
+		}
 
-	&.warning {
-		border-color: rgba(246, 173, 85, 0.7);
-		color: #f6ad55;
-	}
-
-	&:hover:not(:disabled) {
-		transform: translateY(-1px);
-	}
-
-	&:disabled {
-		opacity: 0.7;
-		cursor: not-allowed;
-		transform: none;
+		&.warning {
+			border-color: var(--warning-border);
+			color: var(--warning-color);
+		}
 	}
 
 	&__spinner {
 		width: 16px;
 		height: 16px;
 		border-radius: 50%;
-		border: 3px solid rgba(255, 255, 255, 0.4);
-		border-top-color: #0a0c10;
+		border: 3px solid var(--spinner-color);
+		border-top-color: var(--btn-primary-text);
 		animation: spin 0.9s linear infinite;
 	}
-}
-
-.eyebrow {
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	color: rgba(255, 255, 255, 0.75);
-	font-size: 0.85rem;
-	margin: 0;
 }
 
 @keyframes spin {
@@ -654,58 +603,27 @@ watch(
 	}
 }
 
-.reviews__glow {
-	position: absolute;
-	width: 240px;
-	border-radius: 50%;
-	filter: blur(90px);
-	opacity: 0.4;
-	z-index: 0;
-	pointer-events: none;
-
-	&--one {
-		background: #00bbf9;
-		top: -60px;
-		right: -70px;
-	}
-
-	&--two {
-		background: #ff8f3a;
-		bottom: -80px;
-		left: -40px;
-	}
-}
-
-.reviews * {
-	position: relative;
-	z-index: 1;
-}
-
 .review-card--highlighted {
 	animation: highlight-pulse 2s ease-out;
-	border-color: rgba(255, 107, 107, 0.5) !important;
-
-	&::before {
-		background: linear-gradient(135deg, rgba(255, 107, 107, 0.5), rgba(255, 143, 58, 0.4)) !important;
-	}
+	border-color: var(--error-color) !important;
 }
 
 @keyframes highlight-pulse {
 	0% {
-		box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.6);
+		box-shadow: 0 0 0 0 var(--error-border);
 	}
 	50% {
-		box-shadow: 0 0 20px 5px rgba(255, 107, 107, 0.4);
+		box-shadow: 0 0 20px 5px var(--error-border);
 	}
 	100% {
-		box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+		box-shadow: 0 0 0 0 transparent;
 	}
 }
 
 .modal-overlay {
 	position: fixed;
 	inset: 0;
-	background: rgba(0, 0, 0, 0.7);
+	background: var(--modal-backdrop);
 	backdrop-filter: blur(4px);
 	display: flex;
 	align-items: center;
@@ -715,24 +633,24 @@ watch(
 }
 
 .modal {
-	background: linear-gradient(145deg, rgba(20, 25, 35, 0.98), rgba(15, 20, 30, 0.98));
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	background: var(--modal-bg);
+	border: 1px solid var(--border-color);
 	border-radius: 20px;
 	width: 100%;
 	max-width: 480px;
 	overflow: hidden;
-	box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+	box-shadow: var(--shadow-xl);
 
 	&__header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 1.25rem 1.5rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		border-bottom: 1px solid var(--border-color);
 
 		h3 {
 			margin: 0;
-			color: #fff;
+			color: var(--text-color);
 			font-size: 1.2rem;
 		}
 	}
@@ -740,7 +658,7 @@ watch(
 	&__close {
 		background: transparent;
 		border: none;
-		color: rgba(255, 255, 255, 0.6);
+		color: var(--text-color-secondary);
 		font-size: 1.8rem;
 		cursor: pointer;
 		line-height: 1;
@@ -748,7 +666,7 @@ watch(
 		transition: color 0.2s;
 
 		&:hover {
-			color: #fff;
+			color: var(--text-color);
 		}
 	}
 
@@ -761,15 +679,15 @@ watch(
 
 	&__subtitle {
 		margin: 0;
-		color: rgba(255, 255, 255, 0.7);
+		color: var(--text-color-secondary);
 		font-size: 0.95rem;
 	}
 
 	&__review-preview {
 		padding: 1rem;
-		background: rgba(0, 0, 0, 0.3);
+		background: var(--input-bg);
 		border-radius: 12px;
-		border-left: 3px solid rgba(255, 107, 107, 0.6);
+		border-left: 3px solid var(--error-color);
 
 		.eyebrow {
 			margin: 0 0 0.5rem;
@@ -778,7 +696,7 @@ watch(
 
 		.review-text {
 			margin: 0;
-			color: rgba(255, 255, 255, 0.85);
+			color: var(--text-color);
 			font-size: 0.95rem;
 			line-height: 1.5;
 		}
@@ -787,21 +705,21 @@ watch(
 	&__textarea {
 		width: 92%;
 		padding: 1rem;
-		background: rgba(0, 0, 0, 0.35);
-		border: 1px solid rgba(255, 255, 255, 0.12);
+		background: var(--input-bg);
+		border: 1px solid var(--input-border);
 		border-radius: 12px;
-		color: #fff;
+		color: var(--text-color);
 		font-size: 1rem;
 		resize: vertical;
 		min-height: 80px;
 
 		&:focus {
 			outline: none;
-			border-color: rgba(255, 107, 107, 0.5);
+			border-color: var(--error-color);
 		}
 
 		&::placeholder {
-			color: rgba(255, 255, 255, 0.4);
+			color: var(--text-color-tertiary);
 		}
 	}
 
@@ -810,19 +728,8 @@ watch(
 		justify-content: flex-end;
 		gap: 0.75rem;
 		padding: 1rem 1.5rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.08);
-		background: rgba(0, 0, 0, 0.2);
-	}
-}
-
-.btn.danger:not(.ghost) {
-	background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-	color: white;
-	border: none;
-
-	&:hover:not(:disabled) {
-		transform: translateY(-1px);
-		box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+		border-top: 1px solid var(--border-color);
+		background: var(--surface-color);
 	}
 }
 </style>

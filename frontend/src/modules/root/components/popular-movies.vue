@@ -24,20 +24,15 @@ const backgroundStyle = computed(() => {
 
 const ratingColor = computed(() => {
 	const currentMovie = movies.value[currentIndex.value];
-	if (!currentMovie) return '#808080';
+	if (!currentMovie) return '#4c566a';
 
-	const rating = currentMovie.vote_average;
-	if (rating < 3) {
-		return '#dc3545';
-	} else if (rating < 5) {
-		return '#ff9800';
-	} else if (rating < 7) {
-		return '#ffc107';
-	} else if (rating < 9) {
-		return '#28a745';
-	} else {
-		return '#17a2b8';
-	}
+	const value = Number(currentMovie.vote_average);
+	if (!Number.isFinite(value)) return '#4c566a';
+	if (value < 4) return '#dc3545';
+	if (value < 6) return '#ff9800';
+	if (value < 8) return '#ffc107';
+	if (value < 9) return '#28a745';
+	return '#17a2b8';
 });
 
 const loadPopular = async () => {
@@ -198,7 +193,7 @@ watch(locale, () => {
 			.details-btn {
 				z-index: 1;
 				margin: 0.5rem 0;
-				background-color: #00bbf9;
+				background: var(--btn-primary-bg);
 				height: 3rem;
 				width: 10rem;
 				border-radius: 15rem;
@@ -208,6 +203,7 @@ watch(locale, () => {
 				font-weight: 700;
 				transition: transform 0.1s ease;
 				pointer-events: auto;
+				box-shadow: var(--btn-primary-bg);
 
 				&:hover {
 					cursor: pointer;

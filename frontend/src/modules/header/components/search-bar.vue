@@ -27,21 +27,11 @@ const showSearchError = computed(() => isOpen.value && !hasResults.value && !loa
 
 const getRatingColor = (rating) => {
 	const value = Number(rating);
-	if (!Number.isFinite(value)) {
-		return '#808080';
-	}
-	if (value < 3) {
-		return '#dc3545';
-	}
-	if (value < 5) {
-		return '#ff9800';
-	}
-	if (value < 7) {
-		return '#ffc107';
-	}
-	if (value < 9) {
-		return '#28a745';
-	}
+	if (!Number.isFinite(value)) return '#4c566a';
+	if (value < 4) return '#dc3545';
+	if (value < 6) return '#ff9800';
+	if (value < 8) return '#ffc107';
+	if (value < 9) return '#28a745';
 	return '#17a2b8';
 };
 
@@ -204,7 +194,7 @@ onBeforeUnmount(() => {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(20, 20, 40, 0.7) 100%);
+	background: var(--modal-backdrop);
 	backdrop-filter: blur(4px);
 	z-index: 5;
 	animation: fadeIn 0.2s ease;
@@ -236,16 +226,16 @@ onBeforeUnmount(() => {
 	.search-input-container {
 		display: flex;
 		align-items: center;
-		background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+		background: var(--surface-color);
 		padding: 0.5rem 1rem;
 		border-radius: 16px;
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-		border: 1px solid rgba(255, 255, 255, 0.3);
+		box-shadow: var(--shadow-md);
+		border: 1px solid var(--border-color);
 		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 		&:focus-within {
-			box-shadow: 0 6px 30px rgba(0, 187, 249, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-			border-color: rgba(0, 187, 249, 0.4);
+			box-shadow: 0 6px 30px var(--accent-shadow);
+			border-color: var(--border-color-focus);
 			transform: translateY(-1px);
 		}
 	}
@@ -253,13 +243,13 @@ onBeforeUnmount(() => {
 	.search-icon {
 		width: 1.4rem;
 		height: 1.4rem;
-		color: #6b7280;
+		color: var(--text-color-secondary);
 		flex-shrink: 0;
 		transition: color 0.2s ease;
 	}
 
 	.search-input-container:focus-within .search-icon {
-		color: #00bbf9;
+		color: var(--accent-color);
 	}
 
 	.search-input {
@@ -271,10 +261,10 @@ onBeforeUnmount(() => {
 		box-shadow: none;
 		font-size: 1rem;
 		font-weight: 500;
-		color: #1f2937;
+		color: var(--text-color);
 
 		&::placeholder {
-			color: #9ca3af;
+			color: var(--text-color-tertiary);
 			font-weight: 400;
 		}
 	}
@@ -291,10 +281,10 @@ onBeforeUnmount(() => {
 		max-height: 70vh;
 		overflow-y: auto;
 		overflow-x: hidden;
-		background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+		background: var(--surface-color);
 		border-radius: 20px;
-		box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15), 0 10px 20px rgba(0, 0, 0, 0.1);
-		border: 1px solid rgba(255, 255, 255, 0.8);
+		box-shadow: var(--shadow-xl);
+		border: 1px solid var(--border-color);
 		z-index: 20;
 		animation: slideDown 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -307,7 +297,7 @@ onBeforeUnmount(() => {
 		}
 
 		&::-webkit-scrollbar-thumb {
-			background: rgba(0, 0, 0, 0.15);
+			background: var(--scrollbar-thumb);
 			border-radius: 3px;
 		}
 	}
@@ -334,7 +324,7 @@ onBeforeUnmount(() => {
 		padding: 0.75rem 0;
 
 		&:not(:last-child) {
-			border-right: 1px solid rgba(0, 0, 0, 0.06);
+			border-right: 1px solid var(--border-color-light);
 		}
 	}
 
@@ -347,7 +337,7 @@ onBeforeUnmount(() => {
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
-		color: #6b7280;
+		color: var(--text-color-secondary);
 
 		svg {
 			width: 1rem;
@@ -357,18 +347,18 @@ onBeforeUnmount(() => {
 	}
 
 	.content-column .column-header {
-		color: #00bbf9;
+		color: var(--accent-color);
 
 		svg {
-			stroke: #00bbf9;
+			stroke: var(--accent-color);
 		}
 	}
 
 	.actors-column .column-header {
-		color: #f472b6;
+		color: var(--secondary-accent);
 
 		svg {
-			stroke: #f472b6;
+			stroke: var(--secondary-accent);
 		}
 	}
 
@@ -388,7 +378,7 @@ onBeforeUnmount(() => {
 		margin: 0;
 
 		&:hover {
-			background: linear-gradient(90deg, rgba(0, 187, 249, 0.08) 0%, rgba(0, 187, 249, 0.02) 100%);
+			background: var(--accent-color-light);
 		}
 	}
 
@@ -399,7 +389,7 @@ onBeforeUnmount(() => {
 			object-fit: cover;
 			border-radius: 6px;
 			flex-shrink: 0;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+			box-shadow: var(--shadow-sm);
 		}
 
 		.item-info {
@@ -414,7 +404,7 @@ onBeforeUnmount(() => {
 			margin: 0;
 			font-size: 0.9rem;
 			font-weight: 600;
-			color: #1f2937;
+			color: var(--text-color);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -422,7 +412,7 @@ onBeforeUnmount(() => {
 
 		.item-original {
 			font-size: 0.75rem;
-			color: #6b7280;
+			color: var(--text-color-secondary);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -437,14 +427,14 @@ onBeforeUnmount(() => {
 			border-radius: 20px;
 			font-size: 0.7rem;
 			font-weight: 700;
-			color: #ffffff;
+			color: var(--text-color-inverted);
 			margin-top: 0.2rem;
 		}
 	}
 
 	.actor-item {
 		&:hover {
-			background: linear-gradient(90deg, rgba(244, 114, 182, 0.08) 0%, rgba(244, 114, 182, 0.02) 100%);
+			background: var(--secondary-accent-light);
 		}
 
 		.actor-photo {
@@ -453,8 +443,8 @@ onBeforeUnmount(() => {
 			object-fit: cover;
 			border-radius: 50%;
 			flex-shrink: 0;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-			border: 2px solid #fff;
+			box-shadow: var(--shadow-sm);
+			border: 2px solid var(--surface-color);
 		}
 
 		.actor-info {
@@ -469,12 +459,12 @@ onBeforeUnmount(() => {
 			margin: 0;
 			font-size: 0.9rem;
 			font-weight: 600;
-			color: #1f2937;
+			color: var(--text-color);
 		}
 
 		.actor-locale-name {
 			font-size: 0.75rem;
-			color: #6b7280;
+			color: var(--text-color-secondary);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -499,25 +489,25 @@ onBeforeUnmount(() => {
 		width: 32px;
 		height: 32px;
 		border-radius: 50%;
-		border: 3px solid rgba(0, 187, 249, 0.15);
-		border-top-color: #00bbf9;
+		border: 3px solid var(--spinner-color);
+		border-top-color: var(--spinner-accent);
 		animation: spin 0.8s linear infinite;
 	}
 
 	.loading-text {
 		font-size: 0.9rem;
-		color: #6b7280;
+		color: var(--text-color-secondary);
 		font-weight: 500;
 	}
 
 	.error-icon {
 		width: 40px;
 		height: 40px;
-		color: #9ca3af;
+		color: var(--text-color-tertiary);
 	}
 
 	.search-error {
-		color: #6b7280;
+		color: var(--text-color-secondary);
 		font-size: 0.95rem;
 		font-weight: 500;
 	}
@@ -549,7 +539,7 @@ onBeforeUnmount(() => {
 
 			&:not(:last-child) {
 				border-right: none;
-				border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+				border-bottom: 1px solid var(--border-color-light);
 			}
 		}
 	}

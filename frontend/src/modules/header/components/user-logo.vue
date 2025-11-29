@@ -89,14 +89,14 @@ onBeforeUnmount(() => {
 					<span class="switch-label" :class="{ active: isDark === true }">🌙</span>
 					<div class="switch-thumb"></div>
 				</div>
-				<router-link v-if="isAuthenticated" to="/user-profile" class="login-btn" @click="isOpen = false">
+				<router-link v-if="isAuthenticated" to="/user-profile" class="menu-btn" @click="isOpen = false">
 					{{ t('header.profile') }}
 				</router-link>
-				<router-link v-if="isAdmin" to="/admin" class="login-btn admin-btn" @click="isOpen = false">
+				<router-link v-if="isAdmin" to="/admin" class="menu-btn admin-btn" @click="isOpen = false">
 					{{ t('header.adminPanel') }}
 				</router-link>
-				<div v-if="isAuthenticated" class="login-btn" @click="handleLogOut">{{ t('userProfile.ctaLogout') }}</div>
-				<router-link v-else to="/authorization" class="login-btn" @click="isOpen = false">{{
+				<div v-if="isAuthenticated" class="menu-btn" @click="handleLogOut">{{ t('userProfile.ctaLogout') }}</div>
+				<router-link v-else to="/authorization" class="menu-btn" @click="isOpen = false">{{
 					t('auth.signIn')
 				}}</router-link>
 			</div>
@@ -126,15 +126,16 @@ onBeforeUnmount(() => {
 	}
 
 	.user-menu {
-		background: var(--header-color);
+		background: var(--card-bg);
 		position: absolute;
 		top: calc(100% + 25px);
 		right: 0;
 		z-index: 20;
-		border-radius: 12px;
-		padding: 10px 14px;
-		backdrop-filter: blur(8px);
-		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 16px;
+		padding: 12px 16px;
+		backdrop-filter: blur(12px);
+		border: 1px solid var(--border-color);
+		box-shadow: var(--card-shadow);
 
 		.controllers {
 			display: flex;
@@ -151,8 +152,8 @@ onBeforeUnmount(() => {
 				min-width: 110px;
 				height: 32px;
 				border-radius: 999px;
-				background: rgba(255, 255, 255, 0.18);
-				box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+				background: var(--surface-color-hover);
+				box-shadow: 0 0 0 1px var(--border-color);
 				font-size: 0.8rem;
 				cursor: pointer;
 				user-select: none;
@@ -164,11 +165,11 @@ onBeforeUnmount(() => {
 				flex: 1;
 				text-align: center;
 				font-weight: 500;
-				color: rgba(255, 255, 255, 0.7);
+				color: var(--text-color-secondary);
 			}
 
 			.switch-label.active {
-				color: #000;
+				color: var(--text-color-inverted);
 				font-weight: 600;
 			}
 
@@ -179,8 +180,8 @@ onBeforeUnmount(() => {
 				left: 2px;
 				width: calc(50% - 2px);
 				border-radius: 999px;
-				background: #ffffff;
-				box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+				background: var(--accent-gradient);
+				box-shadow: var(--shadow-sm);
 				transition: transform 0.25s ease;
 			}
 
@@ -192,31 +193,31 @@ onBeforeUnmount(() => {
 				transform: translateX(100%);
 			}
 
-			.login-btn {
+			.menu-btn {
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				min-width: 110px;
-				height: 32px;
-				background: rgb(255, 255, 255);
-				box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
-				color: #000;
-				font-size: 1rem;
+				height: 36px;
+				background: var(--btn-primary-bg);
+				box-shadow: var(--btn-primary-shadow);
+				color: white;
+				font-size: 0.95rem;
 				font-weight: 600;
 				text-decoration: none;
 				cursor: pointer;
-				border-radius: 999px;
-				transition: transform 0.1s ease;
+				border-radius: 12px;
+				transition: transform 0.15s ease, box-shadow 0.2s ease;
 
 				&:hover {
 					cursor: pointer;
-					transform: scale(1.03);
+					transform: translateY(-2px);
 				}
 
 				&.admin-btn {
-					background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-					color: #fff;
-					box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+					background: var(--btn-danger-bg);
+					color: var(--btn-danger-text);
+					box-shadow: var(--btn-danger-shadow);
 				}
 			}
 		}

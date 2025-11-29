@@ -20,7 +20,27 @@ const user = computed(() => store.state.session.user);
 const initials = computed(() => store.getters.userInitials || 'U');
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
 
-const canCreateList = computed(() => lists.value.length < 5);
+const canCreateList = computed(() => lists.value.length < 4);
+
+const getLocalizedListTitle = (title) => {
+	if (!title) return title;
+
+	const normalizedTitle = title.trim();
+
+	switch (normalizedTitle) {
+		case 'Favorites':
+		case 'Обране':
+			return t('userProfile.lists.names.favorites');
+		case 'Watched':
+		case 'Переглянуто':
+			return t('userProfile.lists.names.watched');
+		case 'Watchlist':
+		case 'Хочу подивитися':
+			return t('userProfile.lists.names.watchlist');
+		default:
+			return title;
+	}
+};
 
 watch(
 	user,
@@ -81,7 +101,7 @@ const handleCreateList = async () => {
 		return;
 	}
 
-	if (lists.value.length > 4) {
+	if (lists.value.length > 3) {
 		createListError.value = t('userProfile.lists.create.tooMany');
 		return;
 	}
@@ -97,7 +117,7 @@ const handleCreateList = async () => {
 		isCreatingList.value = true;
 		const response = await actions.createUserList({
 			user_id: user.value.id,
-			title
+			list_title: title
 		});
 
 		if (response?.error) {
@@ -156,7 +176,7 @@ onMounted(() => {
 								:placeholder="t('userProfile.lists.create.placeholder')"
 								:disabled="isCreatingList"
 							/>
-							<button class="btn list" type="button" :disabled="isCreatingList" @click="handleCreateList">
+							<button class="btn primary" type="button" :disabled="isCreatingList" @click="handleCreateList">
 								{{ isCreatingList ? t('userProfile.lists.create.creating') : t('userProfile.lists.create.button') }}
 							</button>
 						</div>
@@ -169,13 +189,13 @@ onMounted(() => {
 			<div class="user-lists">
 				<p class="eyebrow">{{ t('userProfile.lists.title') }}</p>
 				<div v-for="item in lists" :key="item.id" class="list-card">
-					<div class="list-icon">{{ item.title }}</div>
+					<div class="list-icon">{{ getLocalizedListTitle(item.title) }}</div>
 					<div class="buttons">
-						<button class="btn list" @click="handleListClick(item.id)">
+						<button class="btn primary" @click="handleListClick(item.id)">
 							{{ t('userProfile.lists.open') }}
 						</button>
-						<button class="btn delete" :disabled="deletingId === item.id" @click="handleDeleteClick(item.id)">
-							<span v-if="deletingId !== item.id">Delete list</span>
+						<button class="btn danger" :disabled="deletingId === item.id" @click="handleDeleteClick(item.id)">
+							<span v-if="deletingId !== item.id">{{ t('userProfile.lists.delete') || 'Delete' }}</span>
 							<span v-else class="btn__spinner" aria-hidden="true" />
 						</button>
 					</div>
@@ -204,7 +224,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .user-profile {
-	min-height: calc(100vh - 180px);
 	padding: 3rem 1.5rem 4rem;
 	color: var(--text-color);
 	display: flex;
@@ -212,7 +231,7 @@ onMounted(() => {
 
 	.card {
 		display: flex;
-		flex-wrap: wrap;
+		max-height: 80dvh;
 		gap: 1.25rem;
 		flex-direction: row;
 		width: 100%;
@@ -220,12 +239,12 @@ onMounted(() => {
 
 		.user-info {
 			display: flex;
-			background: var(--header-color);
-			border: 1px solid rgba(255, 255, 255, 0.08);
+			background: var(--card-bg);
+			border: 1px solid var(--card-border);
 			padding: 1.75rem;
 			border-radius: 24px;
 			backdrop-filter: blur(12px);
-			box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+			box-shadow: var(--card-shadow);
 			min-width: 320px;
 			gap: 1rem;
 
@@ -234,14 +253,14 @@ onMounted(() => {
 				height: 74px;
 				margin: 1rem;
 				border-radius: 18px;
-				background: linear-gradient(135deg, #00bbf9, #4cb1ff);
+				background: var(--accent-gradient);
 				display: grid;
 				place-items: center;
-				color: #0a0c10;
+				color: var(--btn-primary-text);
 				font-weight: 800;
 				font-size: 1.5rem;
 				text-transform: uppercase;
-				box-shadow: 0 12px 30px rgba(0, 187, 249, 0.35);
+				box-shadow: var(--btn-primary-shadow);
 			}
 		}
 
@@ -253,34 +272,25 @@ onMounted(() => {
 			h1 {
 				margin: 0;
 				font-size: clamp(1.8rem, 4vw, 2.4rem);
+				color: var(--text-color);
 			}
 			.subtitle {
 				margin: 0;
-				color: rgba(255, 255, 255, 0.8);
+				color: var(--text-color-secondary);
 			}
 		}
-	}
-
-	.card-body {
-		background: rgba(255, 255, 255, 0.05);
-		border: var(--user-profile-border);
-		border-radius: 18px;
-		padding: 1.25rem;
-		min-height: 220px;
-		display: grid;
-		align-items: start;
 	}
 }
 
 .list-card {
 	position: relative;
 	padding: 1rem;
-	width: 15rem;
+	width: 20rem;
 	border-radius: 16px;
-	background: linear-gradient(150deg, rgba(250, 250, 250, 0.068), rgba(155, 155, 155, 0.226));
+	background: var(--surface-color);
 	backdrop-filter: blur(10px);
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+	border: 1px solid var(--border-color);
+	box-shadow: var(--shadow-md);
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
@@ -292,11 +302,11 @@ onMounted(() => {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background: linear-gradient(150deg, rgb(21, 99, 112), rgba(4, 67, 70, 0.664));
-		color: #fff;
+		background: var(--accent-gradient);
+		color: var(--btn-primary-text);
 		font-weight: 800;
 		font-size: 1.1rem;
-		box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+		box-shadow: var(--shadow-sm);
 	}
 }
 
@@ -312,22 +322,22 @@ onMounted(() => {
 	padding: 0.35rem 0.75rem;
 	border-radius: 12px;
 	font-weight: 700;
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid var(--border-color);
+	background: var(--surface-color);
 
 	&.success {
-		color: #0a2012;
-		background: linear-gradient(135deg, #34e89e, #0acffe);
+		color: var(--btn-success-text);
+		background: var(--btn-success-bg);
 		border-color: transparent;
 	}
 	&.warning {
-		color: #2e1605;
-		background: linear-gradient(135deg, #ffd89b, #f8b500);
+		color: var(--btn-warning-text);
+		background: var(--btn-warning-bg);
 		border-color: transparent;
 	}
 	&.muted {
-		color: rgba(255, 255, 255, 0.8);
-		background: rgba(255, 255, 255, 0.05);
+		color: var(--text-color-secondary);
+		background: var(--surface-color);
 	}
 }
 
@@ -341,94 +351,16 @@ onMounted(() => {
 .buttons {
 	display: flex;
 	justify-content: center;
-	gap: 2.5rem;
-}
-
-.btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	border: none;
-	border-radius: 12px;
-	padding: 0.85rem 1.2rem;
-	font-weight: 700;
-	cursor: pointer;
-	color: #0a0c10;
-	transition: transform 0.12s ease, box-shadow 0.18s ease, background-color 0.2s ease;
-
-	&.primary {
-		background: linear-gradient(135deg, #00bbf9, #4cb1ff);
-		box-shadow: 0 12px 30px rgba(0, 187, 249, 0.35);
-	}
-	&.ghost {
-		background: transparent;
-		color: var(--text-color);
-		border: 1px solid rgba(255, 255, 255, 0.16);
-	}
-
-	&.list {
-		background: linear-gradient(135deg, #00bbf9, #4cb1ff);
-		box-shadow: 0 12px 30px rgba(0, 187, 249, 0.35);
-	}
-	&.delete {
-		background: linear-gradient(135deg, #f90000, #ff614c);
-		box-shadow: 0 12px 30px rgba(249, 50, 0, 0.35);
-	}
-	&:hover {
-		transform: translateY(-1px);
-	}
-	&:disabled {
-		opacity: 0.65;
-		cursor: not-allowed;
-		transform: none;
-	}
+	gap: 0.75rem;
 }
 
 .btn__spinner {
 	width: 18px;
 	height: 18px;
 	border-radius: 50%;
-	border: 2px solid rgba(255, 255, 255, 0.6);
-	border-top-color: #0a0c10;
+	border: 2px solid var(--spinner-color);
+	border-top-color: var(--btn-primary-text);
 	animation: spin 0.8s linear infinite;
-}
-
-.eyebrow {
-	margin: 0;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	font-size: 0.82rem;
-	font-weight: 800;
-	color: var(--link-color);
-}
-
-.empty-state {
-	display: flex;
-	justify-content: center;
-	width: 100%;
-
-	.empty-card {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		text-align: center;
-		gap: 0.75rem;
-		padding: 2rem;
-		border-radius: 24px;
-		background: var(--header-color);
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		width: min(560px, 100%);
-		box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32);
-
-		h2 {
-			margin: 0;
-			font-size: clamp(1.6rem, 4vw, 2rem);
-		}
-		.subtitle {
-			margin: 0;
-			color: rgba(255, 255, 255, 0.8);
-		}
-	}
 }
 
 .user-lists {
@@ -437,17 +369,17 @@ onMounted(() => {
 	align-items: center;
 	gap: 1rem;
 	margin: 0;
-	background: var(--header-color);
-	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: var(--card-bg);
+	border: 1px solid var(--card-border);
 	padding: 1.75rem;
 	border-radius: 24px;
 	backdrop-filter: blur(12px);
-	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+	box-shadow: var(--card-shadow);
 }
 
 .create-list {
 	width: 100%;
-	height: 100%;
+	margin-top: 19rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: end;
@@ -463,9 +395,13 @@ onMounted(() => {
 			min-width: 200px;
 			padding: 0.85rem 1rem;
 			border-radius: 12px;
-			border: 1px solid rgba(255, 255, 255, 0.2);
-			background: rgba(0, 0, 0, 0.2);
+			border: 1px solid var(--border-color);
+			background: var(--input-bg);
 			color: var(--text-color);
+
+			&::placeholder {
+				color: var(--text-color-tertiary);
+			}
 		}
 	}
 }
@@ -473,12 +409,42 @@ onMounted(() => {
 .form-error {
 	width: 100%;
 	margin: 0;
-	color: #ff8a8a;
+	color: var(--error-color);
 	font-size: 0.85rem;
 }
 
 .subtitle.muted {
-	color: rgba(255, 255, 255, 0.7);
+	color: var(--text-color-secondary);
+}
+
+.empty-state {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+
+	.empty-card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 0.75rem;
+		padding: 2rem;
+		border-radius: 24px;
+		background: var(--card-bg);
+		border: 1px solid var(--border-color);
+		width: min(560px, 100%);
+		box-shadow: var(--shadow-lg);
+
+		h2 {
+			margin: 0;
+			font-size: clamp(1.6rem, 4vw, 2rem);
+			color: var(--text-color);
+		}
+		.subtitle {
+			margin: 0;
+			color: var(--text-color-secondary);
+		}
+	}
 }
 
 @keyframes spin {

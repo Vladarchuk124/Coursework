@@ -185,6 +185,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .admin-page {
 	padding: 2rem;
+	color: var(--text-color);
 
 	&__container {
 		max-width: 1000px;
@@ -204,8 +205,8 @@ onMounted(() => {
 		.badge {
 			display: inline-block;
 			padding: 0.35rem 0.8rem;
-			background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-			color: white;
+			background: var(--btn-danger-bg);
+			color: var(--btn-danger-text);
 			font-size: 0.75rem;
 			font-weight: 700;
 			text-transform: uppercase;
@@ -217,7 +218,7 @@ onMounted(() => {
 		h1 {
 			margin: 0 0 0.5rem;
 			font-size: 2.2rem;
-			background: linear-gradient(135deg, #fff, #a0aec0);
+			background: var(--accent-gradient);
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
 			background-clip: text;
@@ -225,7 +226,7 @@ onMounted(() => {
 
 		.subtitle {
 			margin: 0;
-			color: rgba(255, 255, 255, 0.6);
+			color: var(--text-color-secondary);
 			font-size: 1rem;
 		}
 	}
@@ -236,19 +237,19 @@ onMounted(() => {
 			flex-direction: column;
 			align-items: center;
 			padding: 1rem 1.5rem;
-			background: rgba(255, 107, 107, 0.1);
-			border: 1px solid rgba(255, 107, 107, 0.3);
+			background: var(--error-bg);
+			border: 1px solid var(--error-border);
 			border-radius: 16px;
 
 			.stat-value {
 				font-size: 2rem;
 				font-weight: 700;
-				color: #ff6b6b;
+				color: var(--error-color);
 			}
 
 			.stat-label {
 				font-size: 0.85rem;
-				color: rgba(255, 255, 255, 0.7);
+				color: var(--text-color-secondary);
 			}
 		}
 	}
@@ -260,24 +261,24 @@ onMounted(() => {
 	justify-content: center;
 	gap: 1rem;
 	padding: 3rem;
-	color: rgba(255, 255, 255, 0.8);
+	color: var(--text-color-secondary);
 
 	&__spinner {
 		width: 24px;
 		height: 24px;
 		border-radius: 50%;
-		border: 3px solid rgba(255, 255, 255, 0.2);
-		border-top-color: #ff6b6b;
+		border: 3px solid var(--spinner-color);
+		border-top-color: var(--error-color);
 		animation: spin 1s linear infinite;
 	}
 }
 
 .error-message {
 	padding: 1.5rem;
-	background: rgba(255, 107, 107, 0.1);
-	border: 1px solid rgba(255, 107, 107, 0.3);
+	background: var(--error-bg);
+	border: 1px solid var(--error-border);
 	border-radius: 12px;
-	color: #ff6b6b;
+	color: var(--error-color);
 	text-align: center;
 }
 
@@ -295,22 +296,22 @@ onMounted(() => {
 		align-items: center;
 		justify-content: center;
 		font-size: 2.5rem;
-		background: linear-gradient(135deg, rgba(72, 187, 120, 0.2), rgba(72, 187, 120, 0.1));
-		border: 2px solid rgba(72, 187, 120, 0.4);
+		background: var(--success-bg);
+		border: 2px solid var(--success-border);
 		border-radius: 50%;
 		margin-bottom: 1.5rem;
-		color: #48bb78;
+		color: var(--success-color);
 	}
 
 	h3 {
 		margin: 0 0 0.5rem;
-		color: #fff;
+		color: var(--text-color);
 		font-size: 1.4rem;
 	}
 
 	p {
 		margin: 0;
-		color: rgba(255, 255, 255, 0.6);
+		color: var(--text-color-secondary);
 	}
 }
 
@@ -322,8 +323,8 @@ onMounted(() => {
 
 .report-card {
 	padding: 1.5rem;
-	background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
-	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: var(--surface-color);
+	border: 1px solid var(--border-color);
 	border-radius: 20px;
 	display: flex;
 	flex-direction: column;
@@ -338,7 +339,7 @@ onMounted(() => {
 		left: 0;
 		right: 0;
 		height: 3px;
-		background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+		background: var(--btn-danger-bg);
 	}
 
 	&__header {
@@ -362,25 +363,25 @@ onMounted(() => {
 
 			.user-label {
 				font-size: 0.75rem;
-				color: rgba(255, 255, 255, 0.5);
+				color: var(--text-color-secondary);
 				text-transform: uppercase;
 				letter-spacing: 0.05em;
 			}
 
 			.user-name {
-				color: #fff;
+				color: var(--text-color);
 				font-weight: 600;
 
 				&.blocked {
-					color: #ff6b6b;
+					color: var(--error-color);
 				}
 
 				.blocked-badge {
 					display: inline-block;
 					margin-left: 0.5rem;
 					padding: 0.15rem 0.5rem;
-					background: rgba(255, 107, 107, 0.2);
-					border: 1px solid rgba(255, 107, 107, 0.4);
+					background: var(--error-bg);
+					border: 1px solid var(--error-border);
 					border-radius: 10px;
 					font-size: 0.7rem;
 					font-weight: 700;
@@ -390,21 +391,21 @@ onMounted(() => {
 		}
 
 		.arrow {
-			color: rgba(255, 255, 255, 0.4);
+			color: var(--text-color-tertiary);
 			font-size: 1.2rem;
 		}
 	}
 
 	&__date {
 		font-size: 0.85rem;
-		color: rgba(255, 255, 255, 0.5);
+		color: var(--text-color-secondary);
 	}
 
 	&__reason {
 		.reason-label {
 			display: block;
 			font-size: 0.75rem;
-			color: rgba(255, 255, 255, 0.5);
+			color: var(--text-color-secondary);
 			text-transform: uppercase;
 			letter-spacing: 0.05em;
 			margin-bottom: 0.4rem;
@@ -413,10 +414,10 @@ onMounted(() => {
 		.reason-text {
 			margin: 0;
 			padding: 0.75rem 1rem;
-			background: rgba(255, 107, 107, 0.08);
-			border-left: 3px solid #ff6b6b;
+			background: var(--error-bg);
+			border-left: 3px solid var(--error-color);
 			border-radius: 0 8px 8px 0;
-			color: rgba(255, 255, 255, 0.9);
+			color: var(--text-color);
 			font-style: italic;
 		}
 	}
@@ -425,7 +426,7 @@ onMounted(() => {
 		.review-label {
 			display: block;
 			font-size: 0.75rem;
-			color: rgba(255, 255, 255, 0.5);
+			color: var(--text-color-secondary);
 			text-transform: uppercase;
 			letter-spacing: 0.05em;
 			margin-bottom: 0.4rem;
@@ -434,9 +435,9 @@ onMounted(() => {
 		.review-text {
 			margin: 0 0 0.75rem;
 			padding: 0.75rem 1rem;
-			background: rgba(0, 0, 0, 0.3);
+			background: var(--input-bg);
 			border-radius: 8px;
-			color: rgba(255, 255, 255, 0.85);
+			color: var(--text-color);
 			line-height: 1.5;
 			white-space: pre-wrap;
 			word-break: break-word;
@@ -448,74 +449,7 @@ onMounted(() => {
 		gap: 0.75rem;
 		flex-wrap: wrap;
 		padding-top: 0.5rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.08);
-	}
-}
-
-.btn {
-	border: none;
-	border-radius: 10px;
-	padding: 0.6rem 1rem;
-	font-weight: 600;
-	font-size: 0.9rem;
-	cursor: pointer;
-	transition: all 0.2s ease;
-
-	&.danger {
-		background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-		color: white;
-
-		&:hover:not(:disabled) {
-			transform: translateY(-1px);
-			box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-		}
-	}
-
-	&.warning {
-		background: linear-gradient(135deg, #f6ad55, #ed8936);
-		color: #1a1a2e;
-
-		&:hover:not(:disabled) {
-			transform: translateY(-1px);
-			box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4);
-		}
-	}
-
-	&.success {
-		background: linear-gradient(135deg, #48bb78, #38a169);
-		color: white;
-
-		&:hover:not(:disabled) {
-			transform: translateY(-1px);
-			box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
-		}
-	}
-
-	&.ghost {
-		background: transparent;
-		color: rgba(255, 255, 255, 0.7);
-		border: 1px solid rgba(255, 255, 255, 0.2);
-
-		&:hover:not(:disabled) {
-			background: rgba(255, 255, 255, 0.05);
-			border-color: rgba(255, 255, 255, 0.3);
-		}
-	}
-
-	&.link {
-		background: transparent;
-		color: #00bbf9;
-		padding: 0;
-
-		&:hover {
-			text-decoration: underline;
-		}
-	}
-
-	&:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-		transform: none !important;
+		border-top: 1px solid var(--border-color);
 	}
 }
 

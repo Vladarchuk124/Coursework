@@ -36,10 +36,10 @@ const isActive = (path) => route.path === path;
 <style lang="scss" scoped>
 .nav-bar {
 	position: relative;
-	background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.2) 100%);
+	background: var(--nav-bg);
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	border-bottom: 1px solid var(--nav-border);
 	padding: 0;
 	overflow: hidden;
 
@@ -50,14 +50,7 @@ const isActive = (path) => route.path === path;
 		left: 0;
 		right: 0;
 		height: 1px;
-		background: linear-gradient(
-			90deg,
-			transparent 0%,
-			rgba(0, 187, 249, 0.5) 20%,
-			rgba(0, 187, 249, 0.8) 50%,
-			rgba(0, 187, 249, 0.5) 80%,
-			transparent 100%
-		);
+		background: var(--nav-accent-line);
 	}
 }
 
@@ -77,7 +70,7 @@ const isActive = (path) => route.path === path;
 	align-items: center;
 	padding: 0.75rem 1.75rem;
 	text-decoration: none;
-	color: rgba(255, 255, 255, 0.7);
+	color: var(--nav-item-color);
 	font-family: 'Montserrat', sans-serif;
 	font-weight: 500;
 	font-size: 0.95rem;
@@ -90,7 +83,7 @@ const isActive = (path) => route.path === path;
 		content: '';
 		position: absolute;
 		inset: 0;
-		background: linear-gradient(135deg, rgba(0, 187, 249, 0.1) 0%, rgba(0, 187, 249, 0.05) 100%);
+		background: var(--accent-color-light);
 		opacity: 0;
 		transition: opacity 0.3s ease;
 		border-radius: 10px;
@@ -107,14 +100,14 @@ const isActive = (path) => route.path === path;
 		left: 50%;
 		width: 0;
 		height: 2px;
-		background: linear-gradient(90deg, transparent 0%, #00bbf9 50%, transparent 100%);
+		background: linear-gradient(90deg, transparent 0%, var(--accent-color) 50%, transparent 100%);
 		transform: translateX(-50%);
 		transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 		border-radius: 2px;
 	}
 
 	&:hover {
-		color: #ffffff;
+		color: var(--nav-item-hover);
 
 		&::before {
 			opacity: 1;
@@ -126,66 +119,14 @@ const isActive = (path) => route.path === path;
 	}
 
 	&.active {
-		color: #00bbf9;
-		background: linear-gradient(135deg, rgba(0, 187, 249, 0.15) 0%, rgba(0, 187, 249, 0.08) 100%);
-		box-shadow: 0 0 20px rgba(0, 187, 249, 0.2), inset 0 0 20px rgba(0, 187, 249, 0.05);
+		color: var(--nav-item-active);
+		background: var(--accent-color-light);
+		box-shadow: 0 0 20px var(--accent-shadow), inset 0 0 20px rgba(var(--accent-color), 0.05);
 
 		.nav-underline {
 			width: 80%;
-			background: linear-gradient(90deg, transparent 0%, #00bbf9 20%, #00bbf9 80%, transparent 100%);
-			box-shadow: 0 0 10px rgba(0, 187, 249, 0.6);
-		}
-	}
-}
-
-/* Light theme */
-:root[data-theme='light'] {
-	.nav-bar {
-		background: linear-gradient(
-			180deg,
-			rgba(255, 255, 255, 0.9) 0%,
-			rgba(255, 255, 255, 0.7) 50%,
-			rgba(255, 255, 255, 0.5) 100%
-		);
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-
-		&::before {
-			background: linear-gradient(
-				90deg,
-				transparent 0%,
-				rgba(30, 136, 229, 0.4) 20%,
-				rgba(30, 136, 229, 0.7) 50%,
-				rgba(30, 136, 229, 0.4) 80%,
-				transparent 100%
-			);
-		}
-	}
-
-	.nav-item {
-		color: rgba(0, 0, 0, 0.6);
-
-		&::before {
-			background: linear-gradient(135deg, rgba(30, 136, 229, 0.15) 0%, rgba(30, 136, 229, 0.08) 100%);
-		}
-
-		.nav-underline {
-			background: linear-gradient(90deg, transparent 0%, #1e88e5 50%, transparent 100%);
-		}
-
-		&:hover {
-			color: #1565c0;
-		}
-
-		&.active {
-			color: #1e88e5;
-			background: linear-gradient(135deg, rgba(30, 136, 229, 0.2) 0%, rgba(30, 136, 229, 0.1) 100%);
-			box-shadow: 0 0 20px rgba(30, 136, 229, 0.15), inset 0 0 20px rgba(30, 136, 229, 0.05);
-
-			.nav-underline {
-				background: linear-gradient(90deg, transparent 0%, #1e88e5 20%, #1e88e5 80%, transparent 100%);
-				box-shadow: 0 0 10px rgba(30, 136, 229, 0.4);
-			}
+			background: linear-gradient(90deg, transparent 0%, var(--accent-color) 20%, var(--accent-color) 80%, transparent 100%);
+			box-shadow: 0 0 10px var(--accent-shadow);
 		}
 	}
 }

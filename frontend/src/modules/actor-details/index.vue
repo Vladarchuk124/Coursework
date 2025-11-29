@@ -208,7 +208,7 @@ onUnmounted(() => {
 					>
 						<div class="card-poster">
 							<img :src="`${IMAGE_BASE}/w342${item.poster_path}`" :alt="item.title || item.name" loading="lazy" />
-							<span class="media-type-badge">
+							<span class="media-type-badge" :class="{ show: item.media_type === 'tv' }">
 								{{ item.media_type === 'tv' ? t('content.show') : t('content.movie') }}
 							</span>
 							<span class="rating-badge" :style="{ backgroundColor: getRatingColor(item.vote_average) }">
@@ -245,7 +245,7 @@ onUnmounted(() => {
 	position: relative;
 	min-height: 100vh;
 	padding: 4rem 2rem;
-	color: #f4f4f4;
+	color: var(--text-color);
 	overflow: hidden;
 
 	.loader {
@@ -262,13 +262,13 @@ onUnmounted(() => {
 			width: 48px;
 			height: 48px;
 			border-radius: 50%;
-			border-top-color: #f472b6;
+			border-top-color: var(--actor-details-loader-spinner-border-top);
 			animation: spin 1s linear infinite;
 			border: 4px solid var(--spinner-color);
 		}
 
 		&--error {
-			color: #ff6b6b;
+			color: var(--loader-error-color);
 		}
 	}
 
@@ -287,20 +287,20 @@ onUnmounted(() => {
 	display: flex;
 	gap: 2.5rem;
 	align-items: flex-start;
-	background: var(--header-color);
+	background: var(--actor-details-head-info-bg);
 	backdrop-filter: blur(12px);
-	border: 1px solid rgba(255, 255, 255, 0.08);
+	border: 1px solid var(--actor-details-head-info-border);
 	border-radius: 24px;
 	padding: 2rem;
-	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+	box-shadow: var(--actor-details-head-info-shadow);
 }
 
 .profile-photo {
 	flex: 0 0 260px;
 	border-radius: 20px;
 	overflow: hidden;
-	background: rgba(255, 255, 255, 0.02);
-	box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+	background: var(--actor-details-profile-photo-bg);
+	box-shadow: var(--actor-details-profile-photo-shadow);
 	aspect-ratio: 2/3;
 
 	img {
@@ -316,12 +316,12 @@ onUnmounted(() => {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: linear-gradient(135deg, #2a2a3e 0%, #1a1a2e 100%);
+		background: var(--actor-details-no-photo-bg);
 
 		svg {
 			width: 40%;
 			height: 40%;
-			color: rgba(255, 255, 255, 0.2);
+			color: var(--actor-details-no-photo-svg-color);
 		}
 	}
 }
@@ -336,9 +336,9 @@ onUnmounted(() => {
 .actor-name {
 	font-size: clamp(2rem, 4vw, 3rem);
 	margin: 0;
-	color: #ffffff;
+	color: var(--actor-details-actor-name-color);
 	font-weight: 700;
-	background: linear-gradient(135deg, #ffffff 0%, #f472b6 100%);
+	background: var(--actor-details-actor-name-gradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
@@ -355,20 +355,21 @@ onUnmounted(() => {
 	align-items: center;
 	gap: 0.4rem;
 	padding: 0.5rem 1rem;
-	background: rgba(255, 255, 255, 0.1);
+	background: var(--actor-details-meta-item-bg);
 	border-radius: 25px;
 	font-size: 0.9rem;
-	color: rgba(255, 255, 255, 0.85);
+	color: var(--actor-details-meta-item-color);
 
 	svg {
 		width: 1rem;
 		height: 1rem;
 		opacity: 0.7;
+		color: var(--actor-details-meta-item-svg-color);
 	}
 
 	&.death {
-		background: rgba(239, 68, 68, 0.15);
-		color: #fca5a5;
+		background: var(--actor-details-meta-item-death-bg);
+		color: var(--actor-details-meta-item-death-color);
 	}
 }
 
@@ -378,16 +379,16 @@ onUnmounted(() => {
 	h2 {
 		font-size: 1.3rem;
 		margin: 0 0 0.8rem 0;
-		color: rgba(255, 255, 255, 0.9);
+		color: var(--actor-details-biography-h2-color);
 	}
 
 	p {
 		line-height: 1.8;
-		color: rgba(255, 255, 255, 0.75);
+		color: var(--actor-details-biography-p-color);
 		margin-bottom: 1rem;
 
 		&.no-data {
-			color: rgba(255, 255, 255, 0.5);
+			color: var(--actor-details-biography-no-data-color);
 			font-style: italic;
 		}
 	}
@@ -397,7 +398,7 @@ onUnmounted(() => {
 	h2 {
 		font-size: 1.5rem;
 		margin: 0 0 1.5rem 0;
-		color: #ffffff;
+		color: var(--actor-details-filmography-h2-color);
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -406,7 +407,7 @@ onUnmounted(() => {
 			content: '';
 			width: 4px;
 			height: 1.5rem;
-			background: linear-gradient(180deg, #f472b6 0%, #00bbf9 100%);
+			background: var(--actor-details-filmography-h2-before-bg);
 			border-radius: 2px;
 		}
 	}
@@ -422,15 +423,16 @@ onUnmounted(() => {
 	cursor: pointer;
 	border-radius: 16px;
 	overflow: hidden;
-	background: var(--header-color);
-	border: 1px solid rgba(255, 255, 255, 0.06);
+	background: var(--actor-details-credit-card-bg);
+	border: 1px solid var(--actor-details-credit-card-border);
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+	box-shadow: var(--actor-details-credit-card-shadow);
+	border: 1px solid rgba(148, 163, 184, 0.4);
 
 	&:hover {
 		transform: translateY(-6px);
-		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-		border-color: rgba(244, 114, 182, 0.3);
+		box-shadow: var(--actor-details-credit-card-hover-shadow);
+		border-color: var(--actor-details-credit-card-hover-border);
 
 		.card-poster img {
 			transform: scale(1.05);
@@ -452,17 +454,21 @@ onUnmounted(() => {
 
 	.media-type-badge {
 		position: absolute;
-		top: 0.5rem;
-		left: 0.5rem;
-		padding: 0.25rem 0.6rem;
-		background: rgba(0, 0, 0, 0.7);
-		backdrop-filter: blur(8px);
-		border-radius: 20px;
+		top: 10px;
+		left: 10px;
+		padding: 4px 10px;
+		border-radius: 6px;
 		font-size: 0.7rem;
 		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		color: #ffffff;
+		letter-spacing: 0.5px;
+		color: white;
+		background: rgba(0, 0, 0, 0.7);
+		backdrop-filter: blur(4px);
+
+		&.show {
+			background: rgba(156, 39, 176, 0.85);
+		}
 	}
 
 	.rating-badge {
@@ -473,7 +479,7 @@ onUnmounted(() => {
 		border-radius: 20px;
 		font-size: 0.75rem;
 		font-weight: 700;
-		color: #ffffff;
+		color: var(--actor-details-rating-badge-color);
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 	}
 }
@@ -485,7 +491,7 @@ onUnmounted(() => {
 		margin: 0 0 0.3rem 0;
 		font-size: 0.95rem;
 		font-weight: 600;
-		color: #ffffff;
+		color: var(--actor-details-card-title-color);
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
@@ -495,7 +501,7 @@ onUnmounted(() => {
 	.card-character {
 		margin: 0 0 0.2rem 0;
 		font-size: 0.8rem;
-		color: #f472b6;
+		color: var(--actor-details-card-character-color);
 		font-style: italic;
 		display: -webkit-box;
 		-webkit-line-clamp: 1;
@@ -506,17 +512,17 @@ onUnmounted(() => {
 	.card-year {
 		margin: 0;
 		font-size: 0.8rem;
-		color: rgba(255, 255, 255, 0.5);
+		color: var(--actor-details-card-year-color);
 	}
 }
 
 .no-credits {
 	text-align: center;
 	padding: 3rem;
-	color: rgba(255, 255, 255, 0.5);
-	background: var(--header-color);
+	color: var(--actor-details-no-credits-color);
+	background: var(--actor-details-no-credits-bg);
 	border-radius: 16px;
-	border: 1px solid rgba(255, 255, 255, 0.06);
+	border: 1px solid var(--actor-details-no-credits-border);
 }
 
 @keyframes spin {
@@ -529,7 +535,7 @@ onUnmounted(() => {
 	position: fixed;
 	bottom: 22px;
 	right: 22px;
-	background: linear-gradient(135deg, #f472b6, #ec4899);
+	background: var(--actor-details-scroll-top-bg);
 	color: #0a0c10;
 	border: none;
 	border-radius: 50%;
@@ -539,7 +545,7 @@ onUnmounted(() => {
 	align-items: center;
 	justify-content: center;
 	font-weight: 800;
-	box-shadow: 0 18px 50px rgba(244, 114, 182, 0.35);
+	box-shadow: var(--actor-details-scroll-top-shadow);
 	cursor: pointer;
 	transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 	z-index: 20;

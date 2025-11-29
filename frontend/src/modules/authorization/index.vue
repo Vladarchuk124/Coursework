@@ -78,7 +78,7 @@ const setView = (view) => {
 	min-height: calc(100vh - 190px);
 	padding: 3rem 1.5rem 4rem;
 	overflow: hidden;
-	color: #f5f6f9;
+	color: var(--text-color);
 
 	.auth-layout {
 		position: relative;
@@ -92,11 +92,11 @@ const setView = (view) => {
 
 		.auth-card {
 			position: relative;
-			background: var(--header-color);
-			border: 1px solid rgba(255, 255, 255, 0.06);
+			background: var(--card-bg);
+			border: 1px solid var(--border-color);
 			border-radius: 24px;
 			padding: 1.25rem;
-			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+			box-shadow: var(--shadow-xl);
 			backdrop-filter: blur(12px);
 			display: flex;
 			flex-direction: column;
@@ -114,9 +114,9 @@ const setView = (view) => {
 }
 
 .welcoming-window {
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
-	background: var(--header-color);
+	border: 1px solid var(--border-color);
+	box-shadow: var(--shadow-xl);
+	background: var(--card-bg);
 	border-radius: 28px;
 	padding: 2rem;
 	display: flex;
@@ -128,6 +128,7 @@ const setView = (view) => {
 		margin: 0;
 		font-size: clamp(2rem, 4vw, 2.8rem);
 		line-height: 1.1;
+		color: var(--text-color);
 
 		.accent {
 			color: var(--accent-color);
@@ -138,40 +139,16 @@ const setView = (view) => {
 
 	.subtitle {
 		margin: 0;
-		color: rgba(255, 255, 255, 0.72);
+		color: var(--text-color-secondary);
 		font-size: 1.05rem;
 		max-width: 90%;
-	}
-
-	.hero-list {
-		list-style: none;
-		padding: 0;
-		margin: 0.5rem 0 0;
-		display: grid;
-		gap: 0.6rem;
-
-		li {
-			display: inline-flex;
-			align-items: center;
-			gap: 0.6rem;
-			color: rgba(255, 255, 255, 0.8);
-			font-weight: 500;
-		}
-
-		.dot {
-			width: 10px;
-			height: 10px;
-			border-radius: 50%;
-			background: linear-gradient(135deg, #00bbf9, #6d7cff);
-			box-shadow: 0 0 10px rgba(0, 187, 249, 0.7);
-		}
 	}
 }
 
 .tab-btn {
 	background: transparent;
 	border: none;
-	color: white;
+	color: var(--text-color);
 	padding: 0.9rem 0.75rem;
 	border-radius: 12px;
 	font-weight: 600;
@@ -184,18 +161,18 @@ const setView = (view) => {
 	}
 
 	&.active {
-		color: #0a0c10;
-		background: var(--card-color);
-		box-shadow: 0 10px 25px rgba(0, 187, 249, 0.35);
+		color: var(--btn-primary-text);
+		background: var(--accent-gradient);
+		box-shadow: var(--btn-primary-shadow);
 	}
 }
 
 .card-body {
 	flex: 1;
-	background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.15));
+	background: var(--surface-color);
 	border-radius: 18px;
 	padding: 1.5rem;
-	border: 1px solid rgba(255, 255, 255, 0.05);
+	border: 1px solid var(--border-color-light);
 }
 
 :deep(.auth-form) {
@@ -210,13 +187,14 @@ const setView = (view) => {
 
 		label {
 			font-weight: 600;
+			color: var(--text-color);
 		}
 
 		.input-shell {
 			display: flex;
 			align-items: center;
 			background: var(--input-color);
-			border: 1px solid rgba(255, 255, 255, 0.08);
+			border: 1px solid var(--input-border);
 			border-radius: 14px;
 			padding: 0.85rem 1rem;
 			transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -228,11 +206,15 @@ const setView = (view) => {
 				color: var(--text-color);
 				font-size: 1rem;
 				outline: none;
+
+				&::placeholder {
+					color: var(--text-color-tertiary);
+				}
 			}
 
 			&:focus-within {
-				border-color: rgba(0, 187, 249, 0.5);
-				box-shadow: 0 0 0 4px rgba(0, 187, 249, 0.12);
+				border-color: var(--input-focus-border);
+				box-shadow: var(--input-focus-shadow);
 			}
 		}
 	}
@@ -243,14 +225,14 @@ const setView = (view) => {
 		justify-content: space-between;
 		flex-wrap: wrap;
 		gap: 0.75rem;
-		color: rgba(255, 255, 255, 0.8);
+		color: var(--text-color-secondary);
 
 		.checkbox {
 			display: inline-flex;
 			align-items: center;
 			gap: 0.5rem;
 			cursor: pointer;
-			color: rgba(255, 255, 255, 0.85);
+			color: var(--text-color);
 
 			input {
 				accent-color: var(--accent-color);
@@ -274,19 +256,18 @@ const setView = (view) => {
 	.primary-btn {
 		width: 100%;
 		border: none;
-		background: linear-gradient(135deg, #00bbf9, #4cb1ff);
-		color: white;
+		background: var(--btn-primary-bg);
+		color: var(--btn-primary-text);
 		border-radius: 14px;
 		padding: 0.95rem 1rem;
 		font-weight: 700;
 		font-size: 1rem;
 		cursor: pointer;
-		box-shadow: 0 1px 20px rgba(0, 187, 249, 0.3);
+		box-shadow: var(--btn-primary-shadow);
 		transition: transform 0.15s ease, box-shadow 0.2s ease;
 
 		&:hover {
 			transform: translateY(-2px);
-			box-shadow: 0 20px 25px rgba(0, 187, 249, 0.35);
 		}
 	}
 	.form-footer {
@@ -295,17 +276,16 @@ const setView = (view) => {
 		justify-content: center;
 		gap: 0.5rem;
 		margin: 0.3rem 0 0;
-		color: rgba(255, 255, 255, 0.8);
+		color: var(--text-color-secondary);
 	}
 	.warning {
 		margin: 0;
 		padding: 0.8rem 1rem;
 		border-radius: 12px;
 		font-size: 0.95rem;
-		border: 1px solid rgba(0, 187, 249, 0.35);
-		border-color: rgba(255, 193, 7, 0.5);
-		background: rgba(255, 193, 7, 0.12);
-		color: #ffe7a0;
+		border: 1px solid var(--warning-border);
+		background: var(--warning-bg);
+		color: var(--warning-color);
 	}
 }
 
@@ -318,23 +298,27 @@ const setView = (view) => {
 	&__card {
 		max-width: 520px;
 		width: 100%;
-		background: var(--header-color);
-		border: 1px solid rgba(255, 255, 255, 0.08);
+		background: var(--card-bg);
+		border: 1px solid var(--border-color);
 		border-radius: 22px;
 		padding: 1.75rem;
-		box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+		box-shadow: var(--shadow-lg);
 		text-align: center;
+
+		h2 {
+			color: var(--text-color);
+		}
 	}
 
 	&__lead {
 		margin: 0.5rem 0 0.35rem;
 		font-weight: 600;
-		color: rgba(255, 255, 255, 0.9);
+		color: var(--text-color);
 	}
 
 	&__hint {
 		margin: 0;
-		color: rgba(255, 255, 255, 0.75);
+		color: var(--text-color-secondary);
 	}
 }
 

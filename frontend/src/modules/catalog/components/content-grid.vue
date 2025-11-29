@@ -67,7 +67,7 @@ defineProps({
 			width: 20px;
 			height: 20px;
 			border-radius: 50%;
-			background: linear-gradient(135deg, #00bbf9, #4cb1ff);
+			background: var(--accent-gradient);
 			animation: pulse 1.4s ease-in-out infinite;
 
 			&:nth-child(2) {
@@ -99,7 +99,7 @@ defineProps({
 	align-items: center;
 	justify-content: center;
 	min-height: 400px;
-	color: rgba(255, 255, 255, 0.5);
+	color: var(--text-color-secondary);
 
 	.empty-icon {
 		font-size: 4rem;
@@ -113,7 +113,7 @@ defineProps({
 
 :root[data-theme='light'] {
 	.empty-state {
-		color: rgba(0, 0, 0, 0.4);
+		color: rgba(0, 0, 0, 0.6);
 	}
 }
 </style>

@@ -33,11 +33,12 @@ const rating = computed(() => {
 });
 
 const ratingColor = computed(() => {
-	const val = props.item.vote_average;
-	if (!val) return '#808080';
-	if (val < 5) return '#dc3545';
-	if (val < 7) return '#ffc107';
-	if (val < 8) return '#28a745';
+	const value = props.item.vote_average;
+	if (!Number.isFinite(value)) return '#4c566a';
+	if (value < 4) return '#dc3545';
+	if (value < 6) return '#ff9800';
+	if (value < 8) return '#ffc107';
+	if (value < 9) return '#28a745';
 	return '#17a2b8';
 });
 
@@ -195,16 +196,29 @@ const goToDetails = () => {
 
 :root[data-theme='light'] {
 	.content-card {
-		background: rgba(0, 0, 0, 0.03);
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		background: rgba(255, 255, 255, 0.95);
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+		border: 1px solid rgba(0, 0, 0, 0.05);
 
 		&:hover {
-			box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 30px rgba(30, 136, 229, 0.1);
+			box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 0 30px rgba(30, 136, 229, 0.15);
+			border-color: rgba(30, 136, 229, 0.2);
+			transform: translateY(-8px) scale(1.02);
 		}
 	}
 
-	.card-info .card-year {
-		color: rgba(0, 0, 0, 0.5);
+	.card-overlay {
+		background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.5) 100%);
+	}
+
+	.card-info {
+		.card-title {
+			color: #212529;
+		}
+
+		.card-year {
+			color: rgba(0, 0, 0, 0.6);
+		}
 	}
 
 	.no-poster {
