@@ -21,6 +21,9 @@ const buildQueryString = (locale, page, filters = {}) => {
 	if (filters.ratingLte) {
 		params.append('vote_average_lte', filters.ratingLte);
 	}
+	if (filters.country) {
+		params.append('with_origin_country', filters.country);
+	}
 
 	return params.toString();
 };
@@ -52,5 +55,9 @@ export const actions = {
 
 	getTvGenres: async (locale = 'uk') => {
 		return apiRequest(`/catalog/genres/tv?locale=${locale}`);
+	},
+
+	getCountries: async () => {
+		return apiRequest('/catalog/countries');
 	}
 };

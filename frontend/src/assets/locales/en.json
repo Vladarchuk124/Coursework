@@ -55,8 +55,10 @@
 		"genre": "Genre",
 		"year": "Year",
 		"rating": "Rating",
+		"country": "Country",
 		"allGenres": "All genres",
 		"allYears": "All years",
+		"allCountries": "All countries",
 		"clear": "Clear",
 		"apply": "Apply",
 		"sort": {

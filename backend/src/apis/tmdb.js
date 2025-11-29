@@ -236,5 +236,10 @@ export const tmdb = {
 		const filteredCast = cast.filter((person) => person.profile_path).slice(0, 20);
 
 		return { cast: filteredCast };
+	},
+
+	getCountries: async (language = 'uk-UA') => {
+		const res = await tmdbApi.get('/configuration/countries', { params: { language } });
+		return res.data;
 	}
 };

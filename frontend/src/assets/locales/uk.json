@@ -55,8 +55,10 @@
 		"genre": "Жанр",
 		"year": "Рік",
 		"rating": "Рейтинг",
+		"country": "Країна",
 		"allGenres": "Всі жанри",
 		"allYears": "Всі роки",
+		"allCountries": "Всі країни",
 		"clear": "Скинути",
 		"apply": "Застосувати",
 		"sort": {

@@ -28,6 +28,10 @@ const getMovieFilterParams = (req) => {
 		params['vote_average.lte'] = parseFloat(req.query.vote_average_lte);
 	}
 
+	if (req.query.with_origin_country) {
+		params.with_origin_country = req.query.with_origin_country;
+	}
+
 	return params;
 };
 
@@ -60,6 +64,10 @@ const getShowFilterParams = (req) => {
 		params['vote_average.lte'] = parseFloat(req.query.vote_average_lte);
 	}
 
+	if (req.query.with_origin_country) {
+		params.with_origin_country = req.query.with_origin_country;
+	}
+
 	return params;
 };
 
@@ -78,6 +86,15 @@ router.get('/genres/tv', async (req, res) => {
 		const language = getLocale(req);
 		const genres = await tmdb.getTvGenres(language);
 		res.json(genres);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+});
+
+router.get('/countries', async (req, res) => {
+	try {
+		const countries = await tmdb.getCountries();
+		res.json(countries);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}

@@ -23,7 +23,8 @@ const getFiltersFromQuery = () => {
 		yearGte: query.yearGte || '',
 		yearLte: query.yearLte || '',
 		ratingGte: query.ratingGte || '',
-		ratingLte: query.ratingLte || ''
+		ratingLte: query.ratingLte || '',
+		country: query.country || ''
 	};
 };
 
@@ -107,7 +108,8 @@ const handleFiltersChange = (newFilters) => {
 		yearGte: newFilters.yearGte || undefined,
 		yearLte: newFilters.yearLte || undefined,
 		ratingGte: newFilters.ratingGte || undefined,
-		ratingLte: newFilters.ratingLte || undefined
+		ratingLte: newFilters.ratingLte || undefined,
+		country: newFilters.country || undefined
 	});
 };
 

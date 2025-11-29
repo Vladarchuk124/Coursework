@@ -19,6 +19,7 @@ const emit = defineEmits(['update:modelValue']);
 const { locale, t } = useI18n();
 
 const genres = ref([]);
+const countries = ref([]);
 const isOpen = ref(false);
 
 const currentYear = new Date().getFullYear();
@@ -37,7 +38,8 @@ const localFilters = ref({
 	yearGte: props.modelValue.yearGte || '',
 	yearLte: props.modelValue.yearLte || '',
 	ratingGte: props.modelValue.ratingGte || '',
-	ratingLte: props.modelValue.ratingLte || ''
+	ratingLte: props.modelValue.ratingLte || '',
+	country: props.modelValue.country || ''
 });
 
 const sortOptions = computed(() => [
@@ -78,6 +80,7 @@ const activeFiltersCount = computed(() => {
 	if (selectedGenres.value.length > 0) count++;
 	if (isYearFiltered.value) count++;
 	if (isRatingFiltered.value) count++;
+	if (localFilters.value.country) count++;
 	return count;
 });
 
@@ -157,6 +160,11 @@ const loadGenres = async () => {
 	}
 };
 
+const loadCountries = async () => {
+	countries.value = await actions.getCountries();
+	countries.value.sort((a, b) => a.english_name.localeCompare(b.english_name));
+};
+
 const openMenu = () => {
 	isOpen.value = true;
 	document.body.style.overflow = 'hidden';
@@ -179,7 +187,8 @@ const clearFilters = () => {
 		yearGte: '',
 		yearLte: '',
 		ratingGte: '',
-		ratingLte: ''
+		ratingLte: '',
+		country: ''
 	};
 	selectedGenres.value = [];
 	ratingMin.value = 0;
@@ -212,7 +221,8 @@ watch(
 			yearGte: newValue.yearGte || '',
 			yearLte: newValue.yearLte || '',
 			ratingGte: newValue.ratingGte || '',
-			ratingLte: newValue.ratingLte || ''
+			ratingLte: newValue.ratingLte || '',
+			country: newValue.country || ''
 		};
 
 		selectedGenres.value = newValue.genres ? newValue.genres.split(',').map(Number) : [];
@@ -230,6 +240,7 @@ watch(locale, () => {
 
 onMounted(() => {
 	loadGenres();
+	loadCountries();
 	document.addEventListener('keydown', handleEscape);
 });
 
@@ -268,7 +279,6 @@ onUnmounted(() => {
 					</div>
 
 					<div class="menu-content">
-						<!-- Сортування -->
 						<div class="filter-group">
 							<label>{{ t('filters.sortBy') }}</label>
 							<select v-model="localFilters.sortBy">
@@ -278,7 +288,6 @@ onUnmounted(() => {
 							</select>
 						</div>
 
-						<!-- Жанри (мультивибір) -->
 						<div v-if="category !== 'top'" class="filter-group">
 							<label>
 								{{ t('filters.genre') }}
@@ -297,7 +306,6 @@ onUnmounted(() => {
 							</div>
 						</div>
 
-						<!-- Рік (діапазон) -->
 						<div class="filter-group">
 							<label>{{ t('filters.year') }}</label>
 							<div class="rating-display">
@@ -332,7 +340,6 @@ onUnmounted(() => {
 							</div>
 						</div>
 
-						<!-- Рейтинг (діапазон) -->
 						<div class="filter-group">
 							<label>{{ t('filters.rating') }}</label>
 							<div class="rating-display">
@@ -351,6 +358,16 @@ onUnmounted(() => {
 								<span>5</span>
 								<span>10</span>
 							</div>
+						</div>
+
+						<div v-if="category !== 'top'" class="filter-group">
+							<label>{{ t('filters.country') }}</label>
+							<select v-model="localFilters.country">
+								<option value="">{{ t('filters.allCountries') }}</option>
+								<option v-for="country in countries" :key="country.iso_3166_1" :value="country.iso_3166_1">
+									{{ locale === 'uk' ? country.native_name : country.english_name }}
+								</option>
+							</select>
 						</div>
 					</div>
 
@@ -420,7 +437,7 @@ onUnmounted(() => {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 400px;
+	width: 900px;
 	max-width: 90vw;
 	background: var(--modal-bg);
 	border: 1px solid var(--border-color);
@@ -471,7 +488,8 @@ onUnmounted(() => {
 	display: flex;
 	flex-direction: column;
 	gap: 1.25rem;
-	overflow: hidden;
+	overflow-y: auto;
+	max-height: 70vh;
 }
 
 .filter-group {
