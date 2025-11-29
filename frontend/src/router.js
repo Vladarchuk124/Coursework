@@ -28,6 +28,10 @@ const routes = [
 	{
 		path: '/list-details/:id',
 		component: () => import('./modules/list-details/index.vue')
+	},
+	{
+		path: '/admin',
+		component: () => import('./modules/admin/index.vue')
 	}
 ];
 

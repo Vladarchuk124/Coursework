@@ -32,7 +32,8 @@ export const auth = {
 			id: user.id,
 			email: user.email,
 			name: user.name,
-			is_activated: true
+			is_activated: true,
+			is_admin: user.is_admin
 		};
 	},
 	register: async (name, email, password) => {
@@ -64,7 +65,8 @@ export const auth = {
 			id: user.id,
 			email: user.email,
 			name: user.name,
-			is_activated: user.is_activated
+			is_activated: user.is_activated,
+			is_admin: user.is_admin
 		};
 	},
 
@@ -85,6 +87,9 @@ export const auth = {
 		if (!user.is_activated) {
 			throw new Error(ErrorCodes.USER_IS_NOT_ACTIVATED);
 		}
+		if (user.is_blocked) {
+			throw new Error(ErrorCodes.USER_IS_BLOCKED);
+		}
 		const tokens = token.generateToken({ ...user });
 		await token.saveToken(user.id, tokens.refresh_token);
 		return {
@@ -92,7 +97,8 @@ export const auth = {
 			id: user.id,
 			email: user.email,
 			name: user.name,
-			is_activated: user.is_activated
+			is_activated: user.is_activated,
+			is_admin: user.is_admin
 		};
 	},
 

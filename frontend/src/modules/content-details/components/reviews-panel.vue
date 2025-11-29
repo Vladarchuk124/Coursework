@@ -1,8 +1,10 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { actions } from '../store/actions';
+import { actions as adminActions } from '../../admin/store/actions';
 
 const props = defineProps({
 	contentId: {
@@ -16,6 +18,7 @@ const props = defineProps({
 });
 
 const store = useStore();
+const route = useRoute();
 const { t, locale } = useI18n();
 
 const reviews = ref([]);
@@ -23,10 +26,16 @@ const form = ref({ text: '' });
 const loading = ref(false);
 const saving = ref(false);
 const deletingId = ref(null);
+const reportingId = ref(null);
+const reportReason = ref('');
+const showReportModal = ref(false);
+const selectedReviewForReport = ref(null);
 const feedback = ref('');
 
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
 const userId = computed(() => store.state.session.user?.id);
+const isAdmin = computed(() => store.getters.isAdmin);
+const highlightReviewId = computed(() => (route.query.highlight_review ? Number(route.query.highlight_review) : null));
 
 const formatDate = (dateValue) => {
 	if (!dateValue) return '';
@@ -109,11 +118,119 @@ const handleDelete = async (reviewId) => {
 	}
 };
 
-onMounted(loadReviews);
+const openReportModal = (review) => {
+	if (!isAuthenticated.value) {
+		feedback.value = t('contentDetails.reviews.loginRequired');
+		return;
+	}
+	selectedReviewForReport.value = review;
+	reportReason.value = '';
+	showReportModal.value = true;
+};
+
+const closeReportModal = () => {
+	showReportModal.value = false;
+	selectedReviewForReport.value = null;
+	reportReason.value = '';
+};
+
+const handleReport = async () => {
+	if (!userId.value || !selectedReviewForReport.value) return;
+	if (!reportReason.value.trim()) {
+		feedback.value = t('contentDetails.reviews.reportReasonRequired');
+		return;
+	}
+
+	reportingId.value = selectedReviewForReport.value.id;
+	try {
+		await adminActions.createReport({
+			reporter_id: userId.value,
+			review_id: selectedReviewForReport.value.id,
+			reason: reportReason.value.trim(),
+			content_id: props.contentId,
+			content_type: props.contentType
+		});
+		feedback.value = t('contentDetails.reviews.reportSent');
+		closeReportModal();
+	} catch (error) {
+		feedback.value = error.message;
+	} finally {
+		reportingId.value = null;
+	}
+};
+
+const handleAdminDelete = async (reviewId) => {
+	if (!userId.value || !isAdmin.value) return;
+	const confirmed = window.confirm(t('admin.deleteReviewConfirm'));
+	if (!confirmed) return;
+
+	deletingId.value = reviewId;
+	try {
+		await adminActions.deleteReview(reviewId, userId.value);
+		await loadReviews();
+	} catch (error) {
+		feedback.value = error.message;
+	} finally {
+		deletingId.value = null;
+	}
+};
+
+const scrollToHighlightedReview = () => {
+	if (!highlightReviewId.value) return;
+	nextTick(() => {
+		setTimeout(() => {
+			const el = document.getElementById(`review-${highlightReviewId.value}`);
+			if (el) {
+				const currentScrollY = window.scrollY || window.pageYOffset;
+				const rect = el.getBoundingClientRect();
+				const headerOffset = 100;
+				const targetY = currentScrollY + rect.top - window.innerHeight / 2 + rect.height / 2 + headerOffset;
+
+				window.scrollTo({
+					top: Math.max(0, targetY),
+					behavior: 'smooth'
+				});
+
+				el.classList.add('highlighted');
+			}
+		}, 300);
+	});
+};
+
+onMounted(async () => {
+	await loadReviews();
+	if (highlightReviewId.value) {
+		if (document.readyState === 'complete') {
+			scrollToHighlightedReview();
+		} else {
+			window.addEventListener(
+				'load',
+				() => {
+					scrollToHighlightedReview();
+				},
+				{ once: true }
+			);
+		}
+	}
+});
 watch(
 	() => [props.contentId, props.contentType, userId.value],
-	() => {
-		loadReviews();
+	async () => {
+		await loadReviews();
+		if (highlightReviewId.value) {
+			setTimeout(() => {
+				scrollToHighlightedReview();
+			}, 200);
+		}
+	}
+);
+
+watch(
+	() => highlightReviewId.value,
+	(newVal) => {
+		if (newVal && !loading.value && reviews.value.length > 0) {
+			scrollToHighlightedReview();
+		}
 	}
 );
 </script>
@@ -161,7 +278,13 @@ watch(
 			</div>
 			<template v-else>
 				<p v-if="!reviews.length" class="empty">{{ t('contentDetails.reviews.empty') }}</p>
-				<article v-for="review in reviews" :key="review.id" class="review-card">
+				<article
+					v-for="review in reviews"
+					:key="review.id"
+					:id="`review-${review.id}`"
+					class="review-card"
+					:class="{ 'review-card--highlighted': highlightReviewId === review.id }"
+				>
 					<div class="review-card__users">
 						<div class="review-card__identity">
 							<div class="avatar" aria-hidden="true">{{ review.user_name?.[0] || '•' }}</div>
@@ -172,6 +295,15 @@ watch(
 						</div>
 						<div class="review-card__actions">
 							<button
+								v-if="isAdmin && !review.is_owner"
+								type="button"
+								class="btn ghost danger"
+								:disabled="deletingId === review.id"
+								@click="handleAdminDelete(review.id)"
+							>
+								{{ t('admin.deleteReview') }}
+							</button>
+							<button
 								v-if="review.is_owner"
 								type="button"
 								class="btn ghost danger"
@@ -180,6 +312,15 @@ watch(
 							>
 								{{ t('contentDetails.reviews.delete') }}
 							</button>
+							<button
+								v-if="isAuthenticated && !review.is_owner"
+								type="button"
+								class="btn ghost warning"
+								:disabled="reportingId === review.id"
+								@click="openReportModal(review)"
+							>
+								{{ t('contentDetails.reviews.report') }}
+							</button>
 						</div>
 					</div>
 					<p class="review-card__text">{{ review.body }}</p>
@@ -187,6 +328,38 @@ watch(
 			</template>
 		</div>
 	</section>
+
+	<Teleport to="body">
+		<div v-if="showReportModal" class="modal-overlay" @click.self="closeReportModal">
+			<div class="modal">
+				<div class="modal__header">
+					<h3>{{ t('contentDetails.reviews.reportTitle') }}</h3>
+					<button class="modal__close" @click="closeReportModal">×</button>
+				</div>
+				<div class="modal__body">
+					<p class="modal__subtitle">{{ t('contentDetails.reviews.reportSubtitle') }}</p>
+					<div class="modal__review-preview">
+						<p class="eyebrow">{{ selectedReviewForReport?.user_name }}</p>
+						<p class="review-text">{{ selectedReviewForReport?.body }}</p>
+					</div>
+					<textarea
+						v-model="reportReason"
+						class="modal__textarea"
+						:placeholder="t('contentDetails.reviews.reportPlaceholder')"
+						rows="3"
+					></textarea>
+				</div>
+				<div class="modal__footer">
+					<button class="btn ghost" @click="closeReportModal">
+						{{ t('contentDetails.listModal.cancelButton') }}
+					</button>
+					<button class="btn danger" :disabled="reportingId !== null || !reportReason.trim()" @click="handleReport">
+						{{ t('contentDetails.reviews.sendReport') }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</Teleport>
 </template>
 
 <style scoped lang="scss">
@@ -442,6 +615,11 @@ watch(
 		color: #ffb0b0;
 	}
 
+	&.warning {
+		border-color: rgba(246, 173, 85, 0.7);
+		color: #f6ad55;
+	}
+
 	&:hover:not(:disabled) {
 		transform: translateY(-1px);
 	}
@@ -501,5 +679,150 @@ watch(
 .reviews * {
 	position: relative;
 	z-index: 1;
+}
+
+.review-card--highlighted {
+	animation: highlight-pulse 2s ease-out;
+	border-color: rgba(255, 107, 107, 0.5) !important;
+
+	&::before {
+		background: linear-gradient(135deg, rgba(255, 107, 107, 0.5), rgba(255, 143, 58, 0.4)) !important;
+	}
+}
+
+@keyframes highlight-pulse {
+	0% {
+		box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.6);
+	}
+	50% {
+		box-shadow: 0 0 20px 5px rgba(255, 107, 107, 0.4);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+	}
+}
+
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.7);
+	backdrop-filter: blur(4px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	padding: 1rem;
+}
+
+.modal {
+	background: linear-gradient(145deg, rgba(20, 25, 35, 0.98), rgba(15, 20, 30, 0.98));
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 20px;
+	width: 100%;
+	max-width: 480px;
+	overflow: hidden;
+	box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1.25rem 1.5rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+		h3 {
+			margin: 0;
+			color: #fff;
+			font-size: 1.2rem;
+		}
+	}
+
+	&__close {
+		background: transparent;
+		border: none;
+		color: rgba(255, 255, 255, 0.6);
+		font-size: 1.8rem;
+		cursor: pointer;
+		line-height: 1;
+		padding: 0;
+		transition: color 0.2s;
+
+		&:hover {
+			color: #fff;
+		}
+	}
+
+	&__body {
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	&__subtitle {
+		margin: 0;
+		color: rgba(255, 255, 255, 0.7);
+		font-size: 0.95rem;
+	}
+
+	&__review-preview {
+		padding: 1rem;
+		background: rgba(0, 0, 0, 0.3);
+		border-radius: 12px;
+		border-left: 3px solid rgba(255, 107, 107, 0.6);
+
+		.eyebrow {
+			margin: 0 0 0.5rem;
+			font-size: 0.8rem;
+		}
+
+		.review-text {
+			margin: 0;
+			color: rgba(255, 255, 255, 0.85);
+			font-size: 0.95rem;
+			line-height: 1.5;
+		}
+	}
+
+	&__textarea {
+		width: 92%;
+		padding: 1rem;
+		background: rgba(0, 0, 0, 0.35);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 12px;
+		color: #fff;
+		font-size: 1rem;
+		resize: vertical;
+		min-height: 80px;
+
+		&:focus {
+			outline: none;
+			border-color: rgba(255, 107, 107, 0.5);
+		}
+
+		&::placeholder {
+			color: rgba(255, 255, 255, 0.4);
+		}
+	}
+
+	&__footer {
+		display: flex;
+		justify-content: flex-end;
+		gap: 0.75rem;
+		padding: 1rem 1.5rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+		background: rgba(0, 0, 0, 0.2);
+	}
+}
+
+.btn.danger:not(.ghost) {
+	background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+	color: white;
+	border: none;
+
+	&:hover:not(:disabled) {
+		transform: translateY(-1px);
+		box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+	}
 }
 </style>

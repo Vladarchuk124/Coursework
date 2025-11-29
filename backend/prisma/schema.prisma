@@ -19,12 +19,16 @@ model User {
   name            String?
   password        String
   is_activated    Boolean    @default(false)
+  is_admin        Boolean    @default(false)
+  is_blocked      Boolean    @default(false)
   activation_link String?
   created_at      DateTime   @default(now())
   tokens          Token[]
   lists           UserList[]
   reviews         Review[]
   ratings         Rating[]
+  reports_made    Report[]   @relation("ReportsMade")
+  reports_received Report[]  @relation("ReportsReceived")
 }
 
 model Token {
@@ -71,6 +75,7 @@ model Review {
   body         String
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
+  reports      Report[]
 }
 
 model Rating {
@@ -84,4 +89,20 @@ model Rating {
   updated_at   DateTime @updatedAt
 
   @@unique([user_id, content_id, content_type])
+}
+
+model Report {
+  id              Int      @id @default(autoincrement())
+  reporter        User     @relation("ReportsMade", fields: [reporter_id], references: [id], onDelete: Cascade)
+  reporter_id     Int
+  reported_user   User     @relation("ReportsReceived", fields: [reported_user_id], references: [id], onDelete: Cascade)
+  reported_user_id Int
+  review          Review   @relation(fields: [review_id], references: [id], onDelete: Cascade)
+  review_id       Int
+  reason          String
+  content_id      Int
+  content_type    String
+  created_at      DateTime @default(now())
+
+  @@unique([reporter_id, review_id])
 }

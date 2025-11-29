@@ -11,7 +11,8 @@ export default createStore({
 	},
 	getters: {
 		isAuthenticated: (state) => !!state.session.token,
-		userInitials: (state) => (state.session.user ? state.session.user.name?.slice(0, 2).toUpperCase() : '')
+		userInitials: (state) => (state.session.user ? state.session.user.name?.slice(0, 2).toUpperCase() : ''),
+		isAdmin: (state) => !!state.session.user?.is_admin
 	},
 	mutations: {
 		setSession(state, payload) {

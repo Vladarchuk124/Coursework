@@ -12,6 +12,8 @@ const isDark = ref(true);
 const menuRef = ref(null);
 
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
+const isAdmin = computed(() => store.getters.isAdmin);
+console.log(store);
 const user = computed(() => store.state.session.user);
 
 const toggleMenu = () => (isOpen.value = !isOpen.value);
@@ -89,6 +91,9 @@ onBeforeUnmount(() => {
 				</div>
 				<router-link v-if="isAuthenticated" to="/user-profile" class="login-btn" @click="isOpen = false">
 					{{ t('header.profile') }}
+				</router-link>
+				<router-link v-if="isAdmin" to="/admin" class="login-btn admin-btn" @click="isOpen = false">
+					{{ t('header.adminPanel') }}
 				</router-link>
 				<div v-if="isAuthenticated" class="login-btn" @click="handleLogOut">{{ t('userProfile.ctaLogout') }}</div>
 				<router-link v-else to="/authorization" class="login-btn" @click="isOpen = false">{{
@@ -206,6 +211,12 @@ onBeforeUnmount(() => {
 				&:hover {
 					cursor: pointer;
 					transform: scale(1.03);
+				}
+
+				&.admin-btn {
+					background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+					color: #fff;
+					box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
 				}
 			}
 		}

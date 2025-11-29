@@ -30,7 +30,13 @@ const submit = async () => {
 	const result = await props.login({ email: loginForm.value.email, password: loginForm.value.password });
 
 	const session = {
-		user: { id: result.id, name: result.name, email: result.email, is_activated: result.is_activated },
+		user: {
+			id: result.id,
+			name: result.name,
+			email: result.email,
+			is_activated: result.is_activated,
+			is_admin: result.is_admin
+		},
 		token: result.access_token,
 		expiresAt: Date.now() + 30 * 60 * 1000
 	};

@@ -14,6 +14,8 @@ import userRouter from './routes/users.js';
 import reviewsRouter from './routes/reviews.js';
 import ratingsRouter from './routes/ratings.js';
 import recommendationsRouter from './routes/recommendations.js';
+import reportsRouter from './routes/reports.js';
+import adminRouter from './routes/admin.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +35,8 @@ app.use('/api/users', userRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/ratings', ratingsRouter);
 app.use('/api/recommendations', recommendationsRouter);
+app.use('/api/reports', reportsRouter);
+app.use('/api/admin', adminRouter);
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);

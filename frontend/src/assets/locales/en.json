@@ -1,6 +1,7 @@
 {
 	"header": {
 		"profile": "Profile",
+		"adminPanel": "Admin Panel",
 		"toggleTheme": "Toggle theme",
 		"changeLanguage": "Change language",
 		"search": "Search",
@@ -139,7 +140,14 @@
 			"empty": "No comments yet — be the first to write one.",
 			"delete": "Delete",
 			"deleteConfirm": "Delete your comment?",
-			"loading": "Loading feedback..."
+			"loading": "Loading feedback...",
+			"report": "Report",
+			"reportTitle": "Report comment",
+			"reportSubtitle": "Describe why you are reporting this comment.",
+			"reportPlaceholder": "Why do you find this comment inappropriate?",
+			"reportReasonRequired": "Please provide a reason for the report.",
+			"sendReport": "Send report",
+			"reportSent": "Report sent. Thank you for your feedback!"
 		},
 		"rating": {
 			"title": "Your rating",
@@ -214,6 +222,34 @@
 		"invalidContentId": "Invalid content id",
 		"reviewTextRequired": "Review text is required",
 		"noReview": "Review not found",
-		"notReviewOwner": "You can only delete your own review"
+		"notReviewOwner": "You can only delete your own review",
+		"userIsBlocked": "Your account has been blocked. Contact administrator.",
+		"notAdmin": "Access denied. Administrator rights required.",
+		"noReport": "Report not found",
+		"reportAlreadyExists": "You have already reported this comment",
+		"reportReasonRequired": "Please provide a reason for the report",
+		"cannotReportOwnReview": "You cannot report your own comment"
+	},
+	"admin": {
+		"badge": "Administrator",
+		"title": "Admin Panel",
+		"subtitle": "Manage user complaints and moderate content",
+		"totalReports": "Active reports",
+		"loading": "Loading reports...",
+		"noReports": "No active reports",
+		"noReportsDescription": "All reports have been processed. Great job!",
+		"reporter": "Reporter",
+		"reportedUser": "Reported user",
+		"blocked": "Blocked",
+		"reason": "Report reason",
+		"reviewContent": "Comment content",
+		"viewInContext": "View in context",
+		"deleteReview": "Delete comment",
+		"blockUser": "Block user",
+		"unblockUser": "Unblock user",
+		"dismiss": "Dismiss",
+		"blockConfirm": "Block user {name}? They won't be able to log in.",
+		"deleteReviewConfirm": "Delete this comment? This action cannot be undone.",
+		"dismissConfirm": "Dismiss this report without action?"
 	}
 }

@@ -24,7 +24,13 @@ const mapErrorToKey = (errorCodeOrMessage) => {
 		NO_REVIEW: 'errors.noReview',
 		NOT_REVIEW_OWNER: 'errors.notReviewOwner',
 		INVALID_RATING_VALUE: 'errors.invalidRatingValue',
-		NO_RATING: 'errors.noRating'
+		NO_RATING: 'errors.noRating',
+		USER_IS_BLOCKED: 'errors.userIsBlocked',
+		NOT_ADMIN: 'errors.notAdmin',
+		NO_REPORT: 'errors.noReport',
+		REPORT_ALREADY_EXISTS: 'errors.reportAlreadyExists',
+		REPORT_REASON_REQUIRED: 'errors.reportReasonRequired',
+		CANNOT_REPORT_OWN_REVIEW: 'errors.cannotReportOwnReview'
 	};
 
 	return errorMap[errorCodeOrMessage] || 'errors.default';
