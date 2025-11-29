@@ -87,6 +87,17 @@
 	--info-bg: rgba(33, 150, 243, 0.1);
 	--info-border: rgba(33, 150, 243, 0.3);
 
+	/* ========== Admin Panel Colors ========== */
+	--admin-stat-bg: rgba(244, 67, 54, 0.15);
+	--admin-stat-border: rgba(244, 67, 54, 0.4);
+	--admin-stat-value: #d32f2f;
+	--admin-empty-icon-bg: rgba(76, 175, 80, 0.15);
+	--admin-empty-icon-border: rgb(52, 240, 59);
+	--admin-empty-icon-color: rgb(52, 240, 59);
+	--admin-reason-bg: rgba(244, 67, 54, 0.12);
+	--admin-reason-border: #f44336;
+	--admin-review-bg: rgba(0, 0, 0, 0.06);
+
 	/* ========== Rating Colors ========== */
 	--rating-low: #f44336;
 	--rating-medium-low: #ff9800;
@@ -226,6 +237,17 @@
 	--info-color: #00bbf9;
 	--info-bg: rgba(0, 187, 249, 0.12);
 	--info-border: rgba(0, 187, 249, 0.35);
+
+	/* ========== Admin Panel Colors ========== */
+	--admin-stat-bg: rgba(255, 107, 107, 0.15);
+	--admin-stat-border: rgba(255, 107, 107, 0.4);
+	--admin-stat-value: #ff6b6b;
+	--admin-empty-icon-bg: rgba(72, 187, 120, 0.15);
+	--admin-empty-icon-border: rgba(72, 187, 120, 0.4);
+	--admin-empty-icon-color: #48bb78;
+	--admin-reason-bg: rgba(255, 107, 107, 0.15);
+	--admin-reason-border: #ff6b6b;
+	--admin-review-bg: rgba(255, 255, 255, 0.08);
 
 	/* ========== Rating Colors ========== */
 	--rating-low: #dc3545;

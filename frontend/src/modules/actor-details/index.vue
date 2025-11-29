@@ -494,6 +494,7 @@ onUnmounted(() => {
 		color: var(--actor-details-card-title-color);
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
+		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
@@ -505,6 +506,7 @@ onUnmounted(() => {
 		font-style: italic;
 		display: -webkit-box;
 		-webkit-line-clamp: 1;
+		line-clamp: 1;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}

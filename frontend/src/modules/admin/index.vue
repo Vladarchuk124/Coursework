@@ -218,7 +218,7 @@ onMounted(() => {
 		h1 {
 			margin: 0 0 0.5rem;
 			font-size: 2.2rem;
-			background: var(--accent-gradient);
+			background: var(--admin-stat-value);
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
 			background-clip: text;
@@ -237,14 +237,14 @@ onMounted(() => {
 			flex-direction: column;
 			align-items: center;
 			padding: 1rem 1.5rem;
-			background: var(--error-bg);
-			border: 1px solid var(--error-border);
+			background: var(--admin-stat-bg);
+			border: 1px solid var(--admin-stat-border);
 			border-radius: 16px;
 
 			.stat-value {
 				font-size: 2rem;
 				font-weight: 700;
-				color: var(--error-color);
+				color: var(--admin-stat-value);
 			}
 
 			.stat-label {
@@ -296,11 +296,11 @@ onMounted(() => {
 		align-items: center;
 		justify-content: center;
 		font-size: 2.5rem;
-		background: var(--success-bg);
-		border: 2px solid var(--success-border);
+		background: var(--admin-empty-icon-bg);
+		border: 2px solid var(--admin-empty-icon-border);
 		border-radius: 50%;
 		margin-bottom: 1.5rem;
-		color: var(--success-color);
+		color: var(--admin-empty-icon-color);
 	}
 
 	h3 {
@@ -414,8 +414,8 @@ onMounted(() => {
 		.reason-text {
 			margin: 0;
 			padding: 0.75rem 1rem;
-			background: var(--error-bg);
-			border-left: 3px solid var(--error-color);
+			background: var(--admin-reason-bg);
+			border-left: 3px solid var(--admin-reason-border);
 			border-radius: 0 8px 8px 0;
 			color: var(--text-color);
 			font-style: italic;
@@ -435,7 +435,7 @@ onMounted(() => {
 		.review-text {
 			margin: 0 0 0.75rem;
 			padding: 0.75rem 1rem;
-			background: var(--input-bg);
+			background: var(--admin-review-bg);
 			border-radius: 8px;
 			color: var(--text-color);
 			line-height: 1.5;
