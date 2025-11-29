@@ -3,6 +3,11 @@ import { tmdb } from '../apis/tmdb.js';
 
 const router = express.Router();
 
+const getLocale = (req) => {
+	const locale = req.query.locale || 'uk';
+	return locale === 'uk' ? 'uk-UA' : 'en-US';
+};
+
 router.get('/', async (req, res) => {
 	try {
 		const query = req.query?.query;
@@ -13,11 +18,5 @@ router.get('/', async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 });
-
-const getLocale = (req) => {
-	const locale = req.query.locale || 'uk';
-	const language = locale === 'uk' ? 'uk-UA' : 'en-US';
-	return language;
-};
 
 export default router;

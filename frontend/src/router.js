@@ -14,6 +14,10 @@ const routes = [
 		component: () => import('./modules/content-details/index.vue')
 	},
 	{
+		path: '/actor/:id',
+		component: () => import('./modules/actor-details/index.vue')
+	},
+	{
 		path: '/authorization',
 		component: () => import('./modules/authorization/index.vue')
 	},

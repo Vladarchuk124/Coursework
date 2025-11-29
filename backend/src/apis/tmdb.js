@@ -17,6 +17,15 @@ const contentFilter = (results, minVotes = 100) => {
 		.sort((a, b) => b.popularity - a.popularity);
 };
 
+const actorsFilter = (results, minPopularity = 1.8) => {
+	return results
+		.filter((person) => person.known_for_department === 'Acting')
+		.filter((person) => person.profile_path)
+		.filter((person) => person.popularity > minPopularity)
+		.sort((a, b) => b.popularity - a.popularity)
+		.slice(0, 8);
+};
+
 const ANIMATION_GENRE_ID = 16;
 
 const discoverBaseParams = {
@@ -176,18 +185,56 @@ export const tmdb = {
 			return [];
 		}
 
-		let [movieRes, tvRes] = await Promise.all([
+		let [movieRes, tvRes, actors] = await Promise.all([
 			tmdbApi.get('/search/movie', { params: { query, language } }),
-			tmdbApi.get('/search/tv', { params: { query, language } })
+			tmdbApi.get('/search/tv', { params: { query, language } }),
+			tmdbApi.get('/search/person', { params: { query, language } })
 		]);
-
+		console.log(movieRes.data.results);
 		movieRes = contentFilter(movieRes.data.results);
 		tvRes = contentFilter(tvRes.data.results);
+		actors = actorsFilter(actors.data.results);
 
-		const movies = movieRes.slice(0, 5) || [];
-		const tvs = tvRes.slice(0, 5) || [];
-		const combined = [...movies, ...tvs].sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0)).slice(0, 10);
+		const content = [...movieRes, ...tvRes].sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0)).slice(0, 10);
 
-		return combined;
+		return {
+			content,
+			actors
+		};
+	},
+
+	getActorById: async (id, language = 'en-US') => {
+		const res = await tmdbApi.get(`/person/${id}`, { params: { language } });
+		return res.data;
+	},
+
+	getActorCredits: async (id, language = 'en-US') => {
+		const res = await tmdbApi.get(`/person/${id}/combined_credits`, { params: { language } });
+
+		const cast = res.data.cast || [];
+		const filteredCast = cast
+			.filter((item) => item.poster_path)
+			.filter((item) => item.vote_count > 50)
+			.sort((a, b) => b.popularity - a.popularity);
+
+		return {
+			cast: filteredCast
+		};
+	},
+
+	getMovieCredits: async (id, language = 'en-US') => {
+		const res = await tmdbApi.get(`/movie/${id}/credits`, { params: { language } });
+		const cast = res.data.cast || [];
+		const filteredCast = cast.filter((person) => person.profile_path).slice(0, 20);
+
+		return { cast: filteredCast };
+	},
+
+	getShowCredits: async (id, language = 'en-US') => {
+		const res = await tmdbApi.get(`/tv/${id}/credits`, { params: { language } });
+		const cast = res.data.cast || [];
+		const filteredCast = cast.filter((person) => person.profile_path).slice(0, 20);
+
+		return { cast: filteredCast };
 	}
 };

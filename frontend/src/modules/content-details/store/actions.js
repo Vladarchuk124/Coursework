@@ -12,6 +12,14 @@ export const actions = {
 		const errorMessage = i18n.global.t('errors.unsupportedContentType');
 		throw new Error(errorMessage);
 	},
+	getContentCredits: async (id, type, locale) => {
+		if (type === contentTypes.movie) {
+			return apiRequest(`/movies/${id}/credits?locale=${locale}`);
+		} else if (type === contentTypes.show) {
+			return apiRequest(`/shows/${id}/credits?locale=${locale}`);
+		}
+		return { cast: [] };
+	},
 	getUserLists: async (user_id, content_id, content_type) => {
 		return apiRequest(`/lists/user-lists/${user_id}`, {
 			method: 'POST',

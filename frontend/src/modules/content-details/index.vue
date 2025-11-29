@@ -1,5 +1,6 @@
 <script setup>
 import SaveToListModal from './components/save-to-list-modal.vue';
+import ActorsModal from './components/actors-modal.vue';
 import ReviewsPanel from './components/reviews-panel.vue';
 import RatingStars from './components/rating-stars.vue';
 import upArrow from '../../assets/images/up-arrow.png';
@@ -21,9 +22,12 @@ const content = ref(null);
 const loading = ref(false);
 const error = ref(null);
 const isAddModalOpen = ref(false);
+const isActorsModalOpen = ref(false);
 const userLists = ref([]);
+const actors = ref([]);
 const listFeedback = ref('');
 const listsLoading = ref(false);
+const actorsLoading = ref(false);
 const showScrollTop = ref(false);
 
 const { locale, t } = useI18n();
@@ -207,6 +211,20 @@ const handleCloseAddModal = () => {
 	isAddModalOpen.value = false;
 };
 
+const openActorsModal = async () => {
+	isActorsModalOpen.value = true;
+
+	actorsLoading.value = true;
+	const creditsData = await actions.getContentCredits(contentId.value, contentType.value, locale.value);
+	actors.value = creditsData?.cast || [];
+
+	actorsLoading.value = false;
+};
+
+const handleCloseActorsModal = () => {
+	isActorsModalOpen.value = false;
+};
+
 const handleConfirmAddModal = async (ids) => {
 	const localizeContent = await actions.getContentById(contentId.value, contentType.value, 'uk');
 	const data = {
@@ -266,8 +284,17 @@ const scrollToTop = () => {
 						<span v-if="formattedRuntime"> {{ t('contentDetails.runtime') }}: {{ formattedRuntime }} </span>
 						<span v-if="genresList"> {{ t('contentDetails.genres') }}: {{ genresList }} </span>
 					</div>
-					<div v-if="userLists.length" class="actions">
-						<button type="button" class="btn primary" @click="openAddModal">
+					<div class="actions">
+						<button type="button" class="btn secondary" @click="openActorsModal">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+								<circle cx="9" cy="7" r="4" />
+								<path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+								<path d="M16 3.13a4 4 0 0 1 0 7.75" />
+							</svg>
+							{{ t('contentDetails.actors.button') }}
+						</button>
+						<button v-if="userLists.length" type="button" class="btn primary" @click="openAddModal">
 							{{ t('contentDetails.addToList') }}
 						</button>
 						<span v-if="listFeedback" class="status-note">{{ listFeedback }}</span>
@@ -304,6 +331,7 @@ const scrollToTop = () => {
 			@close="handleCloseAddModal"
 			@confirm="handleConfirmAddModal"
 		/>
+		<ActorsModal :show="isActorsModalOpen" :actors="actors" :loading="actorsLoading" @close="handleCloseActorsModal" />
 		<button v-if="showScrollTop" type="button" class="scroll-top" @click="scrollToTop" aria-label="Back to top">
 			<img class="scroll-top__icon" :src="upArrow" alt="" aria-hidden="true" />
 		</button>
@@ -501,6 +529,19 @@ const scrollToTop = () => {
 	&.primary {
 		background: linear-gradient(135deg, #00bbf9, #4cb1ff);
 		box-shadow: 0 12px 30px rgba(0, 187, 249, 0.35);
+	}
+
+	&.secondary {
+		background: linear-gradient(135deg, #f472b6, #ec4899);
+		box-shadow: 0 12px 30px rgba(244, 114, 182, 0.35);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+
+		svg {
+			width: 1.1rem;
+			height: 1.1rem;
+		}
 	}
 
 	&:hover {

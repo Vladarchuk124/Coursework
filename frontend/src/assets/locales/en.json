@@ -4,8 +4,11 @@
 		"adminPanel": "Admin Panel",
 		"toggleTheme": "Toggle theme",
 		"changeLanguage": "Change language",
-		"search": "Search",
-		"searchError": "Ooops... Nothing was found"
+		"search": "Search movies, shows, actors...",
+		"searchError": "Ooops... Nothing was found",
+		"searchContent": "Movies & Shows",
+		"searchActors": "Actors",
+		"searching": "Searching..."
 	},
 	"nav": {
 		"movies": "Movies",
@@ -129,6 +132,12 @@
 			"required": "Pick a list before adding.",
 			"authRequired": "Sign in to save items to your lists."
 		},
+		"actors": {
+			"title": "Cast",
+			"button": "Cast",
+			"loading": "Loading cast...",
+			"empty": "No cast information available"
+		},
 		"reviews": {
 			"title": "Comments",
 			"cta": "Share your thoughts about this title.",
@@ -229,6 +238,17 @@
 		"reportAlreadyExists": "You have already reported this comment",
 		"reportReasonRequired": "Please provide a reason for the report",
 		"cannotReportOwnReview": "You cannot report your own comment"
+	},
+	"actor": {
+		"loading": "Loading actor details...",
+		"error": "Failed to load actor information.",
+		"notFound": "Actor not found.",
+		"biography": "Biography",
+		"noBiography": "No biography available.",
+		"filmography": "Filmography",
+		"noCredits": "No filmography available.",
+		"years": "years",
+		"as": "as"
 	},
 	"admin": {
 		"badge": "Administrator",
