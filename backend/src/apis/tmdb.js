@@ -17,7 +17,7 @@ const contentFilter = (results, minVotes = 100) => {
 		.sort((a, b) => b.popularity - a.popularity);
 };
 
-const actorsFilter = (results, minPopularity = 1.8) => {
+const actorsFilter = (results, minPopularity = 2) => {
 	return results
 		.filter((person) => person.known_for_department === 'Acting')
 		.filter((person) => person.profile_path)
