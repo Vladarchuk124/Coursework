@@ -16,8 +16,7 @@ const isAuthenticated = computed(() => store.getters.isAuthenticated);
 
 const tabs = computed(() => [
 	{ id: 'login', label: t('auth.signIn') },
-	{ id: 'register', label: t('auth.signUp') },
-	{ id: 'forgot', label: t('auth.recovery') }
+	{ id: 'register', label: t('auth.signUp') }
 ]);
 
 const setView = (view) => {
@@ -55,16 +54,13 @@ const setView = (view) => {
 				<div class="card-body">
 					<LoginFrom v-if="activeView === 'login'" @switch="setView" :login="actions.login" />
 					<RegisterForm v-else-if="activeView === 'register'" @switch="setView" :register="actions.register" />
-					<ForgotPassword v-else @switch="setView" />
 				</div>
 			</div>
 		</div>
 		<div v-else class="auth-locked">
 			<div class="auth-locked__card">
 				<h2>{{ t('errors.title') }}</h2>
-				<p class="auth-locked__lead">
-					{{ t('auth.signIn') }} недоступний, поки ви вже в акаунті.
-				</p>
+				<p class="auth-locked__lead">{{ t('auth.signIn') }} недоступний, поки ви вже в акаунті.</p>
 				<p class="auth-locked__hint">Спочатку вийдіть з профілю, щоб повернутися на сторінку авторизації.</p>
 			</div>
 		</div>
@@ -73,9 +69,8 @@ const setView = (view) => {
 
 <style lang="scss" scoped>
 .auth-page {
-	background: var(--bg-color);
 	position: relative;
-	min-height: calc(100vh - 190px);
+	min-height: calc(100vh - 260px);
 	padding: 3rem 1.5rem 4rem;
 	overflow: hidden;
 	color: var(--text-color);
@@ -104,7 +99,7 @@ const setView = (view) => {
 
 			.card-tabs {
 				display: grid;
-				grid-template-columns: repeat(3, 1fr);
+				grid-template-columns: repeat(2, 1fr);
 				gap: 0.5rem;
 				padding: 0.35rem;
 				border-radius: 16px;
